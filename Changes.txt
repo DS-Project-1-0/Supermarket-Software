@@ -1,4 +1,5 @@
 Everyone just use a notepad to tell others what you have changed in the code so it would be better for everyone to understand.
+Also tell me it we want to add system("CLS") to clearthe screen whenever something new comes up.
 
 Check these changes and kindly tell if there is any loophole in the program.
 
