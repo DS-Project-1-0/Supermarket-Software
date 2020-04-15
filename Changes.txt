@@ -1,0 +1,21 @@
+Everyone just use a notepad to tell others what you have changed in the code so it would be better for everyone to understand.
+
+Check these changes and kindly tell if there is any loophole in the program.
+
+1. I have defined 'size' for the size of array for better accesibilty 
+2. Created the .csv file for inventory
+3. Created the log out option
+4. Created inventory function
+
+
+
+Things to remember while coding
+
+1. If we are using switch then remember to put it a default case also stating that entered choice is inocrrect and if the
+   user puts incorrect value then he should again see the choice and be asked to take his choice.(use do while)
+2. If we are putting the variable names as c,a,ch then infront of those variable add a comment telling what those variables are meant to do.
+   This will help in better understanding of the code.
+3. We should remember to put the condition if none of the option is selected like printf("Entered Wrong Choice"); and put this in do while 
+   just like told above.
+4. Put printf("Entered Wrong Choice"); in red colour
+5. During debugging, try to put all possible condition a user can put so as to make the program more durable and efficient.

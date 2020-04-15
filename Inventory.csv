@@ -1,0 +1,26 @@
+ID, Category,Name,Qty,Price
+1,Food,Marigold,24,25
+1,Food,Maggie,32,12
+1,Food,Uncle Chips(Salted Flavour),11,20
+1,Food,Nut Cracker,21,35
+1,Food,Coca Cola (650mL),43,35
+2,Clothes,Levi's Jeans (32) (M),5,2000
+2,Clothes,Wrangler's Jacket (L) (U),3,1500
+2,Clothes,UCB Polo (30) (F),14,800
+2,Clothes,Madame T-Shirt (L) (U),31,850
+2,Clothes,Octave Sweater (M) (U),13,2500
+3,Essentials,Colgate Brush,25,25
+3,Essentials,VLCC Comb,43,60
+3,Essentials,Tongue Cleaner (Set of 5),17,30
+3,Essentials,Dreamline Bed Sheets,33,500
+3,Essentials,Raymond Towel,22,450
+4,Stationary,Pen,20,10
+4,Stationary,Pencil,44,30
+4,Stationary,Register(A4),39,60
+4,Stationary,Eraser,15,2
+4,Stationary,Pencil Box,34,100
+5,Kitchen Utensils,Cutting Board,15,320
+5,Kitchen Utensils,Knife Set,24,600
+5,Kitchen Utensils,Spoons,28,350
+5,Kitchen Utensils,Spatula,11,100
+5,Kitchen Utensils,Can Opener,8,25
