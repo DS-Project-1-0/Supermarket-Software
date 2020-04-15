@@ -83,11 +83,13 @@ void inventory()
     int z=1;//for the do while function
     FILE *fp;//file pointer
 
-    fp=fopen("Inventory.csv","r");
+    fp=fopen("C:\\Users\\Hp\\Desktop\\New folder\\Supermarket-Software\\Inventory.csv","r");
+
     if(fp==NULL)
     {
     printf("File did not open successfully");
     }
+
     rewind(fp);//moves the files to the beginning
 
     char Line[300];//contains a single line of file
@@ -233,14 +235,28 @@ int screen1(char ch)
 		for(k=0;k<3;k++)
 		{
 			printf("\n Enter the password\t");
-			for( i = 0;i < size;i++)
+			for( i = 0;;)
 			{
-				c = getch();
-				password[i] = c;
-				c = '*' ;
-				printf("%c ", c);
+			    c = getch();
+			    if((c>='A' && c<='Z') ||(c>='a' && c<='z'))
+                {
+                    password[i] = c;
+                    i++;
+                    printf("*");
+                }
+
+                if(c=='\b' && i>=1)
+                {
+                    printf("\b \b");
+                    --i;
+                }
+                if(c=='\r')
+                {
+                    password[i]='\0';
+                    break;
+                }
+
 			}
-			password[i]='\0';
 
 			if(!strcmp(password,"ADMIN"))
 			{

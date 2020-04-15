@@ -7,6 +7,7 @@ Check these changes and kindly tell if there is any loophole in the program.
 2. Created the .csv file for inventory
 3. Created the log out option
 4. Created inventory function
+5.Improved the password now backspace is acceptable and password is stored once enter is hit by the user.
 
 
 
