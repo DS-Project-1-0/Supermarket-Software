@@ -8,6 +8,7 @@ Check these changes and kindly tell if there is any loophole in the program.
 3. Created the log out option
 4. Created inventory function
 5.Improved the password now backspace is acceptable and password is stored once enter is hit by the user.
+6. I have debigged the inventory function adn also did the same for log out option(now it is working).
 
 
 
