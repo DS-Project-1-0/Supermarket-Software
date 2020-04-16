@@ -141,6 +141,9 @@ void inventory()
     }
     }
 
+    item *ytr=head;
+    head=head->next;
+    free(ytr);
 
     setColor(46);
     printf("\t\t\t\t\t\t INVENTORY	\n");
