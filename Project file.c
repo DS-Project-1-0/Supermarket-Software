@@ -8,8 +8,8 @@
 
 typedef struct node{
 int id;
-char category[100];
-char name[100];
+char category[500000];
+char name[500000];
 int qty;
 int price;      //unit price of the item
 struct node *next;
@@ -42,6 +42,7 @@ int correctpass()
 	int c;//for choice by the user
 	char d;//takes input from user whether to log out or not
 	int ch=1;//for the do while function
+	int w=0;
 	printf("\n\n\n\n WELCOME ADMIN");
 	do{
     printf("\n\n Do you want to :\n 1. View inventory and stock.\n 2. View Customer details.\n 3. Statistics\n 4. Logout\n\n");
@@ -59,14 +60,27 @@ int correctpass()
 			statistics();
 			break();*/
         case 4:
+        do
+        {
+            w=0;
         printf("\n\nDo you want to Log Out?(y/n)\n");
         scanf(" %c",&d);
-        {
+        if((d==121)||(d==89))
+            {
             setColor(98);
             printf("\n\nYou have been logged out successfully.\n");
             setColor(15);
             exit(0);
+            }
+        else if((d==78)||(d==110))
+        {
+         break;
         }
+        else
+        {
+        w=1;
+        }
+        }while(w==1);
         break;
         default:
             setColor(12);
@@ -83,7 +97,7 @@ void inventory()
     int z=1;//for the do while function
     FILE *fp;//file pointer
 
-    fp=fopen("C:\\Users\\Hp\\Desktop\\New folder\\Supermarket-Software\\Inventory.csv","r");
+    fp=fopen("Inventory.csv","r");
 
     if(fp==NULL)
     {
@@ -92,8 +106,8 @@ void inventory()
 
     rewind(fp);//moves the files to the beginning
 
-    char Line[300];//contains a single line of file
-    fgets(Line,1025,fp);
+    char Line[sizeof(item)];//contains a single line of file
+    fgets(Line,sizeof(item),fp);
     char* delimiter=",";//to separate data by commas
 
     int i=0;//for entering data in the array
@@ -105,12 +119,11 @@ void inventory()
         j++;
     }
 
-    item items[j+1];// array which will contain all the data
 
     rewind(fp);
 
-
-    while(fgets(Line,300,(FILE *)fp)!=NULL)
+    item *ptr=head;
+    while(fgets(Line,sizeof(item),(FILE *)fp)!=NULL)
     {
     item *temp=(item *)malloc(sizeof(item));
     temp->id=atoi(strtok(Line,delimiter));
@@ -119,13 +132,15 @@ void inventory()
     temp->qty=atoi(strtok(NULL,delimiter));
     temp->price=atoi(strtok(NULL,delimiter));
     temp->next==NULL;
+
+
     if(head==NULL)
     {
         head=temp;
     }
     else
     {
-        item *ptr=head;
+        ptr=head;
         while(ptr->next!=NULL)
         {
             ptr=ptr->next;
