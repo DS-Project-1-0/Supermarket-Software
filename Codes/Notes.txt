@@ -1,0 +1,8 @@
+1. I have uploaded the codes for file handling
+2. These include functions for
+	adding,deleting,reading,searching and updating the data
+3. Made it sure that the category and name can take string with spaces
+4. if you find any discrepancy kindly tell
+5. Read the code and understand it 
+6. We can use these code for easy access to file handling
+7. If you do not understand something then ask me
