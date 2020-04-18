@@ -295,7 +295,6 @@ void details()
     printf("\t\t\t\t\t\t   CUSTOMER DETAILS  \n");
     setColor(43);
     do{
-        setColor(22);
             printf("\nOPTIONS\n");
         setColor(15);
         printf("\n\n1.View Members\n2.View all customers\n3.Go to Home Page\n\n");
