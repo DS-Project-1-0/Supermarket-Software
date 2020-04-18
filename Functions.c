@@ -6,8 +6,9 @@
 #define size 5   //size of the password
 #include"project.h"
 
-item *head=NULL;
-
+item *head1=NULL;
+customer *head2=NULL;
+FILE *fp1=NULL,*fp=NULL;//file pointer
 //function to change the color
 void setColor(int ForgC)
 {
@@ -44,9 +45,10 @@ int correctpass()
 		case 1:
 			inventory();
 			break;
-		/*case 2:
+		case 2:
 			details();
 			break;
+			/*
 		case 3:
 			statistics();
 			break();*/
@@ -87,7 +89,6 @@ void inventory()
 {
     int choice;//choice taken by the user
     int z=1;//for the do while function
-    FILE *fp;//file pointer
 
     fp=fopen("Inventory.csv","r");
 
@@ -105,16 +106,9 @@ void inventory()
     int i=0;//for entering data in the array
     int j=0;//contains the number of records in file
 
-   for(char c=getc(fp);c!=EOF;c=getc(fp))
-    {
-        if(c=='\n')
-        j++;
-    }
-
-
     rewind(fp);
 
-    item *ptr=head;
+    item *ptr=head1;
     while(fgets(Line,sizeof(item),(FILE *)fp)!=NULL)
     {
     item *temp=(item *)malloc(sizeof(item));
@@ -126,13 +120,13 @@ void inventory()
     temp->next==NULL;
 
 
-    if(head==NULL)
+    if(head1==NULL)
     {
-        head=temp;
+        head1=temp;
     }
     else
     {
-        ptr=head;
+        ptr=head1;
         while(ptr->next!=NULL)
         {
             ptr=ptr->next;
@@ -140,9 +134,10 @@ void inventory()
         ptr->next=temp;
     }
     }
+     fclose(fp);
 
-    item *ytr=head;
-    head=head->next;
+    item *ytr=head1;
+    head1=head1->next;
     free(ytr);
 
     setColor(46);
@@ -163,13 +158,13 @@ void inventory()
     int w;//for getting the maximum character length
     int max=0;//hold the maximum character length in name
     int q=0;//for checking the length of current item name
-    item *ctr=head->next;//to point to next node
-    item *ltr=head;//to traverse through the list
+    item *ctr=head1->next;//to point to next node
+    item *ltr=head1;//to traverse through the list
     if(choice!=7)
     {
         setColor(3);
     printf("\nS.No\tName\t");
-    max=strlen(head->name);
+    max=strlen(head1->name);
     while(ctr!=NULL)
     {
         w=strlen(ctr->name);
@@ -229,6 +224,215 @@ void inventory()
         setColor(15);
     }
     }while(z==1);
+
+}
+
+void details()
+{
+
+    int choice;//user's choice
+    int z=1;//do while loop variable
+
+    fp1=fopen("Customer_details.csv", "r");
+
+    if(fp1==NULL)
+    {
+        printf("The file did not open successfully");
+    }
+
+    rewind(fp1);//takes the file pointer back to the starting of the file
+
+    char Line[sizeof(customer)];//one line of file containing a customer's details
+    fgets(Line,sizeof(customer),fp1);
+    char* delimiter=",";//separates the data in a line
+
+    int i=0;//for entering data in file
+    int j=0;//counts the no of lines in file
+
+    rewind(fp1);
+
+    date *entry;//current date
+    date *bday;//birthday of the person
+
+    customer *ptr=head2;
+    while(fgets(Line,sizeof(customer),(FILE *)fp1)!=NULL)
+    {
+        customer *temp=(customer *)malloc(sizeof(customer));
+        strcpy(temp->name,strtok(Line,delimiter));
+        temp->bday.dd=atoi(strtok(NULL,delimiter));
+        temp->bday.mm=atoi(strtok(NULL,delimiter));
+        temp->bday.yy=atoi(strtok(NULL,delimiter));
+        strcpy(temp->phoneno,strtok(NULL,delimiter));
+        temp->entry.dd=atoi(strtok(NULL,delimiter));
+        temp->entry.mm=atoi(strtok(NULL,delimiter));
+        temp->entry.yy=atoi(strtok(NULL,delimiter));
+        temp->points=atoi(strtok(NULL,delimiter));
+        temp->membership=atoi(strtok(NULL,delimiter));
+        temp->next==NULL;
+
+        if(head2==NULL)//For entering first node
+        {
+            head2=temp;
+        }
+        else  // for adding new nodes
+        {
+            ptr=head2;
+            while(ptr->next!=NULL)
+            {
+                ptr=ptr->next;
+            }
+            ptr->next=temp;
+        }
+    }
+
+    fclose(fp1);
+
+    customer *p=head2;
+    head2=head2->next;//to remove the Headings name,phoneno etc...so that they aren't printed
+    free(p);
+
+    setColor(22);
+    printf("\t\t\t\t\t\t   CUSTOMER DETAILS  \n");
+    setColor(43);
+    do{
+        setColor(22);
+            printf("\nOPTIONS\n");
+        setColor(15);
+        printf("\n\n1.View Members\n2.View all customers\n3.Go to Home Page\n\n");
+        printf("Enter your choice :\t\n");
+        scanf("%d",&choice);
+
+        if(choice>=1 && choice<=3)
+        {
+            int e=1;//to maintain serial no.
+            int w;//to get the maximum character length
+            int max=0;//hold the maximum character length in name
+            int q=0;//checks the length of current customer name in name
+            customer *ctr=head2->next;//points to next node
+            customer *ltr=head2;//for traversing the list
+            if(choice!=3)
+            {
+                setColor(11);
+                printf("\nSNo.\tName\t");
+                max=strlen(head2->name);
+                while(ctr!=NULL)
+                {
+                    w=strlen(ctr->name);
+                    if(max < w)
+                        max=w;
+                    ctr=ctr->next;
+                }
+                for(int t=0;t<=(max-4);t++)
+                {
+                    printf(" ");
+                }
+                printf("\tDOB\t\t\tPhone no.\t\tDate\t\tPoints\t\tMembership\n");
+                setColor(15);
+            }
+            if(choice==1)
+            {
+                while(ltr!=NULL)
+                {
+                    if(ltr->membership==1)
+                    {
+                        printf("%d\t%s",e,ltr->name);
+                        q=strlen(ltr->name);
+                        for(int t=0;t<=(max-q);t++)
+                        {
+                            printf(" ");
+                        }
+
+                        if(ltr->bday.dd<10)
+                        printf("\t0%d",ltr->bday.dd);
+                        else
+                        printf("\t%d",ltr->bday.dd);
+                        if(ltr->bday.mm<10)
+                        printf("/0%d",ltr->bday.mm);
+                        else
+                        printf("/%d",ltr->bday.mm);
+                        if(ltr->bday.yy<10)
+                        printf("%/0d",ltr->bday.yy);
+                        else
+                        printf("/%d",ltr->bday.yy);
+
+                        printf("\t\t%s\t",ltr->phoneno);
+
+                        if(ltr->entry.dd<10)
+                        printf("\t0%d",ltr->entry.dd);
+                        else
+                        printf("\t%d",ltr->entry.dd);
+                        if(ltr->entry.mm<10)
+                        printf("/0%d",ltr->entry.mm);
+                        else
+                        printf("/%d",ltr->entry.mm);
+                        if(ltr->entry.yy<10)
+                        printf("/0%d",ltr->entry.yy);
+                        else
+                        printf("/%d",ltr->entry.yy);
+                        printf("\t%d\t\t%d\n",ltr->points,ltr->membership);
+                        e++;
+                    }
+                        ltr=ltr->next;
+
+                }
+            }
+            else if(choice==2)
+            {
+                while(ltr!=NULL)
+                {
+                    printf("%d\t%s",e,ltr->name);
+                    q=strlen(ltr->name);
+                    for(int t=0;t<=(max-q);t++)
+                    {
+                        printf(" ");
+                    }
+                    if(ltr->bday.dd<10)
+                        printf("\t0%d",ltr->bday.dd);
+                        else
+                        printf("\t%d",ltr->bday.dd);
+                        if(ltr->bday.mm<10)
+                        printf("/0%d",ltr->bday.mm);
+                        else
+                        printf("/%d",ltr->bday.mm);
+                        if(ltr->bday.yy<10)
+                        printf("%/0d",ltr->bday.yy);
+                        else
+                        printf("/%d",ltr->bday.yy);
+
+                        printf("\t\t%s\t",ltr->phoneno);
+
+                        if(ltr->entry.dd<10)
+                        printf("\t0%d",ltr->entry.dd);
+                        else
+                        printf("\t%d",ltr->entry.dd);
+                        if(ltr->entry.mm<10)
+                        printf("/0%d",ltr->entry.mm);
+                        else
+                        printf("/%d",ltr->entry.mm);
+                        if(ltr->entry.yy<10)
+                        printf("/0%d",ltr->entry.yy);
+                        else
+                        printf("/%d",ltr->entry.yy);
+                        printf("\t%d\t\t%d\n",ltr->points,ltr->membership);
+
+                        e++;
+                         ltr=ltr->next;
+
+                }
+            }
+            else if(choice==3)
+            {
+                correctpass();
+            }
+        }
+        else
+        {
+           setColor(12);
+           printf("ENTERED WRONG CHOICE ");
+           setColor(15);
+        }
+    }while(z==1);
+
 }
 
 //login

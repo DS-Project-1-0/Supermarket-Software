@@ -8,7 +8,11 @@ Check these changes and kindly tell if there is any loophole in the program.
 3. Created the log out option
 4. Created inventory function
 5.Improved the password now backspace is acceptable and password is stored once enter is hit by the user.
-6. I have debugged the inventory function adn also did the same for log out option(now it is working).
+6. I have debugged the inventory function and also did the same for log out option(now it is working).
+
+18/04/2020
+7.Changed the phone number to String from int because no operation has to be done on it. We just have to display it so it would be better 
+if we treat it as a string. 
 
 
 
@@ -22,3 +26,9 @@ Things to remember while coding
    just like told above.
 4. Put printf("Entered Wrong Choice"); in red colour
 5. During debugging, try to put all possible condition a user can put so as to make the program more durable and efficient.
+
+18-04-2020
+6. Assign all heads for the linked list and file pointer globally
+7. Remember to put fclose() function when the use of filepointer is over
+8. Pointer will be given only to the next and not anything else be it an array or anything else (for now)
+9. Use different names to assign heads and filepointer than already used for better searching for any bug. 
