@@ -32,3 +32,4 @@ Things to remember while coding
 7. Remember to put fclose() function when the use of filepointer is over
 8. Pointer will be given only to the next and not anything else be it an array or anything else (for now)
 9. Use different names to assign heads and filepointer than already used for better searching for any bug. 
+10. Whenever make any new function remember to put its prototype in h file.
