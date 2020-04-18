@@ -38,7 +38,7 @@ int correctpass()
 	printf("\n\n\n\n WELCOME ADMIN");
 	do{
     printf("\n\n Do you want to :\n 1. View inventory and stock.\n 2. View Customer details.\n 3. Statistics\n 4. Logout\n\n");
-	printf("\n Enter you choice\n");
+	printf("\n Enter you choice:  ");
 	scanf("%d",&c);
 	switch(c)
 	{
