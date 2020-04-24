@@ -38,7 +38,7 @@ char itemname[500000];
 int qty;
 int t_price;
 struct bill *next;
-}bill;
+}bill_det;
 
 void setColor(int);
 int correctpass();

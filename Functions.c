@@ -9,10 +9,12 @@
 
 item *head1=NULL;//head1 for inventory and head1 for checkLocation
 customer *head2=NULL;
+bill_det *head3=NULL;
 
 FILE *fp1=NULL;//file pointer used in details()
 FILE *fp=NULL;//file pointer used in inventory()
-int we=0,wp=0;
+FILE *fp2=NULL;
+int we=0,wp=0,wf=0;
 
 //function to change the color
 void setColor(int ForgC)
@@ -44,7 +46,7 @@ void customer_entry()
         printf("\n\n\n\n WELCOME CUSTOMER");
 	setColor(15);
 	do{
-<<<<<<< HEAD
+
         printf("\n\n Do you want to :\n 1. Check Location\n 2. Generate Bill\n 3. Logout\n\n");
         printf("\n Enter you choice\n");
         scanf("%d",&c);
@@ -92,8 +94,9 @@ void checkLocation()
 {
     char choice[500000];
     int dh=0;//for do while
+    int c;
 
-=======
+
     printf("\n\n Do you want to :\n 1. View inventory and stock.\n 2. View Customer details.\n 3. Statistics\n 4. Logout\n\n");
 	printf("\n Enter you choice:  ");
 	scanf("%d",&c);
@@ -103,14 +106,13 @@ void checkLocation()
 			inventory();
 			break;
 		case 2:
-			details();
+			customerDetails();
 			break;
 			/*
 		case 3:
 			statistics();
 			break();*/
         case 4:
->>>>>>> a2eb0f501d1296717b9ae98806de042e1f1856c1
         do
         {
             dh=0;
@@ -184,6 +186,7 @@ void checkLocation()
             }
         }while(dh==1);
 }
+}
 
 
 //Generate bill
@@ -206,18 +209,18 @@ void generateBill()
     getchar();
     gets(phoneno);
 
-    time_t now;
+    /*time_t now;
     time(&now);
     struct tm *local=localtime(&now);
 
     cur_date.dd=local->tm_mday;
     cur_date.mm=local->tm_mon+1;
-    cur_date.yy=local->tm_year+1900;
+    cur_date.yy=local->tm_year+1900;*/
 
 
-
- /*   customer *ltr=head2;
-   // printf("1");
+/*
+    customer *ltr=head2;
+   printf("1");
     while(ltr!=NULL)
     {
         if(!strcmp(phoneno,ltr->phoneno))
@@ -225,31 +228,37 @@ void generateBill()
         ltr=ltr->next;
     }
 
+    bill_det *temp= (bill_det*)malloc(sizeof(bill_det));
+    temp->customerno=0;
+    temp->billno=0;
     customer *ytr=head2;
+
     if(ltr==NULL)
     {
         while(ytr!=NULL)
         {
             ytr=ytr->next;
         }
-        id1++;
-        //add customer
+        //addCustomer();
     }
-    else
+    else if(ltr!=NULL)
     {
-        id1=ltr->id;
+        id1->customerno=ltr->id;
     }
-    printf("%d",id1);
+    printf("%d",id1->customerno);
 
-    bill *utr=head3;
+
+    //printf("%d%d%s%d%d",head3->customerno,head3->bill_detno,head3->itemname,head3->qty,head3->t_price);
+   /* bill_det *utr=head3;
     while(utr->next!=NULL)
     {
         utr=utr->next;
     }
-    id2++;
+    id1->billno=1;*/
+
 
     printf("3");
-*/
+
     setColor(11);
     printf("\t\t\t\t\t\t      STOCKS	\n");
     setColor(15);
@@ -312,9 +321,8 @@ void generateBill()
         e++;
         ptr=ptr->next;
     }
-}
-/*
-    char item_name[500000];
+
+   /* char item_name[500000];
     int item_qty;
     int t_price=0;
     int ch;
@@ -351,22 +359,17 @@ void generateBill()
             }
         }while(ch==1);
 
-        t_price=(item_qty)*(ptr->price);
-        totalprice+=(item_qty)*(ptr->price);
+        id1->t_price=(item_qty)*(ptr->price);
+        id1->qty=item_qty;
+        strcpy(id1->itemname,item_name);
+        totalprice+=t_price;
 
-        bill *rtr=head3;
-
-        bill *temp=(bill *)malloc(sizeof(bill));
-        temp->customer_no=customerid;
-        temp->billno=orderid;
-        strcpy(temp->itemname,item_name);
-        temp->qty=item_qty;
-        temp->t_price=t_price;
-        temp->next=NULL;
+        id1->next=NULL;
+        bill_det *rtr =head3;
 
         if(head3==NULL)
         {
-            head3=temp;
+            head3=id1;
         }
         else
         {
@@ -374,7 +377,7 @@ void generateBill()
             {
                 rtr=rtr->next;
             }
-            rtr->next=temp;
+            rtr->next=id1;
         }
         int d,z;
         do
@@ -395,9 +398,9 @@ void generateBill()
                     z=1;
                 }
         }while(z==1);
-    }while(y==1);
+    }while(y==1*/
 }
-*/
+
 
 
 //admin home page
@@ -566,15 +569,12 @@ void customerDetails()
     setColor(22);
     printf("\t\t\t\t\t\t   CUSTOMER DETAILS  \n");
     setColor(43);
-<<<<<<< HEAD
+
     do
     {
         setColor(22);
-        printf("\nOPTIONS\n");
-=======
-    do{
+
             printf("\nOPTIONS\n");
->>>>>>> a2eb0f501d1296717b9ae98806de042e1f1856c1
         setColor(15);
         printf("\n\n1.View Members\n2.View all customers\n3.Go to Home Page\n\n");
         printf("Enter your choice :\t\n");
@@ -834,6 +834,52 @@ int screen1(char ch)
         head2=head2->next;//to remove the Headings name,phoneno etc...so that they aren't printed
         free(p);
         wp=1;
+    }
+
+    if(wf==0)
+    {
+        fp2=fopen("Bill_details.csv", "r");
+
+        if(fp2==NULL)
+        {
+            printf("The file did not open successfully");
+            exit(0);
+        }
+
+        rewind(fp2);//takes the file pointer back to the starting of the file
+
+        char Line[sizeof(bill_det)];//one line of file containing a customer's details
+        fgets(Line,sizeof(bill_det),fp2);
+        char* delimiter=",";//separates the data in a line
+
+        bill_det *ptr=head3;
+
+        while(fgets(Line,sizeof(bill_det),(FILE *)fp2)!=NULL)
+        {
+            bill_det *temp=(bill_det *)malloc(sizeof(bill_det));
+            temp->customerno=atoi(strtok(Line,delimiter));
+            temp->billno=atoi(strtok(NULL,delimiter));
+            strcpy(temp->itemname,strtok(NULL,delimiter));
+            temp->qty=atoi(strtok(NULL,delimiter));
+            temp->t_price=atoi(strtok(NULL,delimiter));
+
+            if(head3==NULL)//For entering first node
+            {
+                head3=temp;
+            }
+            else  // for adding new nodes
+            {
+                ptr=head3;
+                while(ptr->next!=NULL)
+                {
+                    ptr=ptr->next;
+                }
+                ptr->next=temp;
+            }
+        }
+
+        fclose(fp2);
+        wf=1;
     }
 
     if(ch=='a' || ch=='A')
