@@ -44,6 +44,7 @@ void customer_entry()
         printf("\n\n\n\n WELCOME CUSTOMER");
 	setColor(15);
 	do{
+<<<<<<< HEAD
         printf("\n\n Do you want to :\n 1. Check Location\n 2. Generate Bill\n 3. Logout\n\n");
         printf("\n Enter you choice\n");
         scanf("%d",&c);
@@ -92,6 +93,24 @@ void checkLocation()
     char choice[500000];
     int dh=0;//for do while
 
+=======
+    printf("\n\n Do you want to :\n 1. View inventory and stock.\n 2. View Customer details.\n 3. Statistics\n 4. Logout\n\n");
+	printf("\n Enter you choice:  ");
+	scanf("%d",&c);
+	switch(c)
+	{
+		case 1:
+			inventory();
+			break;
+		case 2:
+			details();
+			break;
+			/*
+		case 3:
+			statistics();
+			break();*/
+        case 4:
+>>>>>>> a2eb0f501d1296717b9ae98806de042e1f1856c1
         do
         {
             dh=0;
@@ -547,10 +566,15 @@ void customerDetails()
     setColor(22);
     printf("\t\t\t\t\t\t   CUSTOMER DETAILS  \n");
     setColor(43);
+<<<<<<< HEAD
     do
     {
         setColor(22);
         printf("\nOPTIONS\n");
+=======
+    do{
+            printf("\nOPTIONS\n");
+>>>>>>> a2eb0f501d1296717b9ae98806de042e1f1856c1
         setColor(15);
         printf("\n\n1.View Members\n2.View all customers\n3.Go to Home Page\n\n");
         printf("Enter your choice :\t\n");
