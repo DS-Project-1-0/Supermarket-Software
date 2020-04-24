@@ -11,8 +11,13 @@ Check these changes and kindly tell if there is any loophole in the program.
 6. I have debugged the inventory function and also did the same for log out option(now it is working).
 
 18/04/2020
-7.Changed the phone number to String from int because no operation has to be done on it. We just have to display it so it would be better 
+7. Changed the phone number to string from int because no operation has to be done on it. We just have to display it so it would be better 
 if we treat it as a string. 
+8. Added customer_entry(), checkLocation()
+9. Added variables wp,we,wd so that for each function the file gets called only once no matter how many times function is called
+10.Added id to the customer_details.csv which will help for Billing
+11. Made the file to be read in screen1() so that all the files get read at the intial stage of the program and we don't have
+to read it many times.
 
 
 
