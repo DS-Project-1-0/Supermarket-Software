@@ -27,7 +27,7 @@ typedef struct customer
     char phoneno[11];
     date entry;//current date
     int points;//member's points
-    char membership;
+    char membership[500000];
     struct customer *next;
 }customer;
 
