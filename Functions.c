@@ -787,7 +787,6 @@ int screen1(char ch)
         fgets(Line,sizeof(customer),fp1);
         char* delimiter=",";//separates the data in a line
 
-        rewind(fp1);
 
         customer *ptr=head2;
 
@@ -823,10 +822,6 @@ int screen1(char ch)
         }
 
         fclose(fp1);
-
-        customer *p=head2;
-        head2=head2->next;//to remove the Headings name,phoneno etc...so that they aren't printed
-        free(p);
         wp=1;
     }
 
@@ -972,3 +967,5 @@ int screen1(char ch)
         screen1(ch);
     }
 }
+
+
