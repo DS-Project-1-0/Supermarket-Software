@@ -96,23 +96,6 @@ void checkLocation()
     int dh=0;//for do while
     int c;
 
-
-    printf("\n\n Do you want to :\n 1. View inventory and stock.\n 2. View Customer details.\n 3. Statistics\n 4. Logout\n\n");
-	printf("\n Enter you choice:  ");
-	scanf("%d",&c);
-	switch(c)
-	{
-		case 1:
-			inventory();
-			break;
-		case 2:
-			customerDetails();
-			break;
-			/*
-		case 3:
-			statistics();
-			break();*/
-        case 4:
         do
         {
             dh=0;
@@ -186,7 +169,6 @@ void checkLocation()
             }
         }while(dh==1);
 }
-}
 
 
 //Generate bill
@@ -209,18 +191,16 @@ void generateBill()
     getchar();
     gets(phoneno);
 
-    /*time_t now;
+    time_t now;
     time(&now);
     struct tm *local=localtime(&now);
 
     cur_date.dd=local->tm_mday;
     cur_date.mm=local->tm_mon+1;
-    cur_date.yy=local->tm_year+1900;*/
+    cur_date.yy=local->tm_year+1900;
 
+     customer *ltr=head2;
 
-/*
-    customer *ltr=head2;
-   printf("1");
     while(ltr!=NULL)
     {
         if(!strcmp(phoneno,ltr->phoneno))
@@ -235,29 +215,29 @@ void generateBill()
 
     if(ltr==NULL)
     {
-        while(ytr!=NULL)
+        while(ytr->next!=NULL)
         {
             ytr=ytr->next;
         }
+        (temp->customerno)=(ytr->id)+1;
         //addCustomer();
     }
     else if(ltr!=NULL)
     {
-        id1->customerno=ltr->id;
+        (temp->customerno)=ltr->id;
     }
-    printf("%d",id1->customerno);
+    printf("%d",temp->customerno);
 
 
-    //printf("%d%d%s%d%d",head3->customerno,head3->bill_detno,head3->itemname,head3->qty,head3->t_price);
-   /* bill_det *utr=head3;
-    while(utr->next!=NULL)
-    {
-        utr=utr->next;
-    }
-    id1->billno=1;*/
+   bill_det *atr=head3;
+  while(atr->next!=NULL)
+  {
+     atr=atr->next;
+  }
+  (temp->billno)=((atr->billno)+1);
 
+  printf("%d",temp->billno);
 
-    printf("3");
 
     setColor(11);
     printf("\t\t\t\t\t\t      STOCKS	\n");
@@ -322,17 +302,16 @@ void generateBill()
         ptr=ptr->next;
     }
 
-   /* char item_name[500000];
-    int item_qty;
+    char item_name[100];
+    int item_qty=0;
     int t_price=0;
-    int ch;
-    int y;
+    int ch=0;
+    int y=0;
     int totalprice=0;
     do
     {
         y=0;
         printf("Enter Name of the Item you want to buy:\t");
-        getchar();
         gets(item_name);
 
         do
@@ -359,17 +338,17 @@ void generateBill()
             }
         }while(ch==1);
 
-        id1->t_price=(item_qty)*(ptr->price);
-        id1->qty=item_qty;
-        strcpy(id1->itemname,item_name);
-        totalprice+=t_price;
+        temp->t_price=(item_qty)*(ptr->price);
+        temp->qty=item_qty;
+        strcpy(temp->itemname,item_name);
+        totalprice+=temp->t_price;
 
-        id1->next=NULL;
-        bill_det *rtr =head3;
+        temp->next=NULL;
+        bill_det *rtr = head3;
 
         if(head3==NULL)
         {
-            head3=id1;
+            head3=temp;
         }
         else
         {
@@ -377,7 +356,7 @@ void generateBill()
             {
                 rtr=rtr->next;
             }
-            rtr->next=id1;
+            rtr->next=temp;
         }
         int d,z;
         do
@@ -388,6 +367,7 @@ void generateBill()
                 if((d==121)||(d==89))
                 {
                     y=1;
+                    getchar();
                 }
                 else if((d==78)||(d==110))
                 {
@@ -395,10 +375,11 @@ void generateBill()
                 }
                 else
                 {
+                    printf("INVALID SELECTION");
                     z=1;
                 }
         }while(z==1);
-    }while(y==1*/
+    }while(y==1);
 }
 
 
@@ -862,6 +843,7 @@ int screen1(char ch)
             strcpy(temp->itemname,strtok(NULL,delimiter));
             temp->qty=atoi(strtok(NULL,delimiter));
             temp->t_price=atoi(strtok(NULL,delimiter));
+            temp->next=NULL;
 
             if(head3==NULL)//For entering first node
             {
@@ -914,7 +896,7 @@ int screen1(char ch)
 			{
 
                 setColor(98);//changes the color of following text to green
-                printf("\n ACCESS GRANTED");
+                printf("\n\n\n ACCESS GRANTED");
                 setColor(15);//sets the color of text to white again
                 correctpass();
                 break;
