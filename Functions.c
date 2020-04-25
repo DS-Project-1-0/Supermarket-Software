@@ -569,8 +569,9 @@ void customerDetails()
             int q=0;//checks the length of current customer name in name
             customer *ctr=head2->next;//points to next node
             customer *ltr=head2;//for traversing the list
+            char membership_check[500000]="N\n";
 
-            if(choice!=3)
+            if(choice==1)
             {
                 setColor(11);
                 printf("\nSNo.\tName\t");
@@ -586,14 +587,11 @@ void customerDetails()
                 {
                     printf(" ");
                 }
-                printf("\tDOB\t\t\tPhone no.\t\tDate\t\tPoints\t\tMembership\n");
+                printf("\tDOB\t\t\tPhone no.\t\tDate\n");
                 setColor(15);
-            }
-            if(choice==1)
-            {
                 while(ltr!=NULL)
                 {
-                    if(ltr->membership==1)
+                    if(!strcmp(ltr->membership,membership_check))
                     {
                         printf("%d\t%s",e,ltr->name);
                         q=strlen(ltr->name);
@@ -629,8 +627,7 @@ void customerDetails()
                             printf("/0%d",ltr->entry.yy);
                         else
                             printf("/%d",ltr->entry.yy);
-
-                        printf("\t%d\t\t%d\n",ltr->points,ltr->membership);
+                            printf("\n");
                         e++;
                     }
                         ltr=ltr->next;
@@ -638,6 +635,22 @@ void customerDetails()
             }
             else if(choice==2)
             {
+                setColor(11);
+                printf("\nSNo.\tName\t");
+                max=strlen(head2->name);
+                while(ctr!=NULL)
+                {
+                    w=strlen(ctr->name);
+                    if(max < w)
+                        max=w;
+                    ctr=ctr->next;
+                }
+                for(int t=0;t<=(max-4);t++)
+                {
+                    printf(" ");
+                }
+                printf("\tDOB\t\t\tPhone no.\t\tDate\t\tPoints\t\tMembership\n");
+                setColor(15);
                 while(ltr!=NULL)
                 {
                     printf("%d\t%s",e,ltr->name);
@@ -674,7 +687,7 @@ void customerDetails()
                     else
                         printf("/%d",ltr->entry.yy);
 
-                    printf("\t%d\t\t%d\n",ltr->points,ltr->membership);
+                    printf("\t%d\t\t%s",ltr->points,ltr->membership);
 
                     e++;
                     ltr=ltr->next;
@@ -791,7 +804,7 @@ int screen1(char ch)
             temp->entry.mm=atoi(strtok(NULL,delimiter));
             temp->entry.yy=atoi(strtok(NULL,delimiter));
             temp->points=atoi(strtok(NULL,delimiter));
-            temp->membership=atoi(strtok(NULL,delimiter));
+            strcpy(temp->membership,strtok(NULL,delimiter));
             temp->next==NULL;
 
             if(head2==NULL)//For entering first node
@@ -959,5 +972,3 @@ int screen1(char ch)
         screen1(ch);
     }
 }
-
-
