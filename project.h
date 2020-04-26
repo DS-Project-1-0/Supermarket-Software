@@ -37,8 +37,11 @@ int billno;
 char itemname[500000];
 int qty;
 int t_price;
+date cur_date;
 struct bill *next;
 }bill_det;
+
+
 
 void setColor(int);
 int correctpass();
@@ -48,8 +51,10 @@ void customer_entry();
 void checkLocation();
 void customerDetails();
 void generateBill();
+void update_details();
 
 
 
 
 #endif // PROJECT_H_INCLUDED
+
