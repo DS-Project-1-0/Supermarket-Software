@@ -1,2 +1,2 @@
-Customer Id,Bill No,Item Name,Quantity,Total Price
-1,1,Maggie,10,110
+Customer Id,Bill No,Item Name,Quantity,Total Price,Date,Month,Year
+1,1,Maggie,10,110,26,5,2
