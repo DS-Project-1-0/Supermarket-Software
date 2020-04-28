@@ -1,2 +1,8 @@
-Customer Id,Bill No,Item Name,Quantity,Total Price,Date,Month,Year
-1,1,Maggie,10,110,26,5,2
+Customer Id,Bill No.,ItemName,Quantity,Total_Price,Date,Month,Year
+1,1,Maggie,10,110,26,4,2020
+17,4,Knife Set,2,1200,28,4,2020
+18,5,Spatula,3,300,28,4,2020
+18,5,Spoons,3,1050,28,4,2020
+18,5,Pen,6,60,28,4,2020
+18,5,Pencil,21,630,28,4,2020
+15,6,Pencil,1,30,28,4,2020
