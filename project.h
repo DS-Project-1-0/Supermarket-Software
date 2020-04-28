@@ -28,6 +28,7 @@ typedef struct customer
     date entry;//current date
     int points;//member's points
     char membership[500000];
+    int rate;
     struct customer *next;
 }customer;
 
@@ -52,7 +53,8 @@ void checkLocation();
 void customerDetails();
 void generateBill();
 void update_details();
-
+void offerzone();
+void invoice(int,int);
 
 
 
