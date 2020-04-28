@@ -1,15 +1,16 @@
-Id,name,bday dd,bday mm,bday yy,phoneno,entry dd,entry mm,entry yy,points,membership,rate
-1,Akash Jha,10,3,92,1234567898,29,1,20,2000,P,3
-2,Nitin Pandey,16,4,2,5655788494,30,1,20,0,N,4
-3,Mukesh Singh,31,5,85,3748585803,1,2,20,1575,S,5
-4,Meera Chaudhary,15,6,90,8899559821,1,2,20,0,N,2
-5,Paridhi Chauhan,21,7,97,5769933456,1,2,20,3500,P,5
-6,Neha Khanna,13,2,82,4959348201,2,2,20,650,G,4
-7,Aditi Chopra,28,4,87,3749437594,3,2,20,550,S,5
-8,Mehul Roy,14,10,94,9869528406,3,2,20,780,S,3
-9,Maryam Khan,10,12,95,7099870003,4,2,20,0,N,5
-10,Shaurya Singh,17,11,1,6872298474,4,2,20,0,N,4
-11,Kuber Rathore,31,1,99,5969006000,5,2,20,0,N,4
-12,Tushar Gupta,22,8,88,5868609599,5,2,20,1200,P,3
-13,Atulya Kaushik,11,5,78,9997967304,6,2,20,0,N,5
-14,Satyam Srijan,12,4,93,8587869555,6,2,20,2300,G,3
+Customer_Id,Name,BirthDate,BirthMonth,BirthYear,Phone No.,Date added,Month added,Year added,Membership,Points
+1,Akash Jha,10,3,92,1234567898,29,1,20,P,2000
+2,Nitin Pandey,16,4,2,5655788494,30,1,20,N,0
+3,Mukesh Singh,31,5,85,3748585803,1,2,20,S,1575
+4,Meera Chaudhary,15,6,90,8899559821,1,2,20,N,0
+5,Paridhi Chauhan,21,7,97,5769933456,1,2,20,P,3500
+6,Neha Khanna,13,2,82,4959348201,2,2,20,G,650
+7,Aditi Chopra,28,4,87,3749437594,3,2,20,S,550
+8,Mehul Roy,14,10,94,9869528406,3,2,20,S,780
+9,Maryam Khan,10,12,95,7099870003,4,2,20,N,0
+10,Shaurya Singh,17,11,1,6872298474,4,2,20,N,0
+11,Kuber Rathore,31,1,99,5969006000,5,2,20,N,0
+12,Tushar Gupta,22,8,88,5868609599,5,2,20,P,1200
+13,Atulya Kaushik,11,5,78,9997967304,6,2,20,N,0
+14,Satyam Srijan,12,4,93,8587869555,6,2,20,G,2300
+15,Server,0,10,2001,87549632514,28,4,2020,N,0
