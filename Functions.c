@@ -41,10 +41,12 @@ void customer_entry()
 	char d;//takes input from user whether to log out or not
 	int ch=1;//for the do while function
 	int w=0;
+
 	setColor(45);
         printf("\n\n\n\n WELCOME CUSTOMER");
 	setColor(15);
 	do{
+
         printf("\n\n Do you want to :\n 1. Check Location\n 2. Generate Bill\n 3. Logout\n\n");
         printf("\n Enter you choice\n");
         scanf("%d",&c);
@@ -55,7 +57,6 @@ void customer_entry()
                 break;
             case 2:
                 generateBill();
-
                 break;
             case 3:
                 do
@@ -104,23 +105,7 @@ void checkLocation()
 
 
             setColor(46);
-            printf("\n\n\t\t\t\t\t\t LOCATION OF PRODUCT	\n");//check Location
-void checkLocation()
-{
-    char choice[500000];
-    int dh=0;//for do while
-
-        do
-        {
-            dh=0;
-
-            printf("\n\nWhat item do you need to search for:\t ");
-            getchar();
-            gets(choice);
-
-
-            setColor(46);
-            printf("\n\n\t\t\t LOCATION OF PRODUCT	\n");
+            printf("\n\n\t\t\t\t\t\t LOCATION OF PRODUCT	\n");
             setColor(1);
 
             int e=1;//for serial number
@@ -182,137 +167,6 @@ void checkLocation()
 
             }
         }while(dh==1);
-}
-            setColor(1);
-
-            int e=1;//for serial number
-            int w;//for getting the maximum character length
-            int max=0;//hold the maximum character length in name
-            int q=0;//for checking the length of current item name
-            item *ctr=head1->next;//to point to next node
-            item *ltr=head1;//to traverse through the list
-
-            setColor(3);
-            printf("\nS.No\tName");
-            max=strlen(head1->name);
-            while(ctr!=NULL)
-            {
-                w=strlen(ctr->name);
-                if(max<w)
-                    max=w;
-                ctr=ctr->next;
-            }
-            for(int t=0;t<=(max-4);t++)
-            {
-                printf(" ");
-            }
-
-            printf("Location\n");
-            setColor(15);
-            int n=1;
-            while(ltr!=NULL)
-            {
-                if(!strcmp(ltr->name,choice))
-                {
-                    printf("%d\t%s",e,ltr->name);
-                    q=strlen(ltr->name);
-                        for(int t=0;t<=(max-q);t++)
-                        {
-                            printf(" ");
-                        }
-                    printf("%s",ltr->location);
-                    e++;
-                    n=0;
-                }
-                ltr=ltr->next;
-            }
-            if(n==1)
-            {
-                setColor(60);
-                printf("\n\t\tItem not found");
-                setColor(15);
-            }
-            int cho=0;
-
-            while(dh!=1)
-            {
-                printf("\n1. Do you want to find another product\n2. Go to home page\n\n");
-                scanf("%d",&cho);
-                switch(cho)
-                {
-                    case 1:
-                        dh=1;
-                        break;
-                    case 2:
-                        customer_entry();
-                    default:
-                        printf("Entered Wrong Choice");
-                }
-
-            }
-        }while(dh==1);
-}
-//
-int invoice()
-{
-    setColor(78);
-	printf("\t\t\t\t\t\t\tINVOICE");
-	printf("\n");
-	setColor(15);
-
-	customer *h=head2;
-        while(h->next!=NULL)
-        {
-            h=h->next;
-        }
-	printf("\nBILL ID:");
-	setColor(22);
-	printf("%d",h->id);
-	setColor(15);
-	printf("\nDATE:");
-	setColor(22);
-	printf("%d / %d / %d",h->entry.dd,h->entry.mm,h->entry.yy);
-	setColor(15);
-	printf("\n\nCUSTOMER NAME:");
-	setColor(22);
-	puts(h->name);
-	setColor(15);
-    printf("\nPHONE NUMBER:");
-    setColor(22);
-    printf("%s",h->phoneno);
-    setColor(15);
-    printf("\nMEMBER:");
-    setColor(22);
-    printf("%c",h->membership);
-    setColor(15);
-    printf("\nPOINTS IN CARD:");
-    setColor(22);
-    printf("%d",h->points);
-    setColor(90);
-    printf("\n\t\t\t\t\t\t  PURCHASE SUMMARY\n\n\n");
-    //table for s.no,item ,price
-
-    setColor(74);
-    printf("\n TOTAL:%d"/*total cost*/);
-
-    setColor(60);//reddish
-    printf("\n TAX (5%%):" /*tax amount*/);
-    setColor(62);
-    printf("\n POINTS REDEEMED:"/*if member and have redeemed the points ,display the points*/);
-    printf("\n DEDUCTIONS FROM POINTS"/*ENTER THE AMOUNT TO BE DEDUCTED*/);
-
-    printf("\n Any Other discount?(Bday/Anniversary):"/*mention if any other discount is applicable*/);
-    printf("\n DEDUCTIONS FROM POINTS:"/*ENTER THE AMOUT DEDUCTED DUE TO EXTRA DISCOUNT*/);
-    printf("\n POINTS LEFT:"/*,the remaining points in card*/);
-     setColor(74);
-    printf("\n\n\n NET AMOUNT PAYABLE:"/*TOTAL AMOUNT TO BE PAID"*/);
-    printf("\n\n\n\n");
-
-
-    setColor(67);
-    printf("\n\t\t\t\t\t\t  THANK YOU!! VISIT AGAIN");
-
-        return 0;
 }
 
 
@@ -352,7 +206,7 @@ void generateBill()
 
     while(ltr!=NULL)
     {
-        if(!strcmp(phoneno,ltr->phoneno))//new node when match
+        if(!strcmp(phoneno,ltr->phoneno))
             break;
         ltr=ltr->next;
     }
@@ -474,17 +328,16 @@ void generateBill()
 
     bill_det *itr=head3;
     char n;
-    item *notfound=head1;
+
     item *htr=head1;
     int new_qty;
     int check=0;
     int x=1;
     int old_price;
     int z,re;
-    int cttr=1;
-    int k;
-    int l;
-      itr=head3;
+
+
+
     do
     {
         y=0;
@@ -495,58 +348,10 @@ void generateBill()
         temp->cur_date.dd=cur_date.dd;
         temp->cur_date.mm=cur_date.mm;
         temp->cur_date.yy=cur_date.yy;
-        int ex=0;
-        int zz=0;
-        do
-        {
-            l=0;
-            printf("\n\nEnter Name of the Item you want to buy:");
-            printf("\n ");
+
+            printf("\n\nEnter Name of the Item you want to buy:\t");
             gets(item_name);
-            notfound=head1;
-
-                while(notfound!=NULL)
-                {
-                    if(!(strcmp(item_name,notfound->name)))
-                            break;
-                    notfound=notfound->next;
-                }
-                if(notfound==NULL)
-                {
-
-                    setColor(60);
-                    printf("\n Ooops!Item not found....");
-                    setColor(15);
-                    do
-                    {
-                    ex=0;
-                    printf("\n1.Do you want to enter again.\n2.Quit");
-                    printf("\n");
-                    scanf("%d",&k);
-                    if(k==1)
-                    {
-                        l=1;
-                        getchar();
-                    }
-                    else if (k==2)
-                    {
-                           setColor(15);
-                           zz=1;
-                    }
-                    else
-                    {
-                          setColor(60);
-                          printf("\n Incorrect input!!!\n");
-                          setColor(15);
-                          ex=1;
-                     }
-                    }while(ex==1);
-                }
-           }while(l==1);
-
-            if(zz!=1)
-            {
-
+            itr=head3;
             while(itr!=NULL)
             {
                 if((itr->billno)==(temp->billno))
@@ -562,12 +367,11 @@ void generateBill()
                             w=0;
                                 printf("\n\nDo you want to update?(y/n)\n");
                                 scanf("%c",&n);
-                                if(((n==121)||(n==89))&& l!=0)
+                                if((n==121)||(n==89))
                                 {
                                     do
                                     {
                                     x=1;
-
                                     printf("Enter the Quantity:\t");
                                     scanf("%d",&new_qty);
                                     old_price=itr->t_price;
@@ -680,7 +484,6 @@ void generateBill()
             }
        }
         int d,z;
-
         do
         {
             z=0;
@@ -695,12 +498,7 @@ void generateBill()
                 }
                 else if((d==78)||(d==110))
                 {
-                    printf("\n");
-                    printf("\n");
-                    printf("Your Bill is ");
-                    setColor(60);
-                    printf("%d",totalprice);
-                    setColor(15);
+                    printf("Your Bill is %d",totalprice);
                 }
                 else
                 {
@@ -708,19 +506,7 @@ void generateBill()
                     z=1;
                 }
         }while(z==1);
-        }
-            else
-            {
-                printf("\n");
-                    printf("\n");
-                    printf("Your Bill is ");
-                    setColor(60);
-                    printf("%d",totalprice);
-                    setColor(15);
-
-            }
     }while(y==1);
-
 
      int choice2,choice3;
     int j=0;
@@ -729,8 +515,13 @@ void generateBill()
     int sno=1;
     int rw,ew,d;
     item *dtr=head1;
-    printf("\n\n1.Do you want to modify your shopping list.\n2.Generate bill\n");
+
+   printf("\n\n1.Do you want to modify your shopping list.\n2.Generate bill\n");
     scanf("%d",&choice2);
+
+
+
+
     do
     {
         y=0;
@@ -824,43 +615,6 @@ void generateBill()
                                         free(p);
 
                                     }
-                                   setColor(45);
-                printf("\t\t\tYOUR BILL\n\n");
-                setColor(22);
-                printf("S.no\tName");
-                max_new=strlen(head3->itemname);
-                trav=head3->next;
-                while(trav!=NULL)
-                {
-                    h=strlen(trav->itemname);
-                    if(max_new<h)
-                        max_new=h;
-                    trav=trav->next;
-                }
-                for(int t=0;t<=(max_new-4);t++)
-                {
-                    printf(" ");
-                }
-                printf("\tQuantity\t\tTotal Price\n");
-                setColor(15);
-
-                trav=head3;
-                while(trav!=NULL)
-                {
-                    if((trav->billno)==billno)
-                    {
-                        printf("%d\t%s",sno,trav->itemname);
-                         q=strlen(trav->itemname);
-                            for(int t=0;t<=(max_new-q);t++)
-                            {
-                                printf(" ");
-                            }
-                        printf("\t%d\t\t\t%d\n",trav->qty,trav->t_price);
-                        sno++;
-                    }
-                    trav=trav->next;
-                }
-
                                 do
                                 {
                                     ew=0;
@@ -944,7 +698,29 @@ void generateBill()
                             }
                             }while(x==0);
                             trav->qty=new_qty;
-                               setColor(45);
+
+                            do
+                            {
+                                z=0;
+                                    printf("\n\nDo you want to update more items?(y/n)\n");
+                                    scanf(" %c",&d);
+                                    if((d==121)||(d==89))
+                                    {
+                                        re=1;
+                                    }
+                                    else if((d==78)||(d==110))
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        printf("INVALID SELECTION");
+                                        z=1;
+                                    }
+                            }while(z==1);
+                           }while(re==1);
+
+                            setColor(45);
                 printf("\t\t\tYOUR BILL\n\n");
                 setColor(22);
                 printf("S.no\tName");
@@ -981,36 +757,14 @@ void generateBill()
                     trav=trav->next;
                 }
 
-                            do
-                            {
-                                z=0;
-                                    printf("\n\nDo you want to update more items?(y/n)\n");
-                                    scanf(" %c",&d);
-                                    if((d==121)||(d==89))
-                                    {
-                                        re=1;
-                                    }
-                                    else if((d==78)||(d==110))
-                                    {
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        printf("INVALID SELECTION");
-                                        z=1;
-                                    }
-                            }while(z==1);
-                           }while(re==1);
-
-
                             break;
                         case 3:
-                            printf("Your current bill is ");
+                            printf("Your current bill is %d",totalprice);
                             setColor(60);
                             printf("%d",totalprice);
                             setColor(15);
-                            update_details();
-                            invoice();
+                           // update_details();
+                            invoice(totalprice,billno);
                             break;
                         default:
                             printf("INVALID SELECTION!");
@@ -1021,36 +775,341 @@ void generateBill()
 
             break;
         case 2:
-                update_details();
-                invoice();
-                setColor(15);
+           // update details();
+            invoice(totalprice,billno);
+            setColor(15);
             break;
-        default:("INVALID SELECTION");
+        default:("INVALID SELECTION!");
         y=1;
         }
         }while(y==1);
 
 }
+void offerzone()
+{   setColor(98);
+    printf("\n\t\t\t\t\t\t\t******OFFER ZONE******");
+    setColor(21);
+    printf("\n\n\t\t\t\t\t\t\t\t\tTYPES OF MEMBERSHIP");
+    setColor(98);
+    printf("\n1.Platinum");
+    setColor(15);
+    printf("\nRs250=100 points");
+    printf("\n\n\t\t DISCOUNTS\n1. Get 10%% off on every shopping.\n2. Get 25%% off if your points are more than 500.\n3. Get a special 30%% off on your Birthday");
+    setColor(22);
+    printf("\n2.Gold");
+    setColor(15);
+    printf("\nRs200=100 points");
+    printf("\n\n\t\t DISCOUNTS\n1. Get 10%% off on every shopping.\n2. Get 20%% off if your points are more than 500.\n3. Get a special 25%% off on your Birthday");
+    setColor(88);
+    printf("\n3.Silver");
+    setColor(15);
+    printf("\nRs150=100 points");
+    printf("\n\n\t\t DISCOUNTS\n1. Get 7%% off on every shopping.\n2. Get 15%% off if your points are more than 500.\n3. Get a special 15%% off on your Birthday");
+}
 
+
+void invoice(int totalprice,int billno)
+{   int p=0;
+    setColor(78);
+	printf("\t\t\t\t\t\t\tINVOICE");
+	printf("\n");
+	setColor(15);
+
+	bill_det *hd = head3;
+	customer *h=head2;
+	customer *h2=head2;
+        while(h->next!=NULL)
+        {
+            h=h->next;
+        }
+	printf("\nBILL ID:");
+	setColor(22);
+	printf("%d",h->id);
+	setColor(15);
+	printf("\nDATE:");
+	setColor(22);
+	printf("%d / %d / %d",h->entry.dd,h->entry.mm,h->entry.yy);
+	setColor(15);
+	printf("\n\nCUSTOMER NAME:");
+	setColor(22);
+	puts(h->name);
+	setColor(15);
+    printf("\nPHONE NUMBER:");
+    setColor(22);
+    printf("%s",h->phoneno);
+    setColor(15);
+    printf("\nMEMBER:");
+    setColor(22);
+    printf("%c",h->membership);
+    setColor(15);
+    printf("\nPOINTS IN CARD:");
+    setColor(22);
+    printf("%d",h->points);
+    setColor(90);
+    printf("\n\t\t\t\t\t\t  PURCHASE SUMMARY\n\n\n");
+    //table for s.no,item ,price;
+    int name_item;
+    bill_det *ftr=head3;
+    int sno=1,q;
+
+    setColor(22);
+    printf("S.no\tName");
+                name_item=strlen(head3->itemname);
+                ftr=head3->next;
+                while(ftr!=NULL)
+                {
+                    p=strlen(ftr->itemname);
+                    if(name_item<p)
+                        name_item=p;
+                    ftr=ftr->next;
+                }
+                for(int t=0;t<=(name_item-4);t++)
+                {
+                    printf(" ");
+                }
+                printf("\tQuantity\t\tTotal Price\n");
+                setColor(15);
+
+                ftr=head3;
+                while(ftr!=NULL)
+                {
+                    if((ftr->billno)==billno)
+                    {
+                        printf("%d\t%s",sno,ftr->itemname);
+                         q=strlen(ftr->itemname);
+                            for(int t=0;t<=(name_item-q);t++)
+                            {
+                                printf(" ");
+                            }
+                        printf("\t%d\t\t\t%d\n",ftr->qty,ftr->t_price);
+                        sno++;
+                    }
+                    ftr=ftr->next;
+                }
+
+
+    setColor(74);
+    printf("\n TOTAL:%d",totalprice);
+
+    setColor(60);//reddish
+    int amount=0;
+    amount=(0.05)*totalprice;
+    printf("\n TAX (5%%) : %d",amount);
+    int pay;
+    pay=totalprice+amount;
+    setColor(43);
+    printf("\n GRAND TOTAL : %d\n\n\n\n",pay);
+    setColor(15);
+    char ch1;
+    //whether a member or not
+    hd=head3;
+    while(hd->next!=NULL)
+    {
+        hd=hd->next;
+    }
+    h2=head2;
+    while(h2->next!=NULL)
+    {
+        if(h2->id == hd->customerno)
+            break;
+        h2=h2->next;
+    }
+
+    if(strcmp("N",h2->membership))
+    {
+        if(!strcmp("P",h2->membership))
+        {   int cost=0;
+        int finalpay=0;
+            cost=pay-(0.1*pay);
+            printf("\nPAYABLE AMOUNT : %d",cost);
+
+             if((h2->bday.dd == h->entry.dd) && (h2->bday.mm == h->entry.mm))
+            {
+                printf("\n\nAHH ITS YOUR BIRTHDAY!!!\n Congrats on getting an additional discount of 30%");
+                finalpay=pay-(0.3*pay);
+                 setColor(62);
+                printf("\n\nNET AMOUNT : %d",finalpay);
+                setColor(15);
+            }
+            if( !((h2->bday.dd == h->entry.dd) && (h2->bday.mm == h->entry.mm)) && (h2->points > 500))
+            {
+               printf("\n\nCONGRATS!!! Your points are more than 500 so, you are getting an additional discount of 25%");
+               finalpay=pay-(0.25*pay);
+                setColor(62);
+               printf("\n\nNET AMOUNT : %d",finalpay);
+               setColor(15);
+            }
+             printf("\n\nDo you want to redeem your points? (Y/N)");
+             scanf(" %c",&ch1);
+             if(ch1=='y' || ch1=='Y')
+            {
+                h2->points=h2->points-100;
+            }
+            if(finalpay <= 500)
+            {
+                h2->points=h2->points+30;
+            }
+            else if(finalpay>500 && finalpay<=1500)
+            {
+                h2->points=h2->points+60;
+            }
+            else
+            {
+                h2->points=h2->points+120;
+            }
+            setColor(1);
+            printf("\n\nPOINTS LEFT: %d",h2->points);
+            setColor(15);
+        }
+        if(!strcmp("G",h2->membership))
+        {   int cost=0;
+        int finalpay=0;
+            cost=pay-(0.1*pay);
+            printf("\nPAYABLE AMOUNT : %d",cost);
+
+             if((h2->bday.dd == h->entry.dd) && (h2->bday.mm == h->entry.mm))
+            {
+                printf("\n\nAHH ITS YOUR BIRTHDAY!!!\n Congrats on getting an additional discount of 25%");
+                finalpay=pay-(0.25*pay);
+                 setColor(62);
+                printf("\n\nNET AMOUNT : %d",finalpay);
+                setColor(15);
+            }
+            if( !((h2->bday.dd == h->entry.dd) && (h2->bday.mm == h->entry.mm)) && (h2->points > 500))
+            {
+               printf("\n\nCONGRATS!!! Your points are more than 500 so, you are getting an additional discount of 20%");
+               finalpay=pay-(0.2*pay);
+                setColor(62);
+               printf("\n\nNET AMOUNT : %d",finalpay);
+               setColor(15);
+            }
+             printf("\n\nDo you want to redeem your points? (Y/N)");
+             scanf(" %c",&ch1);
+             if(ch1=='y' || ch1=='Y')
+            {
+                h2->points=h2->points-100;
+            }
+            if(finalpay <= 500)
+            {
+                h2->points=h2->points+30;
+            }
+            else if(finalpay>500 && finalpay<=1500)
+            {
+                h2->points=h2->points+60;
+            }
+            else
+            {
+                h2->points=h2->points+120;
+            }
+            setColor(1);
+            printf("\n\nPOINTS LEFT: %d",h2->points);
+            setColor(15);
+        }
+
+        if(!strcmp("S",h2->membership))
+        {   int cost=0;
+        int finalpay=0;
+            cost=pay-(0.07*pay);
+            printf("\nPAYABLE AMOUNT : %d",cost);
+
+             if((h2->bday.dd == h->entry.dd) && (h2->bday.mm == h->entry.mm))
+            {
+                printf("\n\nAHH ITS YOUR BIRTHDAY!!!\n Congrats on getting an additional discount of 15%");
+                finalpay=pay-(0.15*pay);
+                 setColor(62);
+                printf("\n\nNET AMOUNT : %d",finalpay);
+                setColor(15);
+            }
+            if( !((h2->bday.dd == h->entry.dd) && (h2->bday.mm == h->entry.mm)) && (h2->points > 500))
+            {
+               printf("\n\nCONGRATS!!! Your points are more than 500 so, you are getting an additional discount of 15%");
+               finalpay=pay-(0.15*pay);
+                setColor(62);
+               printf("\n\nNET AMOUNT : %d",finalpay);
+               setColor(15);
+            }
+             printf("\n\nDo you want to redeem your points? (Y/N)");
+             scanf(" %c",&ch1);
+             if(ch1=='y' || ch1=='Y')
+            {
+                h2->points=h2->points-100;
+            }
+            if(finalpay <= 500)
+            {
+                h2->points=h2->points+30;
+            }
+            else if(finalpay>500 && finalpay<=1500)
+            {
+                h2->points=h2->points+60;
+            }
+            else
+            {
+                h2->points=h2->points+120;
+            }
+            setColor(1);
+            printf("\n\nPOINTS LEFT: %d",h2->points);
+            setColor(15);
+        }
+
+
+    }
+    if(!strcmp("N\n",h2->membership))
+    {
+        char ch2;
+        char ch3;
+        offerzone();
+        printf("\n\nDo you want to take membership?(Y/N)\n");
+        scanf(" %c",&ch2);
+        if(ch2 == 'Y' || ch2=='y')
+        {
+            printf("\nWhat type of membership do you want to take?(P/G/S):\t");
+            scanf(" %c",&ch3);
+            if(ch3 == 'P' || ch3 == 'p')
+            {
+                strcpy(h2->membership,"P");
+                h2->points=100;
+                setColor(11);
+                printf("\n\nThanks for becoming our member!");
+                setColor(15);
+            }
+            else if(ch3 == 'G' || ch3 == 'g')
+            {
+                strcpy(h2->membership,"G");
+                h2->points=100;
+            }
+            else if(ch3 == 'S' || ch3 == 's')
+            {
+                strcpy(h2->membership,"S");
+                h2->points=100;
+            }
+        }
+    }
+
+     setColor(74);
+    printf("\n\n\n\n");
+
+    int rate=0;
+    setColor(67);
+    printf("\n\n\n\t\t\t\t\t\t  THANK YOU!! VISIT AGAIN");
+    setColor(15);
+    printf(" \n\nTake a minute to rate us");
+    printf("\n\nRATE US ON A FIVE POINT SCALE[5/4/3/2/1](with 5 representing best services)");
+    scanf("%d",&rate);
+    h2->rate=rate;
+    setColor(22);
+    printf("\nHAVE A NICE DAY!");
+    setColor(15);
+}
 
 void update_details()
 {
-     fp=fopen("Inventory.csv","w");
+    fp=fopen("Inventory.csv","w");
     fp1=fopen("Customer_details.csv","w");
     fp2=fopen("Bill_details.csv","w");
 
-    if(fp==NULL)
+    if(fp==NULL||fp1==NULL||fp2==NULL)
     {
-        printf("File did not open successfully 1");
-        exit(0);
-    }
-     if(fp1==NULL)
-    {
-        printf("File did not open successfully 2");
-        exit(0);
-    } if(fp2==NULL)
-    {
-        printf("File did not open successfully 3");
+        printf("File did not open successfully");
         exit(0);
     }
 
@@ -1058,32 +1117,26 @@ void update_details()
     customer *ltr=head2;
     bill_det *atr=head3;
 
-    fprintf(fp,"Item ID,Category,Name,Quantity,Unit Price\n");
-    while(ptr->next!=NULL)
+    fprintf(fp,"Item ID,Category,Name,Quantity,Unit Price");
+    while(ptr!=NULL)
     {
         fprintf(fp,"%d,%s,%s,%d,%d\n",ptr->id,ptr->category,ptr->name,ptr->qty,ptr->price);
         ptr=ptr->next;
     }
-    fprintf(fp,"%d,%s,%s,%d,%d",ptr->id,ptr->category,ptr->name,ptr->qty,ptr->price);
 
-
-    fprintf(fp1,"Customer_Id,Name,BirthDate,BirthMonth,BirthYear,Phone No.,Date added,Month added,Year added,Points,Membership\n");
-    while(ltr->next!=NULL)
+    fprintf(fp1,"Customer_Id,Name,BirthDate,BirthMonth,BirthYear,Phone No.,Date added,Month added,Year added,Points,Membership");
+    while(ltr!=NULL)
     {
         fprintf(fp1,"%d,%s,%d,%d,%d,%s,%d,%d,%d,%d,%s\n",ltr->id,ltr->name,ltr->bday.dd,ltr->bday.mm,ltr->bday.yy,ltr->phoneno,ltr->entry.dd,ltr->entry.mm,ltr->entry.yy,ltr->points,ltr->membership);
         ltr=ltr->next;
     }
-    fprintf(fp1,"%d,%s,%d,%d,%d,%s,%d,%d,%d,%d,%s",ltr->id,ltr->name,ltr->bday.dd,ltr->bday.mm,ltr->bday.yy,ltr->phoneno,ltr->entry.dd,ltr->entry.mm,ltr->entry.yy,ltr->points,ltr->membership);
 
-
-    fprintf(fp2,"Customer No.,Bill No.,ItemName,Quantity,Total_Price,Date,Month,Year\n");
-    while(atr->next!=NULL)
+    fprintf(fp2,"Customer No.,Bill No.,ItemName,Quantity,Total_Price,Date,Month,Year");
+    while(atr!=NULL)
     {
         fprintf(fp2,"%d,%d,%s,%d,%d,%d,%d,%d\n",atr->customerno,atr->billno,atr->itemname,atr->qty,atr->t_price,atr->cur_date.dd,atr->cur_date.mm,atr->cur_date.yy);
         atr=atr->next;
     }
-    fprintf(fp2,"%d,%d,%s,%d,%d,%d,%d,%d",atr->customerno,atr->billno,atr->itemname,atr->qty,atr->t_price,atr->cur_date.dd,atr->cur_date.mm,atr->cur_date.yy);
-
     fclose(fp);
     fclose(fp1);
     fclose(fp2);
@@ -1298,7 +1351,7 @@ void customerDetails()
                 setColor(15);
                 while(ltr!=NULL)
                 {
-                    if(!strcmp(ltr->membership,membership_check))
+                    if(strcmp(ltr->membership,membership_check))
                     {
                         printf("%d\t%s",e,ltr->name);
                         q=strlen(ltr->name);
@@ -1334,7 +1387,7 @@ void customerDetails()
                             printf("/0%d",ltr->entry.yy);
                         else
                             printf("/%d",ltr->entry.yy);
-                            printf("\n");
+                            printf("%s\n, ltr->membership");
                         e++;
                     }
                         ltr=ltr->next;
@@ -1440,6 +1493,7 @@ int screen1(char ch)
         fgets(Line,sizeof(item),fp);
         char* delimiter=",";//to separate data by commas
 
+        rewind(fp);
 
         item *ptr=head1;
         while(fgets(Line,sizeof(item),(FILE *)fp)!=NULL)
@@ -1471,6 +1525,9 @@ int screen1(char ch)
 
         fclose(fp);
 
+        item *ytr=head1;
+        head1=head1->next;
+        free(ytr);
         we=1;
     }
 
@@ -1673,3 +1730,5 @@ int screen1(char ch)
         screen1(ch);
     }
 }
+
+
