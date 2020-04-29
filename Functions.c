@@ -36,7 +36,7 @@ void setColor(int ForgC)
 }
 
 //login
-int screen1(char ch)
+void screen1(char ch)
 {
 	char c;//gets the password
 	int ctr=0;//counter
@@ -1249,7 +1249,7 @@ void generateBill()
         {
             printf("\n");
             printf("\n");
-            printf("Your current bill is ");
+            printf("Your current bill  ");
             setColor(60);
             printf("%d",totalprice);
             setColor(15);
@@ -1395,7 +1395,7 @@ void generateBill()
                                         if(trav!=NULL)
                                         {
                                             setColor(45);
-                                            printf("\t\t\tYOUR BILL\n\n");
+                                            printf("\t\t\tYour current bill is \n\n");
                                             setColor(22);
                                             printf("S.no\tName");
                                             max_new=strlen(head3->itemname);
@@ -1644,19 +1644,19 @@ void offerzone()
     printf("\n\n1.PLATINUM");
     setColor(15);
     printf("\nRs250=100 points");
-    printf("\nDiscounts\n1. Get 10%% off on every shopping.\n2. Get 25%% off if your points are more than 500.\n3. Get a special 30%% off on your Birthday.\n4. Upon redemption 1 point=1 INR");
+    printf("\nDiscounts\n1. Get 10%% off on every shopping.\n2. Get 25%% off if your points are more than 500.\n3. Get a special 30%% off on your Birthday.\n4. Upon redemption 1 point=1 INR.\n5. Points earned on purchase =30%of bill amount.");
     setColor(22);
 
     printf("\n\n2.GOLD");
     setColor(15);
     printf("\nRs200=100 points");
-    printf("\nDiscounts\n1. Get 10%% off on every shopping.\n2. Get 20%% off if your points are more than 500.\n3. Get a special 25%% off on your Birthday.\n4. Upon redemption 1 point=0.5 INR");
+    printf("\nDiscounts\n1. Get 10%% off on every shopping.\n2. Get 20%% off if your points are more than 500.\n3. Get a special 25%% off on your Birthday.\n4. Upon redemption 1 point=0.5 INR.\n5. Points earned on purchase =20%of bill amount.");
     setColor(88);
 
     printf("\n\n3.SILVER");
     setColor(15);
     printf("\nRs150=100 points");
-    printf("\nDiscounts\n1. Get 7%% off on every shopping.\n2. Get 15%% off if your points are more than 500.\n3. Get a special 15%% off on your Birthday.\n4. Upon redemption 1 point=0.25 INR");
+    printf("\nDiscounts\n1. Get 7%% off on every shopping.\n2. Get 15%% off if your points are more than 500.\n3. Get a special 15%% off on your Birthday.\n4. Upon redemption 1 point=0.25 INR.\n5. Points earned on purchase =10%of bill amount.");
 
     printf("\n");
 }
@@ -1880,6 +1880,7 @@ void invoice(int totalprice,int billno)
         int chh=0;
         int pts=0;
 
+
         if(h2->points>500)
         {
             switch(cc)
@@ -1941,8 +1942,7 @@ void invoice(int totalprice,int billno)
             printf("\nAMOUNT PAYABLE AFTER POINTS REDEMPTION DISCOUNT :%.2f",finalpay);
             else
             printf("\nAMOUNT PAYABLE AFTER POINTS REDEMPTION DISCOUNT :0");
-      //    setColor(48);
-       //   printf("%.2f",finalpay);//not showing output
+
             setColor(15);
         }
         else
@@ -2024,9 +2024,26 @@ void invoice(int totalprice,int billno)
     setColor(15);
     r=r-2;
     h2->rate=r;
-    setColor(42);
 
+    switch(cc)
+            {
+
+                case 1:
+                     h2->points=finalpay*0.3;
+                     break;
+                case 2:
+                     h2->points=finalpay*0.2;
+                    break;
+                case 3:
+                     h2->points=finalpay*0.1;
+                    break;
+            }
+    setColor(44);
+    printf("\n Points earned on this purchase are   %d",h2->points);
+    setColor(42);
     printf("\n\n\nHAVE A NICE DAY!");
+
+
     setColor(15);
     printf("\n");
 
