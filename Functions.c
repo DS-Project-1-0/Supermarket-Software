@@ -7,16 +7,16 @@
 #define size 5   //size of the password
 #include"project.h"
 
-item *head1=NULL;//head1 for inventory and head1 for checkLocation
-customer *head2=NULL;
-bill_det *head3=NULL;
-bill *head4=NULL;
+item *head1=NULL;//for inventory
+customer *head2=NULL;//for customer_details
+bill_det *head3=NULL;//for Bill_Details
+bill *head4=NULL;//for bill
 int counter=0;
-FILE *fp1=NULL;//file pointer used in details()
-FILE *fp=NULL;//file pointer used in inventory()
-FILE *fp2=NULL;
-FILE *fp3=NULL;
-int we=0,wp=0,wf=0,wd=0;
+FILE *fp1=NULL;//file pointer for inventory
+FILE *fp=NULL;//file pointer for customer_details
+FILE *fp2=NULL;//file pointer for Bill_details
+FILE *fp3=NULL;//file pointer for bill
+int we=0,wp=0,wf=0,wd=0;//to ensure that the file is read only once
 
 //function to change the color
 void setColor(int ForgC)
@@ -169,7 +169,7 @@ void screen1(char ch)
 
         rewind(fp2);//takes the file pointer back to the starting of the file
 
-        char Line[sizeof(bill_det)];//one line of file containing a customer's details
+        char Line[sizeof(bill_det)];//one line of file containing a bill details
         fgets(Line,sizeof(bill_det),fp2);
         char* delimiter=",";//separates the data in a line
 
@@ -208,7 +208,7 @@ void screen1(char ch)
         wf=1;
     }
 
-  /*if(wd==0)//For Inventory File
+    if(wd==0)//For Bill File
     {
         fp3=fopen("Bill.csv","r");
 
@@ -225,14 +225,15 @@ void screen1(char ch)
         char Line[sizeof(bill)];//contains a single line of file
         fgets(Line,sizeof(bill),fp3);
         char* delimiter=",";//to separate data by commas
-        //bill *ptr=head4;
+        bill *ptr=head4;
 
         while(fgets(Line,sizeof(bill),(FILE *)fp3)!=NULL)
         {
+            ptr=head4;
             bill *temp=(bill *)malloc(sizeof(bill));
             temp->customerno=atoi(strtok(Line,delimiter));
             temp->billno=atoi(strtok(NULL,delimiter));
-            temp->total_price=atoi(strtok(NULL,delimiter));
+            temp->total_price=atof(strtok(NULL,delimiter));
             temp->cur_date.dd=atoi(strtok(NULL,delimiter));
             temp->cur_date.mm=atoi(strtok(NULL,delimiter));
             temp->cur_date.yy=atoi(strtok(NULL,delimiter));
@@ -244,7 +245,6 @@ void screen1(char ch)
             }
             else  // for adding new nodes
             {
-                ptr=head4;
                 while(ptr->next!=NULL)
                 {
                     ptr=ptr->next;
@@ -254,13 +254,13 @@ void screen1(char ch)
 
         }
 
+        bill *ytr=head4;
+        head4=head4->next;
+        free(ytr);
+
         fclose(fp3);
         wd=1;
-        bill *mtr=head4;
-        while(mtr!=NULL)
-          printf("%d,%d,%d,%d,%d,%d\n",mtr->customerno,mtr->billno,mtr->total_price,mtr->cur_date.dd,mtr->cur_date.mm,mtr->cur_date.yy);
-
-    }*/
+    }
 
         //checking if the user is the ADMIN
     if(ch=='a' || ch=='A')
@@ -373,7 +373,7 @@ void correctpass()
 	int c;//for choice by the user
 	char d;//takes input from user whether to log out or not
 	int ch=1;//for the do while function
-	int w=0;
+	int w=0;//for the do while function
 
 
 	do
@@ -566,7 +566,7 @@ void customerDetails()
             int q=0;//checks the length of current customer name in name
             customer *ctr=head2->next;//points to next node
             customer *ltr=head2;//for traversing the list
-            char membership_check[500000]="N";
+            char membership_check[500000]="N";//for checking whether the customer is member or not
 
             if(choice==1)
             {
@@ -730,14 +730,14 @@ void customerDetails()
 void statistics()
 {
     int choice;//to get choice from user
-    //int x=0;//for do while loop
-    int qty=0,e=1/*for serial number*/,t=0,i;
+    int qty=0,e=1/*for serial number*/;
+    int t=0,i;// for loop
     int q=0,w=0,max;//to store length of strings
     int p=0,g=0,s=0;//to store members category wise
     item *ctr=head1->next,*ptr=head1;//pointers to inventory file
     customer *ltr=head2;//pointer to customer file
     int one=0,two=0,three=0,four=0,five=0;//types of rating  given
-    bill *tra=head4;
+    bill *tra=head4;            //pointer to bill linked list
     float total_sales=0.0;      //total sales made by the shop so far
 
     do
@@ -794,6 +794,22 @@ void statistics()
                 e++;
                 ptr=ptr->next;      //moves to the next node
             }
+        }
+        else if(choice==2)
+        {
+          printf("\n");
+          setColor(11);
+          printf("\t\t\tTOTAL SALES\n\n");
+          setColor(15);
+          tra=head4;
+          while(tra!=NULL)
+          {
+              total_sales+=tra->total_price;        //adds the bill amounts of all the bills generated so far
+              tra=tra->next;
+          }
+
+         setColor(15);
+         printf("\t\t\t%.2f (INR)\n\n",total_sales);    //prints the total sales
         }
         else if(choice==3)//to check total members category wise
         {
@@ -866,22 +882,6 @@ void statistics()
           printf("%d\n",two);       //prints people who gave 2 star rating
           printf("\t 1-STARS\t\t\t");
           printf("%d\n",one);       //prints people who gave 1 star rating
-        }
-        else if(choice==2)
-        {
-          printf("\n");
-          setColor(11);
-          printf("\t\t\tTOTAL SALES\n\n");
-          setColor(15);
-          tra=head4;
-          while(tra!=NULL)
-          {
-              total_sales+=tra->total_price;        //adds the bill amounts of all the bills generated so far
-              tra=tra->next;
-          }
-
-         setColor(15);
-         printf("\t\t\t%.2f (INR)\n\n",total_sales);    //prints the total sales
         }
         else if(choice==5)
             break;           //returns to homepage
@@ -1075,10 +1075,10 @@ void customer_entry()
 //check Location
 void checkLocation()
 {
-    char choice[500000];
+    char choice[500000];//entering the item to search
     int dh=0;//for do while
-    int de=0;
-    int cho=0;
+    int de=0;//for do while
+    int cho=0;//for do while
     int e=1;//for serial number
     int w;//for getting the maximum character length
     int max=0;//hold the maximum character length in name
@@ -1293,7 +1293,7 @@ void generateBill()
         ctr=ctr->next;
     }
     //printing the item name,category,quantity
-    char cat[500000];
+    char cat[500000]; //hold the category of items
     strcpy(cat,ptr->category);
     setColor(22);
     printf(" %s\n\n",ptr->category);
@@ -1348,8 +1348,8 @@ void generateBill()
 
     char item_name[100];        //take the name of the item to be bought
     int item_qty=0;             //takes the quantity of the item to be bought
-    int ch=0;
-    int y=0;
+    int ch=0;                   //for do while
+    int y=0;                    //for do while
     int totalprice=0;           //bill amount
 
     bill_det *itr=head3;        // pointers of bill_det
@@ -1358,28 +1358,28 @@ void generateBill()
     item *htr=head1;            //pointers of item type
     int new_qty;                //modified quantity
     int check=0;                // to check if an item is already bought
-    int x=1;
+    int x=1;                    //for do while
     int old_price;              //stores the price before the quantity is modified
     int z,re;                   //loop counter to take quantity again
-    int cttr=1;
     int k;                      //takes choice to enter the name of the item again or quit
     int l;                      //loop counter to enter item name again
     int counter=0;
 
-    /*bill *temp1=(bill*)malloc(sizeof(item));
-    (temp1->customerno)=customerid;
-    (temp1->billno)=billno;
-    (temp1->total_price)=0;
-    (temp1->cur_date.dd)=cur_date.dd;
-    (temp1->cur_date.mm)=cur_date.mm;
-    (temp1->cur_date.yy)=cur_date.yy;
+    bill *temp1=(bill*)malloc(sizeof(bill));
+    temp1->customerno=customerid;
+    temp1->billno=billno;
+    temp1->total_price=0;
+    temp1->cur_date.dd=cur_date.dd;
+    temp1->cur_date.mm=cur_date.mm;
+    temp1->cur_date.yy=cur_date.yy;
     temp1->next=NULL;
+
     bill *lntr=head4;
     while(lntr->next!=NULL)
     {
         lntr=lntr->next;
     }
-    lntr->next=temp1;*/
+    lntr->next=temp1;
 
     do
     {
@@ -1662,14 +1662,14 @@ void generateBill()
     }while(y==1);
 
     int choice2,choice3;//takes choices
-    int j=0;
+    int j=0;//for do while
     bill_det *trav = head3;//bill_det pointer
     int max_new=0;// used for storing the length of the item name
     int sno=1;  //used for serial no
-    int rw,ew,d,pq=0;
+    int rw,ew,d,pq=0;//for do while
     item *dtr=head1; //item pointers
-    bill_det *btr=head3;
-    int new_qty1;
+    bill_det *btr=head3;//pointer to bill details linked list
+    int new_qty1;//to get the updated quantity
 
 
     do
@@ -2178,9 +2178,10 @@ void invoice(int totalprice,int billno)
 
     printf("\n\t\t\tPURCHASE SUMMARY\n\n\n");
     //table for s.no,item ,price;
-    int name_item;
+    int name_item;              //hold the max length of itemname
     bill_det *ftr=head3;        //pointer to bill_det linked list
-    int sno=1,q;
+    int sno=1;                  //serial number
+    int q;                      //holds the length of itemname
 
     setColor(22);
     printf(" S.no\tName");
@@ -2226,11 +2227,11 @@ void invoice(int totalprice,int billno)
     printf("\n TOTAL:\t%d (INR)",totalprice);   //prints the total of items cost
 
     setColor(60);//reddish
-    float amount=0.0;
+    float amount=0.0;//tax price
     amount=(0.05)*totalprice;
     printf("\n TAX (5%%) : %.2f (INR)",amount); //tax applicable on purchase
 
-    float pay;
+    float pay;                  //amount to pay after deducting tax
     pay=totalprice+amount;      //sum of tax and the cost of items
     setColor(43);
     printf("\n GRAND TOTAL :\t%.2f (INR)\n\n\n\n",pay);
@@ -2322,7 +2323,7 @@ void invoice(int totalprice,int billno)
                   break;
         }
 
-            printf("\n\n AHH ITS YOUR BIRTHDAY!!!\nCongrats on getting an additional discount of %d%%",pp);
+            printf("\n\n AHH ITS YOUR BIRTHDAY!!!\n Congrats on getting an additional discount of %d%%",pp);
             printf("\n AMOUNT PAYABLE AFTER APPLYING SPECIAL BDAY DISCOUNT ");
             setColor(44);
             printf("%.2f (INR)",finalpay);
@@ -2365,7 +2366,7 @@ void invoice(int totalprice,int billno)
                 if(chh==1)
                 {
                     float p,g,s=0;  //maximum points that can be redeemed per category on the current purchase
-                    float point;
+                    float point;    //appoints the maximum points that can be withdrawn at a time
                     //finalpay divided by 2 so that the points are redeemed such that the final-pay is not negative or zero
                     p=(finalpay/2)/1;
 
@@ -2446,8 +2447,8 @@ void invoice(int totalprice,int billno)
     }
     else if(cc==0)      //not an existing member
     {
-        char ch2;
-        char ch3;
+        char ch2;       //whether to take membership or not
+        char ch3;       //what type of membership to take
         offerzone();    //displays the different memberships available and the associated policies
         printf("\n\n Do you want to take membership?(Y/N)\n\n");
         printf("\n Enter your choice:	");
@@ -2494,11 +2495,16 @@ void invoice(int totalprice,int billno)
 
     }
 
+    bill *gtr=head4;            //pointer to bill linked list
+    while(gtr->next!=NULL)      //traversing through the node
+        gtr=gtr->next;
+    gtr->total_price=finalpay;  //appointing finalpay to the bill record
+
     setColor(74);
     printf("\n\n\n\n");
 
-    int r=1;    //stars counter
-    char stars[10];
+    int r=1;            //stars counter
+    char stars[10];     //gets stars
     setColor(67);
     printf("\n\n THANK YOU!! VISIT AGAIN");
     setColor(15);
@@ -2549,12 +2555,6 @@ void invoice(int totalprice,int billno)
     setColor(15);
     printf("\n ");
 
- /* bill *gtr=head4;
-    while(gtr->next!=NULL)
-        gtr=gtr->next;
-
-    gtr->total_price=finalpay;*/
-
     update_details();
     exit(0);// because here the 3 options of checking location etc look irrelevant
 }
@@ -2566,7 +2566,7 @@ void update_details()
     fp=fopen("Inventory.csv","w");// opening file to update inventory records
     fp1=fopen("Customer_details.csv","w");// opening file to update customer records
     fp2=fopen("Bill_details.csv","w");// opening file to update bill records
-   // fp3=fopen("Bill.csv","w");
+    fp3=fopen("Bill.csv","w");//opening file to update bill records
 
     if(fp==NULL)    //in case the file pointer returns zero
     {
@@ -2591,17 +2591,18 @@ void update_details()
         setColor(15);
         exit(0);
     }
-   /* if(fp3=NULL)
+    if(fp3==NULL)
     {
         setColor(12);
         printf("File did not open successfully");
         setColor(15);
         exit(0);
-    }*/
+    }
 
     item *ptr=head1;        //pointer to item linked list
     customer *ltr=head2;    // pointer to customer linked list
     bill_det *atr=head3;    //pointer to bill_det linked list
+    bill *mtr=head4;        //pointer to bill linked list
 
     //for writing the headings in the inventory file
     fprintf(fp,"Item ID,Category,Name,Location,Quantity,Unit Price\n");
@@ -2639,27 +2640,23 @@ void update_details()
     //for writing the last record into the file
     fprintf(fp2,"%d,%d,%s,%d,%d,%d,%d,%d",atr->customerno,atr->billno,atr->itemname,atr->qty,atr->t_price,atr->cur_date.dd,atr->cur_date.mm,atr->cur_date.yy);
 
-  /*
+
     //for writing the headings in the Bill file
     fprintf(fp3,"Customer Id,Bill No.,Total_Price,Date,Month,Year\n");
-
     while(mtr->next!=NULL)
     {
-
-        printf("%d,%d,%d,%d,%d,%d\n",mtr->customerno,mtr->billno,mtr->total_price,mtr->cur_date.dd,mtr->cur_date.mm,mtr->cur_date.yy);
         //for writing each record line-wise
-        fprintf(fp3,"%d,%d,%d,%d,%d,%d\n",mtr->customerno,mtr->billno,mtr->total_price,mtr->cur_date.dd,mtr->cur_date.mm,mtr->cur_date.yy);
+        fprintf(fp3,"%d,%d,%.2f,%d,%d,%d\n",mtr->customerno,mtr->billno,mtr->total_price,mtr->cur_date.dd,mtr->cur_date.mm,mtr->cur_date.yy);
         // for moving to the next node
         mtr=mtr->next;
     }
-  //printf("%d,%d,%d,%d,%d,%d\n",mtr->customerno,mtr->billno,mtr->total_price,mtr->cur_date.dd,mtr->cur_date.mm,mtr->cur_date.yy);
     //for writing the last record into the file
-    fprintf(fp3,"%d,%d,%d,%d,%d,%d",mtr->customerno,mtr->billno,mtr->total_price,mtr->cur_date.dd,mtr->cur_date.mm,mtr->cur_date.yy);
-*/
+    fprintf(fp3,"%d,%d,%.2f,%d,%d,%d",mtr->customerno,mtr->billno,mtr->total_price,mtr->cur_date.dd,mtr->cur_date.mm,mtr->cur_date.yy);
+
     fclose(fp);     //closing the inventory file
     fclose(fp1);    //closing the customer details file
     fclose(fp2);    //closing the bill details file
- // fclose(fp3);    //closing the bill file
+    fclose(fp3);    //closing the bill file
 
 }
 
