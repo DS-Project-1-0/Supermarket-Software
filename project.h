@@ -27,29 +27,45 @@ typedef struct customer
     char phoneno[11];
     date entry;//current date
     int points;//member's points
-    int membership;//1-yes and 0-no
+    char membership[500000];
+    int rate;
     struct customer *next;
 }customer;
 
-typedef struct bill{
+typedef struct bill_det{
 int customerno;
 int billno;
 char itemname[500000];
 int qty;
 int t_price;
-struct bill *next;
+date cur_date;
+struct bill_det *next;
 }bill_det;
 
+typedef struct bill{
+int customerno;
+int billno;
+int total_price;
+date cur_date;
+struct bill *next;
+}bill;
+
+
 void setColor(int);
-int correctpass();
+void screen1(char);
+void correctpass();
 void inventory();
-int screen1(char);
+void customerDetails();
+void statistics();
+void billDetails();
 void customer_entry();
 void checkLocation();
-void customerDetails();
 void generateBill();
-
+void update_details();
+void offerzone();
+void invoice(int,int);
 
 
 
 #endif // PROJECT_H_INCLUDED
+

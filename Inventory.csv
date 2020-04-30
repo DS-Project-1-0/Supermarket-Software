@@ -1,26 +1,26 @@
-ID, Category,Name,Qty,Price,Location
-1,Food,Marigold,24,25,A213
-1,Food,Maggie,32,12,A321
-1,Food,Uncle Chips(Salted Flavour),11,20,A543
-1,Food,Nut Cracker,21,35,A098
-1,Food,Coca Cola (650mL),43,35,A456
-2,Clothes,Levi's Jeans (32) (M),5,2000,B786
-2,Clothes,Wrangler's Jacket (L) (U),3,1500,B234
-2,Clothes,UCB Polo (30) (F),14,800,B021
-2,Clothes,Madame T-Shirt (L) (U),31,850,B987
-2,Clothes,Octave Sweater (M) (U),13,2500,B432
-3,Essentials,Colgate Brush,25,25,C487
-3,Essentials,VLCC Comb,43,60,C899
-3,Essentials,Tongue Cleaner (Set of 5),17,30,C011
-3,Essentials,Dreamline Bed Sheets,33,500,C100
-3,Essentials,Raymond Towel,22,450,C221
-4,Stationary,Pen,20,10,D001
-4,Stationary,Pencil,44,30,D016
-4,Stationary,Register(A4),39,60,D313
-4,Stationary,Eraser,15,2,D980
-4,Stationary,Pencil Box,34,100,D645
-5,Kitchen Utensils,Cutting Board,15,320,E897
-5,Kitchen Utensils,Knife Set,24,600,E465
-5,Kitchen Utensils,Spoons,28,350,E111
-5,Kitchen Utensils,Spatula,11,100,E434
-5,Kitchen Utensils,Can Opener,8,25,E827
+Item ID,Category,Name,Location,Quantity,Unit Price
+1,Food,Marigold,A213,24,25
+1,Food,Maggie,A321,32,12
+1,Food,Uncle Chips(Salted Flavour),A543,11,20
+1,Food,Nut Cracker,A098,21,35
+1,Food,Coca Cola (650mL),A456,43,35
+2,Clothes,Levi's Jeans (32) (M),B786,10,2000
+2,Clothes,Wrangler's Jacket (L) (U),B234,3,1500
+2,Clothes,UCB Polo (30) (F),B021,14,800
+2,Clothes,Madame T-Shirt (L) (U),B987,31,850
+2,Clothes,Octave Sweater (M) (U),B432,13,2500
+3,Essentials,Colgate Brush,C487,25,25
+3,Essentials,Vega Comb,C899,39,60
+3,Essentials,Tongue Cleaner (Set of 5),C011,17,30
+3,Essentials,Dreamline Bed Sheets,C100,33,500
+3,Essentials,Raymond Towel,C221,22,450
+4,Stationary,Pen,D001,70,10
+4,Stationary,Pencil,D016,80,30
+4,Stationary,Register(A4),D313,39,60
+4,Stationary,Eraser,D980,90,2
+4,Stationary,Pencil Box,D645,34,100
+5,Kitchen Utensils,Cutting Board,E897,15,320
+5,Kitchen Utensils,Knife Set,E465,12,600
+5,Kitchen Utensils,Spoons,E111,21,350
+5,Kitchen Utensils,Spatula,E434,21,100
+5,Kitchen Utensils,Can Opener,E827,8,25

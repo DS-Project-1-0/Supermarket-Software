@@ -14,6 +14,7 @@ int main()
 	printf("\t\t\t\t\t\t WELCOME TO SHOPIFY PLAZA	\n	");
 	setColor(15);//again sets the text color to white
 	printf("\n Are you admin(a) or customer(c) \n ");
+	printf("\n Enter your choice:	");
 	scanf("%c",&ch);
 	screen1(ch);
 	return 0;

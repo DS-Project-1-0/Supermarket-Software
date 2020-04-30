@@ -18,6 +18,9 @@ if we treat it as a string.
 10.Added id to the customer_details.csv which will help for Billing
 11. Made the file to be read in screen1() so that all the files get read at the intial stage of the program and we don't have
 to read it many times.
+12.Added invoice function and membership with offers.
+13.Changed the structure of the customer,added rate in it.
+14.Added a column for rating in the Customer_details.csv file.
 
 
 
