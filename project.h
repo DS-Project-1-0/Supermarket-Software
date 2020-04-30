@@ -39,7 +39,7 @@ typedef struct bill
     int billno;             // stores the bill no
     char itemname[500000];  // stores the item name
     int qty;                // stores the quantity
-    int t_price;            // stores the price
+    float t_price;            // stores the price
     date cur_date;          // store the bill generation date
     struct bill *next;      // pointer to the next node
 }bill_det;                  // typedef bill_det
