@@ -14,6 +14,7 @@ int main()
 	printf("\t\t\t\t\t\t WELCOME TO SHOPIFY PLAZA	\n	");
 	setColor(15);
     	printf("\n Are you admin(a) or customer(c) \n ");
+	printf(" Enter your choice:   ");
 	scanf("%c",&ch);
 	screen1(ch); // calls the login page
 	return 0;
