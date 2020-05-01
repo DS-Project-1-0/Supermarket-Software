@@ -1,69 +1,70 @@
 #ifndef PROJECT_H_INCLUDED
 #define PROJECT_H_INCLUDED
 
-typedef struct node{
-int id;
-char category[500000];
-char name[500000];
-int qty;
-int price;      //unit price of the item
-char location[10];
-struct node *next;
-}item;
-
-
-typedef struct date//to take date as input
+typedef struct node
 {
-    int dd;
-    int mm;
-    int yy;
-}date;
+    int id;                  // stores the item id
+    char category[500000];   // stores the category name
+    char name[500000];       // stores the item name
+    int qty;                 // stores the quantity of item
+    int price;               // stores unit price of the item
+    char location[10];       // stores the location of the item
+    struct node *next;       // pointer to next node
+}item;                       // typedef item
+
+typedef struct date         //to take date as input
+{
+    int dd;                 // stores the date
+    int mm;                 // stores the month
+    int yy;                 // stores the year
+}date;                      // typedef date
 
 typedef struct customer
 {
-    int id;
-    char name[500000];//name of the customer
-    date bday;//DOB of type date
-    char phoneno[11];
-    date entry;//current date
-    int points;//member's points
-    char membership[500000];
-    int rate;
-    struct customer *next;
-}customer;
+    int id;                 // stores the customer id
+    char name[500000];      // stores the name of the customer
+    date bday;              // stores the DOB of the customer of type date
+    char phoneno[11];       // stores the phone no of the customer
+    date entry;             // stores the date of customer entry
+    int points;             // stores the member's points
+    char membership[500000];// stores the type of membership
+    int rate;               // stores the rating given by the user
+    struct customer *next;  // pointer to next node
+}customer;                  // typedef customer
 
-typedef struct bill_det{
-int customerno;
-int billno;
-char itemname[500000];
-int qty;
-int t_price;
-date cur_date;
-struct bill_det *next;
-}bill_det;
+typedef struct bill_det
+{
+    int customerno;         // stores the customer no
+    int billno;             // stores the bill no
+    char itemname[500000];  // stores the item name
+    int qty;                // stores the quantity
+    int t_price;            // stores the price
+    date cur_date;          // store the bill generation date
+    struct bill_det *next;  // pointer to the next node
+}bill_det;                  // typedef bill_det
 
-typedef struct bill{
-int customerno;
-int billno;
-float total_price;
-date cur_date;
-struct bill *next;
-}bill;
+typedef struct bill
+{
+    int customerno;         // stores the customer no
+    int billno;             // stores the bill no
+    int total_price;        // stores the total_price paid by customer
+    date cur_date;          // store the bill generation date
+    struct bill *next;      // pointer to the next node
+}bill;                      // typedef bill
 
-
-void setColor(int);
-void screen1(char);
-void correctpass();
-void inventory();
-void customerDetails();
-void statistics();
-void billDetails();
-void customer_entry();
-void checkLocation();
-void generateBill();
-void update_details();
-void offerzone();
-void invoice(int,int);
+void setColor(int);         // use to change colour of text
+void screen1(char);         // storing data in linked list
+void correctpass();         // login page
+void inventory();           // viewing inventory stocks
+void customerDetails();     // related to customer details
+void statistics();			// related to ststs of the stocks and sales
+void billDetails();			// shows items bought by the customer
+void customer_entry();      // displays the options to customer to check location,generate bill or log out
+void checkLocation();       // checking location of the items
+void generateBill();        // bill related options of modify and delete quantities
+void update_details();      // updating the details in the customer's account
+void offerzone();           // displays the memberships and discounts
+void invoice(int,int);      // generates invoice
 
 
 
