@@ -63,7 +63,7 @@ void addItems();            // add more items to the inventory
 void customer_entry();      // displays the options to customer to check location,generate bill or log out
 void checkLocation();       // checking location of the items
 void generateBill();        // bill related options of modify and delete quantities
-void update_details();      // updating the details in the customer's account
+void update_details(int);      // updating the details in the customer's account
 void offerzone();           // displays the memberships and discounts
 void invoice(int,int);      // generates invoice
 
