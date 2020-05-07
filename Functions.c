@@ -3,20 +3,21 @@
 #include<stdlib.h>
 #include<windows.h>
 #include<string.h>
+#include<math.h>
 #include<time.h>
-#define size 5   //size of the password
 #include"project.h"
 
-item *head1=NULL;//for inventory
-customer *head2=NULL;//for customer_details
-bill_det *head3=NULL;//for Bill_Details
-bill *head4=NULL;//for bill
-int counter=0;
-FILE *fp1=NULL;//file pointer for inventory
-FILE *fp=NULL;//file pointer for customer_details
-FILE *fp2=NULL;//file pointer for Bill_details
-FILE *fp3=NULL;//file pointer for bill
-int we=0,wp=0,wf=0,wd=0;//to ensure that the file is read only once
+item *head1 = NULL;//for inventory
+customer *head2 = NULL;//for customer_details
+bill_det *head3 = NULL;//for Bill_Details
+bill *head4 = NULL;//for bill
+
+FILE *fp1 = NULL;//file pointer for inventory
+FILE *fp = NULL;//file pointer for customer_details
+FILE *fp2 = NULL;//file pointer for Bill_details
+FILE *fp3 = NULL;//file pointer for bill
+
+int *we = NULL,*wp = NULL,*wf = NULL,*wd = NULL;//to ensure that the file is read only once
 
 //function to change the color
 void setColor(int ForgC)
@@ -38,16 +39,24 @@ void setColor(int ForgC)
 }
 
 //login
-void screen1(char ch)
+void screen1(char ch[])
 {
-	char c;//gets the password
-	int ctr=0;//counter
-	int i,k,l;//loop counter variables
-	int t;//gets choice
-	char password[10];//array for getting the password
-	int g=1;//for do while
+	char *c=(char *)malloc(sizeof(char));//gets the password
+	int *ctr=(int *)malloc(sizeof(int));//counter
+	*ctr=0;
+	int *i=(int *)malloc(sizeof(int)),*k=(int *)malloc(sizeof(int)),*l=(int *)malloc(sizeof(int));//loop counter variables
+	char *t=(char *)malloc(5*sizeof(char));//gets choice
+	char *password=(char *)malloc(100*sizeof(char));//array for getting the password
+	int *g=(int *)malloc(sizeof(int));//for do while
+	*g=1;
 
-	if(we==0)//For Inventory File
+	we=(int *)malloc(sizeof(int));
+	wp=(int *)malloc(sizeof(int));
+	wf=(int *)malloc(sizeof(int));
+	wd=(int *)malloc(sizeof(int));
+	*we=0;*wf=0;*wp=0;*wd=0;
+
+	if((*we)==0)//For Inventory File
     {
         fp=fopen("Inventory.csv","r");
 
@@ -61,7 +70,7 @@ void screen1(char ch)
 
         rewind(fp);//moves the files to the beginning
 
-        char Line[sizeof(item)];//contains a single line of file
+        char *Line=(char *)malloc(sizeof(item)*sizeof(char));//contains a single line of file
         fgets(Line,sizeof(item),fp);
         char* delimiter=",";//to separate data by commas
         item *ptr=head1;
@@ -95,10 +104,10 @@ void screen1(char ch)
         }
 
         fclose(fp);     //closing the file
-        we=1;
+        (*we)=1;
     }
 
-    if(wp==0)
+    if((*wp)==0)
     {
         fp1=fopen("Customer_details.csv", "r");
 
@@ -112,7 +121,7 @@ void screen1(char ch)
 
         rewind(fp1);//takes the file pointer back to the starting of the file
 
-        char Line[sizeof(customer)];//one line of file containing a customer's details
+        char *Line=(char *)malloc(sizeof(customer)*sizeof(char));//one line of file containing a customer's details
         fgets(Line,sizeof(customer),fp1);
         char* delimiter=",";//separates the data in a line
 
@@ -152,10 +161,10 @@ void screen1(char ch)
         }
 
         fclose(fp1);
-        wp=1;
+        (*wp)=1;
     }
 
-    if(wf==0)
+    if((*wf)==0)
     {
         fp2=fopen("Bill_details.csv", "r");
 
@@ -169,7 +178,7 @@ void screen1(char ch)
 
         rewind(fp2);//takes the file pointer back to the starting of the file
 
-        char Line[sizeof(bill_det)];//one line of file containing a bill details
+        char *Line=(char *)malloc(sizeof(bill_det)*sizeof(char));//one line of file containing a bill details
         fgets(Line,sizeof(bill_det),fp2);
         char* delimiter=",";//separates the data in a line
 
@@ -205,10 +214,10 @@ void screen1(char ch)
         }
 
         fclose(fp2);
-        wf=1;
+        (*wf)=1;
     }
 
-    if(wd==0)//For Bill File
+    if((*wd)==0)//For Bill File
     {
         fp3=fopen("Bill.csv","r");
 
@@ -222,14 +231,14 @@ void screen1(char ch)
 
         rewind(fp3);//moves the files to the beginning
 
-        char Line[sizeof(bill)];//contains a single line of file
+        char *Line=(char *)malloc(sizeof(bill)*sizeof(char));//contains a single line of file
         fgets(Line,sizeof(bill),fp3);
         char* delimiter=",";//to separate data by commas
+
         bill *ptr=head4;
 
         while(fgets(Line,sizeof(bill),(FILE *)fp3)!=NULL)
         {
-            ptr=head4;
             bill *temp=(bill *)malloc(sizeof(bill));
             temp->customerno=atoi(strtok(Line,delimiter));
             temp->billno=atoi(strtok(NULL,delimiter));
@@ -245,6 +254,7 @@ void screen1(char ch)
             }
             else  // for adding new nodes
             {
+                ptr=head4;
                 while(ptr->next!=NULL)
                 {
                     ptr=ptr->next;
@@ -259,36 +269,36 @@ void screen1(char ch)
         free(ytr);
 
         fclose(fp3);
-        wd=1;
+        (*wd)=1;
     }
 
         //checking if the user is the ADMIN
-    if(ch=='a' || ch=='A')
+    if(!strcmpi(ch,"a"))
 	{
-		for(k=0;k<3;k++)
+		for((*k)=0;(*k)<3;(*k)++)
 		{
 			printf("\n Enter the password\t"); //asking him to enter the password
 
-			for( i = 0;;)
+			for( (*i) = 0;;)
 			{
-			    c = getch();
+			    (*c) = getch();
 
-			    if((c>='A' && c<='Z') ||(c>='a' && c<='z'))
+			    if(((*c)>='A' && (*c)<='Z') ||((*c)>='a' && (*c)<='z'))
                 {
-                    password[i] = c;
-                    i++;
+                    password[(*i)] = (*c);
+                    (*i)++;
                     printf("*");            //the password is printed as astricks
                 }
 
-                if(c=='\b' && i>=1)
+                if((*c)=='\b' && (*i)>=1)
                 {
                     printf("\b \b");        //in case the user wishes to erase a character he entered
-                    --i;
+                    --(*i);
                 }
 
-                if(c=='\r')
+                if((*c)=='\r')
                 {
-                    password[i]='\0';       // the password is submitted once carriage return is encountered
+                    password[(*i)]='\0';       // the password is submitted once carriage return is encountered
                     break;
                 }
 
@@ -307,9 +317,9 @@ void screen1(char ch)
                 setColor(12);//Sets the color of following text to red
                 printf("\n ACCESS DENIED");
                 setColor(15);//Sets the color of following text to white again
-                ctr++;
+                (*ctr)++;
 
-                if(ctr==3)      // when the user enters the password incorrect 3 times
+                if((*ctr)==3)      // when the user enters the password incorrect 3 times
                 {
                     setColor(12);
                     printf("\n\n\n ACCESS LOCKED!! CONTACT SERVER"); //
@@ -319,20 +329,20 @@ void screen1(char ch)
                 {   //upon entering the  password incorrect three times he can retry or see the entered password
                     do
                     {
-                        g=0;
+                        (*g)=0;
                         printf("\n 1.Try Again.\n 2.Show password");
                         printf("\n Enter your choice:	");
-                        scanf(" %d",&t);
+                        gets(t);
 
-                        if(t==1)
+                        if(!strcmpi(t,"1"))
                         {
                             continue;
                         }
-                        else if(t==2)
+                        else if(!strcmpi(t,"2"))
                         {
                             printf(" ");
-                            for(l = 0;l<size;l++)
-                                printf("%c", password[l]);
+                            for((*l) = 0;(*l)<100;(*l)++)
+                                printf("%c", password[(*l)]);
                             printf("\n");
                         }
                         else
@@ -340,17 +350,17 @@ void screen1(char ch)
                            setColor(12);
                            printf("\n\n INVALID SELECTION!\n\n");
                            setColor(15);
-                           g=1;
+                           (*g)=1;
                         }
 
-                    }while(g==1);
+                    }while((*g)==1);
                 }
 
             }
         }
     }
     //if the user is a customer a different interface is there
-	else if(ch=='c' || ch=='C')
+	else if(!strcmpi(ch,"c"))
     {
         customer_entry();  //customer interface
     }
@@ -361,7 +371,7 @@ void screen1(char ch)
         setColor(15);
         printf("\n Are you admin(a) or customer(c) \n ");
         printf("\n Enter your choice:	");
-        scanf(" %c",&ch);
+        gets(ch);
         screen1(ch);
     }
 
@@ -370,12 +380,11 @@ void screen1(char ch)
 //admin home page
 void correctpass()
 {
-	int c;//for choice by the user
-	char d;//takes input from user whether to log out or not
-	int ch=1;//for the do while function
-	int w=0;//for the do while function
-
-
+	char *c=(char *)malloc(sizeof(char));//for choice by the user
+	char *d=(char *)malloc(5*sizeof(char));//takes input from user whether to log out or not
+	int *ch=(int *)malloc(sizeof(int));//for the do while function
+	int *w=(int *)malloc(sizeof(int));//for the do while function
+	*ch=1;*w=0;
 	do
     {
         setColor(45);
@@ -384,9 +393,8 @@ void correctpass()
         //offered choices
         printf("\n\n Do you want to :\n 1. View inventory and stock\n 2. View Customer details\n 3. Statistics\n 4. Show Bill Details\n 5. Logout\n\n");
         printf("\n Enter your choice:	");
-        scanf("%d",&c);
-
-        switch(c)
+        gets(c);
+        switch(atoi(c))//converting the input by user into integer
         {
             case 1:
                 inventory();        //shows the current inventory stocks
@@ -403,28 +411,31 @@ void correctpass()
             case 5:
                 do
                 {
-                    w=0;
+                    (*w)=0;
                     printf("\n\n Do you want to Log Out?(y/n)\n");
                     printf("\n Enter your choice:	");
-                    scanf(" %c",&d);
+                    gets(d);
 
-                    if((d==121)||(d==89))
+                    if(!strcmpi(d,"y"))
                     {
                         setColor(98);
                         printf("\n\n You have been logged out successfully.\n");
                         setColor(15);
                         exit(0);
                     }
-                    else if((d==78)||(d==110))
+                    else if(!strcmpi(d,"n"))
                     {
                         break;
                     }
                     else
                     {
-                        w=1;
+                        (*w)=1;
+                        setColor(12);
+                        printf("\n\n INVALID SELECTION!\n\n");
+                        setColor(15);
                     }
 
-                }while(w==1);
+                }while((*w)==1);
                 break;
             default:
                 setColor(12);
@@ -432,18 +443,20 @@ void correctpass()
                 setColor(15);
         }
 
-    }while(ch==1);
+    }while((*ch)==1);
 }
 
 //inventory page
 void inventory()
 {
 
-    int choice;//choice taken by the user
-    int z=1;//for the do while function
-
+    int *choice=(int *)malloc(sizeof(int));//choice taken by the user int integer
+    char *con=(char *)malloc(10*sizeof(char));//choice taken by user
+    int *len=(int *)malloc(sizeof(int));//length of the choice taken
+    int *z=(int *)malloc(sizeof(int));;//for the do while function
+    (*z)=1;
     setColor(46);
-    printf("\t\t\t\t\t\t INVENTORY	\n");
+    printf("\t\t\t\tINVENTORY	\n");
     setColor(1);
     do
     {
@@ -453,33 +466,37 @@ void inventory()
         //shows the different categories of items in the shop
         printf(" 1. Food\n 2. Clothes\n 3. Essentials\n 4. Stationery\n 5. Kitchen Utensils\n 6. All \n 7. Go to Home Page\n\n");
         printf("\n Enter your choice:	");
-        scanf("%d",&choice);
+        gets(con);//getting input from the user
+        *choice=atoi(con);//converting the choice into integers
+        *len=strlen(con);//getting the length of the choice by user
 
-
-        if(choice>=1&&choice<=7)
+        if((*choice)>=1&&(*choice)<=7&&(*len)==1)
         {
-            int e=1;//maintains serial number
-            int w;//for getting the maximum character length
-            int max=0;//hold the maximum character length in name
-            int q=0;//for checking the length of current item name
+            int *e=(int *)malloc(sizeof(int));//maintains serial number
+            (*e)=1;
+            int *w=(int *)malloc(sizeof(int));;//for getting the maximum character length
+            int *max=(int *)malloc(sizeof(int));;//hold the maximum character length in name
+            (*max)=0;
+            int *q=(int *)malloc(sizeof(int));;//for checking the length of current item name
+            (*q)=0;
             item *ctr=head1->next;//to point to next node
             item *ltr=head1;//to traverse through the list
 
-            if(choice!=7) //except when he doesn't wish to go to home page
+            if((*choice)!=7) //except when he doesn't wish to go to home page
             {
                 setColor(11);
                 printf("\n S.No\tName\t");
-                max=strlen(head1->name);
+                (*max)=strlen(head1->name);
 
                 while(ctr!=NULL)
                 {
-                    w=strlen(ctr->name);
-                    if(max<w)
-                        max=w;      //counting the length of the longest item name
+                    (*w)=strlen(ctr->name);
+                    if((*max)<(*w))
+                        (*max)=(*w);      //counting the length of the longest item name
                     ctr=ctr->next;
                 }
 
-                for(int t=0;t<=(max-4);t++) //for appropriate spacing in printing the names of items in an aligned manner
+                for(int t=0;t<=((*max)-4);t++) //for appropriate spacing in printing the names of items in an aligned manner
                 {
                     printf(" ");
                 }
@@ -488,44 +505,44 @@ void inventory()
                 setColor(15);
             }
 
-            if(choice <=5) //displays the items category wise
+            if((*choice) <=5) //displays the items category wise
             {
                 while(ltr!=NULL)
                 {
 
-                    if((ltr->id)==choice)
+                    if((ltr->id)==(*choice))
                     {
-                        printf(" %d\t%s",e,ltr->name);
-                        q=strlen(ltr->name);
-                        for(int t=0;t<=(max-q);t++)
+                        printf(" %d\t%s",*e,ltr->name);
+                        (*q)=strlen(ltr->name);
+                        for(int t=0;t<=((*max)-(*q));t++)
                         {
                             printf(" ");
                         }
                         printf("\t%d\t\t%d\t\t%s\n",ltr->qty,ltr->price,ltr->location);
-                        e++;
+                        (*e)++;
                     }
 
                     ltr=ltr->next;
                 }
             }
-            else if(choice==6) //displays items of all the categories
+            else if((*choice)==6) //displays items of all the categories
             {
                 while(ltr!=NULL)
                 {
-                    printf(" %d\t%s",e,ltr->name);
-                    q=strlen(ltr->name);
+                    printf(" %d\t%s",*e,ltr->name);
+                    (*q)=strlen(ltr->name);
 
-                    for(int t=0;t<=(max-q);t++)
+                    for(int t=0;t<=((*max)-(*q));t++)
                     {
                         printf(" ");
                     }
 
                     printf("\t%d\t\t%d\t\t%s\n",ltr->qty,ltr->price,ltr->location);
-                    e++;
+                    (*e)++;
                     ltr=ltr->next;
                 }
             }
-            else if(choice==7)
+            else if((*choice)==7)
             {
                break;       //return back to home page
             }
@@ -537,14 +554,17 @@ void inventory()
            setColor(15);
         }
 
-    }while(z==1);
+    }while((*z)==1);
 }
 
 void customerDetails()
 {
 
-    int choice;//user's choice
-    int z=1;//do while loop variable
+    int *choice=(int *)malloc(sizeof(int));//user's choice
+    char *con=(char *)malloc(10*sizeof(char));//choice taken by user
+    int *len=(int *)malloc(sizeof(int));//length of the choice taken
+    int *z=(int *)malloc(sizeof(int));//do while loop variable
+    (*z)=1;
 
     setColor(22);
     printf("\t\t\t\t\t\t   CUSTOMER DETAILS  \n");
@@ -556,33 +576,39 @@ void customerDetails()
         setColor(15);
         printf("\n\n 1. View Members\n 2. View All Customers\n 3. Go to Home Page\n\n");
         printf("\n Enter your choice:	");
-        scanf("%d",&choice);
+        gets(con);//getting the choice input
+        *choice=atoi(con);//converting the choice by the user into integers
+        *len=strlen(con);//getting length of the choice
 
-        if(choice>=1 && choice<=3)
+        if((*choice)>=1 && (*choice)<=3 && *len==1)
         {
-            int e=1;//to maintain serial no.
-            int w;//to get the maximum character length
-            int max=0;//hold the maximum character length in name
-            int q=0;//checks the length of current customer name in name
+            int *e=(int *)malloc(sizeof(int));//maintains serial number
+            (*e)=1;
+            int *w=(int *)malloc(sizeof(int));;//for getting the maximum character length
+            int *max=(int *)malloc(sizeof(int));;//hold the maximum character length in name
+            (*max)=0;
+            int *q=(int *)malloc(sizeof(int));;//for checking the length of current customer name
+            (*q)=0;
             customer *ctr=head2->next;//points to next node
             customer *ltr=head2;//for traversing the list
-            char membership_check[500000]="N";//for checking whether the customer is member or not
+            char *membership_check=(char *)malloc(500000*sizeof(char));//for checking whether the customer is member or not
+            membership_check="N";
 
-            if(choice==1)
+            if((*choice)==1)
             {
                 setColor(11);
                 printf("\n SNo.\tName\t");
-                max=strlen(head2->name);
+                (*max)=strlen(head2->name);
 
                 while(ctr!=NULL)
                 {
-                    w=strlen(ctr->name);
-                    if(max < w)
-                        max=w;  //counting the length of the longest customer name
+                    (*w)=strlen(ctr->name);
+                    if((*max) < (*w))
+                        (*max)=(*w);  //counting the length of the longest customer name
                     ctr=ctr->next;
                 }
 
-                for(int t=0;t<=(max-4);t++)
+                for(int t=0;t<=((*max)-4);t++)
                 {
                     printf(" "); //for appropriate spacing in printing the names of items in an aligned manner
                 }
@@ -592,12 +618,12 @@ void customerDetails()
                 while(ltr!=NULL)
                 {
 
-                    if(strcmp(ltr->membership,membership_check))        //if the customer is a member
+                    if(strcmpi(ltr->membership,membership_check))        //if the customer is a member
                     {
-                        printf(" %d\t%s",e,ltr->name);
-                        q=strlen(ltr->name);
+                        printf(" %d\t%s",*e,ltr->name);
+                        (*q)=strlen(ltr->name);
 
-                        for(int t=0;t<=(max-q);t++)
+                        for(int t=0;t<=((*max)-(*q));t++)
                         {
                             printf(" "); //for appropriate spacing in printing the names of items in an aligned manner
                         }
@@ -637,27 +663,27 @@ void customerDetails()
                         printf("\t%s\t\t",ltr->membership);     //prints if the customer is the member (and the type of membership if yes)
                         printf("%d\t",ltr->points);             //prints the points in account of the member
                         printf("%d\n",ltr->rate);               //prints the ratings given by the user
-                        e++;
+                        (*e)++;
                     }
 
                     ltr=ltr->next;      //moves to next customer node
                 }
             }
-            else if(choice==2)          //displays only the members
+            else if((*choice)==2)          //displays only the members
             {
                 setColor(11);
                 printf("\n SNo.\tName\t");
-                max=strlen(head2->name);
+                (*max)=strlen(head2->name);
 
                 while(ctr!=NULL)
                 {
-                    w=strlen(ctr->name);
-                    if(max < w)
-                        max=w;      //  for the counting the length of the maximum name of the members
+                    (*w)=strlen(ctr->name);
+                    if((*max) < (*w))
+                        (*max)=(*w);      //  for the counting the length of the maximum name of the members
                     ctr=ctr->next;
                 }
 
-                for(int t=0;t<=(max-4);t++)
+                for(int t=0;t<=((*max)-4);t++)
                 {
                     printf(" ");        //for appropriate spacing in the names coloumn
                 }
@@ -666,10 +692,10 @@ void customerDetails()
                 setColor(15);
                 while(ltr!=NULL)
                 {
-                    printf(" %d\t%s",e,ltr->name);
-                    q=strlen(ltr->name);
+                    printf(" %d\t%s",*e,ltr->name);
+                    (*q)=strlen(ltr->name);
 
-                    for(int t=0;t<=(max-q);t++)
+                    for(int t=0;t<=((*max)-(*q));t++)
                     {
                         printf(" ");  //  for the counting the length of the maximum name of the members
                     }
@@ -707,11 +733,11 @@ void customerDetails()
                         printf("/%d",ltr->entry.yy);
 
                     printf("\t%s\t\t%d\t%d\n",ltr->membership,ltr->points,ltr->rate);
-                    e++;
+                    (*e)++;
                     ltr=ltr->next;
                 }
             }
-            else if(choice==3)
+            else if((*choice)==3)
             {
                 break;
             }
@@ -724,21 +750,27 @@ void customerDetails()
            setColor(15);
         }
 
-    }while(z==1);
+    }while((*z)==1);
 }
 
 void statistics()
 {
-    int choice;//to get choice from user
-    int qty=0,e=1/*for serial number*/;
-    int t=0,i;// for loop
-    int q=0,w=0,max;//to store length of strings
-    int p=0,g=0,s=0;//to store members category wise
+    int *choice=(int *)malloc(sizeof(int));//to get choice from user
+    char *con=(char *)malloc(10*sizeof(char));//choice taken by user
+    int *len=(int *)malloc(sizeof(int));//length of the choice taken
+    int *e=(int *)malloc(sizeof(int));//for serial number
+    *e=1;
+    int *q=(int *)malloc(sizeof(int)),*w=(int *)malloc(sizeof(int)),*max=(int *)malloc(sizeof(int));//to store length of strings
+    *q=0;*w=0;
+    int *p=(int *)malloc(sizeof(int)),*g=(int *)malloc(sizeof(int)),*s=(int *)malloc(sizeof(int));//to store members category wise
+    *p=0;*g=0;*s=0;
     item *ctr=head1->next,*ptr=head1;//pointers to inventory file
     customer *ltr=head2;//pointer to customer file
-    int one=0,two=0,three=0,four=0,five=0;//types of rating  given
+    int *one=(int *)malloc(sizeof(int)),*two=(int *)malloc(sizeof(int)),*three=(int *)malloc(sizeof(int)),*four=(int *)malloc(sizeof(int)),*five=(int *)malloc(sizeof(int));//types of rating  given
+    *one=0;*two=0;*three=0;*four=0;*five=0;
     bill *tra=head4;            //pointer to bill linked list
-    float total_sales=0.0;      //total sales made by the shop so far
+    float *total_sales=(float *)malloc(sizeof(float));      //total sales made by the shop so far
+    *total_sales=0.0;
 
     do
     {
@@ -747,149 +779,164 @@ void statistics()
         setColor(15);
         printf("\n\n 1. Stock Status\n 2. Total Sales\n 3. Total Members\n 4. Total Rating\n 5. Go to Home Page\n\n");
         printf("\n Enter your choice:	");
-        scanf("%d",&choice);
-        if(choice==1)//for status of stock
+        gets(con);//getting choice from user
+        *choice=atoi(con);//converting the choice entered by user to integer
+        *len=strlen(con);//getting the length of the choice
+        if(*len==1)
         {
-            setColor(11);
-            printf("\n S.No\tName\t");
-            max=strlen(head1->name);//store maximum length
-
-            while(ctr!=NULL)
+            if((*choice)==1)//for status of stock
             {
-                w=strlen(ctr->name);
-                if(max<w)
-                    max=w;
-                ctr=ctr->next;
-            }
+                setColor(11);
 
-            for(int t=0;t<=(max-4);t++)//to get uniform alignment
-            {
-                printf(" ");
-            }
+                printf("\n S.No\tName\t");
+                (*max)=strlen(head1->name);//store maximum length
+                ctr=head1;
+                while(ctr!=NULL)
+                {
+                    (*w)=strlen(ctr->name);
+                    if((*max)<(*w))
+                        (*max)=(*w);
+                    ctr=ctr->next;
+                }
 
-            printf("\t\tQuantity\n");
-            setColor(15);
-            while(ptr!=NULL)
-            {
-                printf(" %d\t%s",e,ptr->name);
-                q=strlen(ptr->name);
-
-                for(int t=0;t<=(max-q);t++)
+                for(int t=0;t<=((*max)-4);t++)//to get uniform alignment
                 {
                     printf(" ");
                 }
 
-                if(ptr->qty<=3)//case of urgent refill
+                printf("\t\tQuantity\n");
+                setColor(15);
+                ptr=head1;
+                while(ptr!=NULL)
                 {
-                    setColor(12);
-                    printf("\t\t\t%d  URGENT REFILL\n",ptr->qty);
-                    setColor(15);
-                }
-                else
-                {
-                    setColor(15);
-                    printf("\t\t\t%d\n",ptr->qty);
-                }
+                    printf(" %d\t%s",*e,ptr->name);
+                    (*q)=strlen(ptr->name);
 
-                e++;
-                ptr=ptr->next;      //moves to the next node
+                    for(int t=0;t<=((*max)-(*q));t++)
+                    {
+                        printf(" ");
+                    }
+
+                    if(ptr->qty<=3)//case of urgent refill
+                    {
+                        setColor(12);
+                        printf("\t\t\t%d  URGENT REFILL\n",ptr->qty);
+                        setColor(15);
+                    }
+                    else
+                    {
+                        setColor(15);
+                        printf("\t\t\t%d\n",ptr->qty);
+                    }
+
+                    (*e)++;
+                    ptr=ptr->next;      //moves to the next node
+                }
+            }
+            else if((*choice)==2)
+            {
+              *total_sales=0.0;
+              printf("\n");
+              setColor(11);
+              printf("\t\t\tTOTAL SALES\n\n");
+              setColor(15);
+              tra=head4;
+              while(tra!=NULL)
+              {
+                  (*total_sales)+=tra->total_price;        //adds the bill amounts of all the bills generated so far
+                  tra=tra->next;
+              }
+
+             setColor(15);
+             printf("\t\t\t%.2f (INR)\n\n",*total_sales);    //prints the total sales
+            }
+            else if((*choice)==3)//to check total members category wise
+            {
+               setColor(11);
+               printf("\n\n S.No\tCategory");
+               (*max)=strlen("Platinum");      //stores the length of platinum
+
+               for(int i=0;i<=((*max)-4);i++)
+                   printf(" ");     //to get uniform alignment
+
+               printf("Members\n");
+
+               while(ltr!=NULL)
+               {
+                   if(!strcmpi(ltr->membership,"P"))//to store platinum members
+                    (*p)++;
+                   else if(!strcmpi(ltr->membership,"G"))//to store gold members
+                    (*g)++;
+                   else if(!strcmpi(ltr->membership,"S"))//to store silver members
+                    (*s)++;
+
+                   ltr=ltr->next;       //moves to the next node
+               }
+
+               setColor(15);
+               printf(" 1.\t");
+               printf("PLATINUM");
+
+               printf("     %d\n",*p);       //prints the no of platinum members
+               printf(" 2.\t");
+               printf("GOLD");
+               for(int i=0;i<=(*max);i++)
+                    printf(" ");            //to get proper alignments
+
+               printf("%d\n",*g);            //prints the number of gold members
+               printf(" 3.\t");
+               printf("SILVER");
+               for(int i=0;i<=(*max)-2;i++)      //since the length of silver=length of platinum
+                    printf(" ");
+               printf("%d\n",*s);            //prints the no of silver members
+            }
+            else if((*choice)==4)
+            {
+              ltr=head2;
+            *five=0;*four=0;*three=0;*two=0;*one=0;
+              while(ltr!=NULL)   //traversing through customer file
+              {
+                  if(ltr->rate==5)
+                    ++(*five);     //people who gave 5 rating
+                  else if(ltr->rate==4)
+                    ++(*four);     //people who gave 4 rating
+                  else if(ltr->rate==3)
+                    ++(*three);    //people who gave 3 rating
+                  else if(ltr->rate==2)
+                    ++(*two);      //people who gave 2 rating
+                  else if(ltr->rate==1)
+                    ++(*one);      //people who gave 1 rating
+
+                  ltr=ltr->next; //moves to the next node
+              }
+              setColor(11);
+              printf("\n\n\t Ratings\t\t\tMembers\n");
+              setColor(15);
+              printf("\t 5-STARS\t\t\t");
+              printf("%d\n",*five);      //prints people who gave 5 star rating
+              printf("\t 4-STARS\t\t\t");
+              printf("%d\n",*four);      //prints people who gave 4 star rating
+              printf("\t 3-STARS\t\t\t");
+              printf("%d\n",*three);     //prints people who gave 3 star rating
+              printf("\t 2-STARS\t\t\t");
+              printf("%d\n",*two);       //prints people who gave 2 star rating
+              printf("\t 1-STARS\t\t\t");
+              printf("%d\n",*one);       //prints people who gave 1 star rating
+            }
+            else if((*choice)==5)
+                break;           //returns to homepage
+            else                //for wrong choice of input
+            {
+               setColor(12);
+               printf("\n\n INVALID SELECTION!\n\n");
+               setColor(15);
             }
         }
-        else if(choice==2)
+        else
         {
-          printf("\n");
-          setColor(11);
-          printf("\t\t\tTOTAL SALES\n\n");
-          setColor(15);
-          tra=head4;
-          while(tra!=NULL)
-          {
-              total_sales+=tra->total_price;        //adds the bill amounts of all the bills generated so far
-              tra=tra->next;
-          }
-
-         setColor(15);
-         printf("\t\t\t%.2f (INR)\n\n",total_sales);    //prints the total sales
-        }
-        else if(choice==3)//to check total members category wise
-        {
-           setColor(11);
-           printf("\n\n S.No\tCategory");
-           max=strlen("Platinum");      //stores the length of platinum
-
-           for(i=0;i<=(max-4);i++)
-               printf(" ");     //to get uniform alignment
-
-           printf("Members\n");
-
-           while(ltr!=NULL)
-           {
-               if(!strcmp(ltr->membership,"P"))//to store platinum members
-                ++p;
-               else if(!strcmp(ltr->membership,"G"))//to store gold members
-                ++g;
-               else if(!strcmp(ltr->membership,"S"))//to store silver members
-                ++s;
-
-               ltr=ltr->next;       //moves to the next node
-           }
-
-           setColor(15);
-           printf(" 1.\t");
-           printf("PLATINUM");
-
-           printf("     %d\n",p);       //prints the no of platinum members
-           printf(" 2.\t");
-           printf("GOLD");
-           for(i=0;i<=(max);i++)
-                printf(" ");            //to get proper alignments
-           printf("%d\n",g);            //prints the number of gold members
-           printf(" 3.\t");
-           printf("SILVER");
-           for(i=0;i<=(max-2);i++)      //since the length of silver=length of platinum
-                printf(" ");
-           printf("%d\n",s);            //prints the no of silver members
-        }
-        else if(choice==4)
-        {
-          ltr=head2;
-
-          while(ltr!=NULL)   //traversing through customer file
-          {
-              if(ltr->rate==5)
-                ++five;     //people who gave 5 rating
-              else if(ltr->rate==4)
-                ++four;     //people who gave 4 rating
-              else if(ltr->rate==3)
-                ++three;    //people who gave 3 rating
-              else if(ltr->rate==2)
-                ++two;      //people who gave 2 rating
-              else if(ltr->rate==1)
-                ++one;      //people who gave 1 rating
-
-              ltr=ltr->next; //moves to the next node
-          }
-          setColor(11);
-          printf("\n\n\t Ratings\t\t\tMembers\n");
-          setColor(15);
-          printf("\t 5-STARS\t\t\t");
-          printf("%d\n",five);      //prints people who gave 5 star rating
-          printf("\t 4-STARS\t\t\t");
-          printf("%d\n",four);      //prints people who gave 4 star rating
-          printf("\t 3-STARS\t\t\t");
-          printf("%d\n",three);     //prints people who gave 3 star rating
-          printf("\t 2-STARS\t\t\t");
-          printf("%d\n",two);       //prints people who gave 2 star rating
-          printf("\t 1-STARS\t\t\t");
-          printf("%d\n",one);       //prints people who gave 1 star rating
-        }
-        else if(choice==5)
-            break;           //returns to homepage
-        else                //for wrong choice of input
-        {
-           setColor(12);
-           printf("\n\n INVALID SELECTION!\n\n");
-           setColor(15);
+            setColor(12);
+            printf("\n\n INVALID SELECTION!\n\n");
+            setColor(15);
         }
     }while(1);
 
@@ -897,25 +944,25 @@ void statistics()
 
 void billDetails()
 {
-    char phoneno[500000];//for storing the phone no
+    char *phoneno=(char *)malloc(500000*sizeof(char));//for storing the phone no
     customer *atr=head2;    //pointer to customer linked list
     bill_det *ptr=head3,*ltr=head3,*trav=head3; //pointer to bill details linked list
-    int ch;     //checks for a new customer
-    int max_new;    //stores length of item name by head3
-    int h;      //stores length of item name by trav
-    int q;      //stores length of item name by ptr
-    int sno=1;  //for serial no
-    date dt;       //date type for storing current date
-    getchar();
+    int *ch=(int *)malloc(sizeof(int));     //checks for a new customer
+    int *max_new=(int *)malloc(sizeof(int));    //stores length of item name by head3
+    int *h=(int *)malloc(sizeof(int));      //stores length of item name by trav
+    int *q=(int *)malloc(sizeof(int));      //stores length of item name by ptr
+    int *sno=(int *)malloc(sizeof(int));  //for serial no
+    *sno=1;
+    date *dt=(date *)malloc(sizeof(date));       //date type for storing current date
     do
     {
-        ch=0;
+        *ch=0;
         printf("\n Enter the Phone Number:	");
         gets(phoneno); //takes the phone no as a string
         atr=head2;  //head of customer list
         while(atr!=NULL)
         {
-            if(!strcmp(phoneno,atr->phoneno)) //compares the entered phone no with that in the records to find the bill details of the customer
+            if(!strcmpi(phoneno,atr->phoneno)) //compares the entered phone no with that in the records to find the bill details of the customer
                 break; //breaks upon encountering a match
             atr=atr->next; //points to the next node
         }
@@ -925,34 +972,34 @@ void billDetails()
             setColor(12);
             printf("\n\n NO CUSTOMER FOUND!\n\n");
             setColor(15);
-            ch=1;
+            *ch=1;
         }
         else
         {
             while(ptr!=NULL)
             {
-                sno=1;
+                *sno=1;
                 if(ptr->customerno==atr->id) //checks for the id
                 {
-                    dt.dd=ptr->cur_date.dd;//stores the current date
-                    dt.mm=ptr->cur_date.mm;//stores the current month
-                    dt.yy=ptr->cur_date.yy;//stores the current year
+                    dt->dd=ptr->cur_date.dd;//stores the current date
+                    dt->mm=ptr->cur_date.mm;//stores the current month
+                    dt->yy=ptr->cur_date.yy;//stores the current year
                     setColor(45);
-                    printf("\n\n\t\t\tDate: %d/%d/%d\n\n",dt.dd,dt.mm,dt.yy);
+                    printf("\n\n\t\t\tDate: %d/%d/%d\n\n",dt->dd,dt->mm,dt->yy);
                     setColor(22);
                     printf(" S.no\tName");
-                    max_new=strlen(head3->itemname);
+                    (*max_new)=strlen(head3->itemname);
                     trav=head3->next;//points to the second node in bill_det
 
                     while(trav!=NULL)
                     {
-                        h=strlen(trav->itemname);
-                        if(max_new<h)
-                            max_new=h;      //stores the length of the longest item name
+                        (*h)=strlen(trav->itemname);
+                        if((*max_new)<(*h))
+                            (*max_new)=(*h);      //stores the length of the longest item name
                         trav=trav->next;     //points to the next node
                     }
 
-                    for(int t=0;t<=(max_new-4);t++)
+                    for(int t=0;t<=((*max_new)-4);t++)
                     {
                         printf(" "); //spacing for proper alignment
                     }
@@ -960,35 +1007,35 @@ void billDetails()
                     printf("\tQuantity\t\tTotal Price\n");
                     setColor(15);
 
-                    printf(" %d\t%s",sno,ptr->itemname);
-                    q=strlen(ptr->itemname);        //stores the length of longest item name
+                    printf(" %d\t%s",*sno,ptr->itemname);
+                    (*q)=strlen(ptr->itemname);        //stores the length of longest item name
 
-                    for(int t=0;t<=(max_new-q);t++)
+                    for(int t=0;t<=((*max_new)-(*q));t++)
                     {
                         printf(" ");        //spacing for proper alignment
                     }
 
                     printf("\t%d\t\t\t%d\n",ptr->qty,ptr->t_price);
-                    sno++;          //incrementing the serial no
+                    (*sno)++;          //incrementing the serial no
 
                     ltr=ptr->next;       // next record of ptr
                     while(ltr!=NULL)
                     {
-                        if(ptr->customerno==ltr->customerno&&dt.dd==ltr->cur_date.dd&&dt.mm==ltr->cur_date.mm&&dt.yy==ltr->cur_date.yy)
+                        if(ptr->customerno==ltr->customerno&&dt->dd==ltr->cur_date.dd&&dt->mm==ltr->cur_date.mm&&dt->yy==ltr->cur_date.yy)
                         {
-                            printf(" %d\t%s",sno,ltr->itemname);
-                            q=strlen(ltr->itemname);    // storing the item name
+                            printf(" %d\t%s",*sno,ltr->itemname);
+                            (*q)=strlen(ltr->itemname);    // storing the item name
 
-                            for(int t=0;t<=(max_new-q);t++)
+                            for(int t=0;t<=((*max_new)-(*q));t++)
                             {
                                 printf(" ");        // proper alignment
                             }
 
                             printf("\t%d\t\t\t%d\n",ltr->qty,ltr->t_price);
-                            sno++;                  // incrementing the serial no
+                            (*sno)++;                  // incrementing the serial no
                         }
                         // to check for records on the same date
-                        if(dt.dd!=ltr->cur_date.dd||dt.mm!=ltr->cur_date.mm||dt.yy!=ltr->cur_date.yy)
+                        if(dt->dd!=ltr->cur_date.dd||dt->mm!=ltr->cur_date.mm||dt->yy!=ltr->cur_date.yy)
                         {
                             ptr=ltr;
                             break;
@@ -1008,151 +1055,177 @@ void billDetails()
                 }
             }
         }
-    }while(ch==1);
+    }while((*ch)==1);
 }
 //customer home page
 void customer_entry()
 {
 
-	int c;//for choice by the user
-	char d;//takes input from user whether to log out or not
-	int ch=1;//for the do while function
-	int w=0;//  do-while loop counter
+	int *c=(int *)malloc(sizeof(int));//for choice by the user
+	char *con=(char *)malloc(10*sizeof(char));//choice taken by user
+    int *len=(int *)malloc(sizeof(int));//length of the choice taken
+	char *d=(char *)malloc(5*sizeof(char));//takes input from user whether to log out or not
+	int *ch=(int *)malloc(sizeof(int));//for the do while function
+	*ch=1;
+	int *w=(int *)malloc(sizeof(int));//  do-while loop counter
+	*w=0;
 
-	setColor(45);
-    printf("\n\n\n\n WELCOME CUSTOMER");
-	setColor(15);
 	do
     {
+
+        setColor(45);
+        printf("\n\n\n\n WELCOME CUSTOMER");
+        setColor(15);
         //choices available to the customer
         printf("\n\n Do you want to :\n 1. Check Location\n 2. Generate Bill\n 3. Logout\n\n");
         printf("\n Enter your choice:	");
-        scanf("%d",&c);
+        gets(con);
+        *c=atoi(con);//converting the choice of user to integer
+        *len=strlen(con);//getting the length of the choice
 
-        switch(c)
+        if(*len==1)
         {
-            case 1:
-                checkLocation();//prints the location of any product entered
-                break;
-            case 2:
-                generateBill();//generates the bill
-                break;
-            case 3:
-                do
-                {
-                    w=0;
-                    printf("\n\n Do you want to Log Out?(y/n)\n");
-                    printf("\n Enter your choice:	");
-                    scanf(" %c",&d);
+            switch(*c)
+            {
+                case 1:
+                    checkLocation();//prints the location of any product entered
+                    break;
+                case 2:
+                    generateBill();//generates the bill
+                    break;
+                case 3:
+                    do
+                    {
+                        *w=0;
+                        printf("\n\n Do you want to Log Out?(y/n)\n");
+                        printf("\n Enter your choice:	");
+                        gets(d);
 
-                    if((d==121)||(d==89))//comparing the ASCII codes of y
-                    {
-                        setColor(98);
-                        printf("\n\n You have been logged out successfully.\n");
-                        setColor(15);
-                        exit(0);
-                    }
-                    else if((d==78)||(d==110)) //comparing the ASCII code of n
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        w=1;            //checking for invalid input
-                    }
+                        if(!strcmpi(d,"y"))//comparing the input with y
+                        {
+                            setColor(98);
+                            printf("\n\n You have been logged out successfully.\n");
+                            setColor(15);
+                            exit(0);
+                        }
+                        else if(!strcmpi(d,"n")) //comparing the input with n
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            *w=1;            //checking for invalid input
+                        }
 
-                }while(w==1);
-                break;
-            default:
-               setColor(12);
-               printf("\n\n INVALID SELECTION!\n\n");
-               setColor(15);
+                    }while((*w)==1);
+                    break;
+                default:
+                   setColor(12);
+                   printf("\n\n INVALID SELECTION!\n\n");
+                   setColor(15);
+            }
+        }
+        else
+        {
+          setColor(12);
+          printf("\n\n INVALID SELECTION!\n\n");
+          setColor(15);
         }
 
-    }while(ch==1);
+    }while((*ch)==1);
 }
 
 //check Location
 void checkLocation()
 {
-    char choice[500000];//entering the item to search
-    int dh=0;//for do while
-    int de=0;//for do while
-    int cho=0;//for do while
-    int e=1;//for serial number
-    int w;//for getting the maximum character length
-    int max=0;//hold the maximum character length in name
-    int q=0;//for checking the length of current item name
+    char *choice=(char*)malloc(500000*sizeof(char));//entering the item to search
+    char *con=(char *)malloc(10*sizeof(char));//choice taken by user
+    int *len=(int *)malloc(sizeof(int));//length of the choice taken
+    int *dh=(int *)malloc(sizeof(int));//for do while
+    *dh=0;
+    int *de=(int *)malloc(sizeof(int));//for do while
+    *de=0;
+    int *cho=(int *)malloc(sizeof(int));//for do while
+    int *e=(int *)malloc(sizeof(int));//for serial number
+    *e=1;
+    int *w=(int *)malloc(sizeof(int));//for getting the maximum character length
+    int *max=(int *)malloc(sizeof(int));//hold the maximum character length in name
+    *max=0;
+    int *q=(int *)malloc(sizeof(int));//for checking the length of current item name
+    *q=0;
     item *ctr=head1->next;//to point to next node
     item *ltr=head1;//to traverse through the list
 
     do
     {
-        dh=0;
+        *dh=0;
         printf("\n\n What item do you need to search for:\t ");
-        getchar();
+        //getchar();
         gets(choice);//takes the name of the item as a string
 
-        e=1;//for serial number
-        max=0;//hold the maximum character length in name
-        q=0;//for checking the length of current item name
+        *e=1;//for serial number
+        *max=0;//hold the maximum character length in name
+        *q=0;//for checking the length of current item name
         ctr=head1->next;//to point to next node
         ltr=head1;//to traverse through the list
         //for printing the table with headings
         while(ltr!=NULL)
         {
-            if(!strcmp(ltr->name,choice)) //when a match is found within the records
+            if(!strcmpi(ltr->name,choice)) //when a match is found within the records
             {
                 setColor(46);
                 printf("\n\n\t\t LOCATION OF PRODUCT	\n");//prints the location of the item
                 setColor(1);
                 setColor(3);
                 printf("\n S.No\tName");
-                max=strlen(head1->name);        //stores the length of the first item name
+                (*max)=strlen(head1->name);        //stores the length of the first item name
 
                 while(ctr!=NULL)
                 {
-                    w=strlen(ctr->name);
-                    if(max<w)
-                        max=w;      //finds the longest item name length
+                    *w=strlen(ctr->name);
+                    if((*max)<(*w))
+                        (*max)=*w;      //finds the longest item name length
                     ctr=ctr->next;
                 }
 
-                for(int t=0;t<=(max-4);t++)
+                for(int t=0;t<=((*max)-4);t++)
                 {
                     printf(" ");        //for alignment
                 }
 
                 printf("Location\n");
                 setColor(15);
+                break;
             }
             ltr=ltr->next;          //prints the next node
         }
 
-        int c=0;
+        int *c=(int *)malloc(sizeof(int));
+        *c=0;
         ltr=head1;
         //printing the contents under the headings
         while(ltr!=NULL)
         {
-            if(!strcmp(ltr->name,choice))
+            if(!strcmpi(ltr->name,choice))
             {
-                printf(" %d\t%s",e,ltr->name);      //printing the item name
-                q=strlen(ltr->name);
+                printf(" %d\t%s",*e,ltr->name);      //printing the item name
+                *q=strlen(ltr->name);
 
-                for(int t=0;t<=(max-q);t++)
+                for(int t=0;t<=((*max)-(*q));t++)
                 {
                     printf(" ");                    //for proper alignment
                 }
 
                 printf("%s\n\n",ltr->location);     //prints the location of the item
-                e++;        //serial number type counter
-                c=1;        //to indicate that item is found
+                (*e)++;        //serial number type counter
+                (*c)=1;        //to indicate that item is found
+                break;
             }
 
             ltr=ltr->next;
         }
 
-        if(c==0)    //when item is not found
+        if(*c==0)    //when item is not found
         {
             setColor(12);
             printf("\n\n ITEM NOT FOUND!\n\n");
@@ -1161,49 +1234,65 @@ void checkLocation()
 
         do
         {
-            de=0;//do-while counter
+            *de=0;//do-while counter
             printf("\n 1. Do you want to find another product\n 2. Go to home page\n\n");
             printf("\n Enter your choice:	");
-            scanf("%d",&cho);
+            gets(con);
+            *cho=atoi(con);
+            *len=strlen(con);
 
-            switch(cho)
+            if(*len==1)
             {
-                case 1:
-                    dh=1;   //outer do-while counter to find more items
-                    break;
-                case 2:
-                    break;  //return back to home page
-                default:
-                    setColor(12);
-                    printf("\n\n INVALID SELECTION!\n\n");
-                    setColor(15);
-                    de=1; // to indicate that the loop has to run again to take a valid input
+                switch(*cho)
+                {
+                    case 1:
+                        *dh=1;   //outer do-while counter to find more items
+                        break;
+                    case 2:
+                        break;  //return back to home page
+                    default:
+                        setColor(12);
+                        printf("\n\n INVALID SELECTION!\n\n");
+                        setColor(15);
+                        *de=1; // to indicate that the loop has to run again to take a valid input
+                }
             }
+            else
+            {
+                setColor(12);
+                printf("\n\n INVALID SELECTION!\n\n");
+                setColor(15);
+                *de=1; // to indicate that the loop has to run again to take a valid input
+            }
+        }while((*de)==1);
 
-        }while(de==1);
-
-    }while(dh==1);
+    }while((*dh)==1);
 }
 
 
 //Generate bill
 void generateBill()
 {
-    char name1[500000]; //stores the customer name
-    date bday;          //stores the bday of the customer
-    char phoneno[11];   //stores the phone no of the customer
-    date cur_date;      //stores the date when the customer arrives (also printed on bill)
-    int h=0;            //for traversing in array of units in bill
-    int customerid;     //stores the customer id
-    int billno;         //stores the bill no
+    char *name1=(char *)malloc(500000*sizeof(char)); //stores the customer name
+    date *bday=(date *)malloc(sizeof(date));          //stores the bday of the customer
+    char *phoneno=(char *)malloc(11*sizeof(char));   //stores the phone no of the customer
+    date *cur_date=(date *)malloc(sizeof(date));      //stores the date when the customer arrives (also printed on bill)
+    int *h=(int *)malloc(sizeof(int));            //for traversing in array of units in bill
+    *h=0;
+    int *customerid=(int *)malloc(sizeof(int));;     //stores the customer id
+    int *billno=(int *)malloc(sizeof(int));;         //stores the bill no
+    char *con=(char *)malloc(10*sizeof(char));//choice taken by user
+    int *len=(int *)malloc(sizeof(int));//length of the choice taken
+
+
 
     printf("\t\t\t\t\t\t CUSTOMER DETAILS	\n");
     printf(" Enter Name: ");
-    getchar();
+    //getchar();
     gets(name1);    //takes the input of the customer name as a string
 
     printf(" Enter Birthdate(dd/mm/yyyy): ");
-    scanf("%d/%d/%d",&bday.dd,&bday.mm,&bday.yy);   //takes the input of the customer's bday
+    scanf("%d/%d/%d",&bday->dd,&bday->mm,&bday->yy);   //takes the input of the customer's bday
 
     printf(" Enter Phone Number(10digit): ");
     getchar();
@@ -1213,9 +1302,9 @@ void generateBill()
     time(&now);     //returns the current date
     struct tm *local=localtime(&now); //storing the current date in form of a structure
 
-    cur_date.dd=local->tm_mday; //current date
-    cur_date.mm=local->tm_mon+1; //current month
-    cur_date.yy=local->tm_year+1900;  //current year
+    cur_date->dd=local->tm_mday; //current date
+    cur_date->mm=local->tm_mon+1; //current month
+    cur_date->yy=local->tm_year+1900;  //current year
 
     customer *ltr=head2; //points to the customer list
     customer *ztr=head2; //points to the customer list
@@ -1223,7 +1312,7 @@ void generateBill()
 
     while(ltr!=NULL)
     {
-        if(!strcmp(phoneno,ltr->phoneno)) //to see if the customer is an existing one
+        if(!strcmpi(phoneno,ltr->phoneno)) //to see if the customer is an existing one
             break;
 
         ltr=ltr->next;
@@ -1237,19 +1326,19 @@ void generateBill()
         {
             ytr=ytr->next;  //reach the end of the list to add new customer
         }
-        customerid=(ytr->id)+1; //id of new customer found by incrementation of last record id
+        *customerid=(ytr->id)+1; //id of new customer found by incrementation of last record id
 
         customer *new_cust = (customer *)malloc(sizeof(customer)); //dynamic memory allocation
         //copying the details in to the new customer node
-        new_cust->bday.dd=bday.dd;
-        new_cust->bday.mm=bday.mm;
-        new_cust->bday.yy=bday.yy;
-        new_cust->id=customerid;
+        new_cust->bday.dd=bday->dd;
+        new_cust->bday.mm=bday->mm;
+        new_cust->bday.yy=bday->yy;
+        new_cust->id=*customerid;
         strcpy(new_cust->name,name1);
         strcpy(new_cust->phoneno,phoneno);
-        new_cust->entry.dd=cur_date.dd;
-        new_cust->entry.mm=cur_date.mm;
-        new_cust->entry.yy=cur_date.yy;
+        new_cust->entry.dd=cur_date->dd;
+        new_cust->entry.mm=cur_date->mm;
+        new_cust->entry.yy=cur_date->yy;
         new_cust->points=0;
         strcpy(new_cust->membership,"N"); //by default no membership is assigned to the new node
         new_cust->next=NULL;        //the next pointer of new node points to NULL
@@ -1259,11 +1348,10 @@ void generateBill()
             ztr=ztr->next;
         }
         ztr->next=new_cust; //stores the address of the new node
-
     }
     else if(ltr!=NULL)  //if existing customer
     {
-        customerid=ltr->id;
+        *customerid=ltr->id;
     }
 
     bill_det *atr=head3;
@@ -1272,35 +1360,37 @@ void generateBill()
     {
         atr=atr->next;  //to reach the last record
     }
-
-    billno=((atr->billno)+1); //assigns a new bill no
+    *billno=((atr->billno)+1); //assigns a new bill no
     setColor(11);
     printf("\t\t\t\t\t\t      STOCKS	\n");
     setColor(15);
 
     item *ptr=head1,*ctr=head1->next; //pointers of item type
-    int e=1;        //for serial number
-    int w;          //for getting the maximum character length
-    int max=0;      //hold the maximum character length in name
-    int q=0;        //for checking the length of current item name
+    int *e=(int *)malloc(sizeof(int));        //for serial number
+    *e=1;
+    int *w=(int *)malloc(sizeof(int));          //for getting the maximum character length
+    int *max=(int *)malloc(sizeof(int));      //hold the maximum character length in name
+    *max=0;
+    int *q=(int *)malloc(sizeof(int));        //for checking the length of current item name
+    *q=0;
 
-    max=strlen(head1->name);//stores length of item name
+    *max=strlen(head1->name);//stores length of item name
     while(ctr!=NULL)
     {
-        w=strlen(ctr->name);
-        if(max<w)
-            max=w;  //to calculate the maximum length of the item name
+        *w=strlen(ctr->name);
+        if((*max)<(*w))
+            *max=*w;  //to calculate the maximum length of the item name
         ctr=ctr->next;
     }
     //printing the item name,category,quantity
-    char cat[500000]; //hold the category of items
+    char *cat=(char *)malloc(500000*sizeof(char)); //hold the category of items
     strcpy(cat,ptr->category);
     setColor(22);
     printf(" %s\n\n",ptr->category);
     setColor(3);
     printf(" S.no\tName");
 
-    for(int t=0;t<=(max-4);t++)
+    for(int t=0;t<=(*max-4);t++)
     {
         printf(" ");    //for proper alignment
     }
@@ -1310,15 +1400,15 @@ void generateBill()
 
     while(ptr!=NULL)
     {
-        if(strcmp(cat,ptr->category))   //comparing the category
+        if(strcmpi(cat,ptr->category))   //comparing the category
         {
             setColor(22);
             printf("\n %s\n\n",ptr->category);
-            e=1;        //serial no
+            *e=1;        //serial no
             setColor(3);
             printf(" S.no\tName");
 
-            for(int t=0;t<=(max-4);t++)
+            for(int t=0;t<=(*max-4);t++)
             {
                 printf(" ");    //for proper alignment
             }
@@ -1327,10 +1417,10 @@ void generateBill()
             setColor(15);
         }
 
-        printf(" %d.\t%s",e,ptr->name);     // printing the category name
-        q=strlen(ptr->name);
+        printf(" %d.\t%s",*e,ptr->name);     // printing the category name
+        *q=strlen(ptr->name);
 
-        for(int t=0;t<=(max-q);t++)
+        for(int t=0;t<=((*max)-(*q));t++)
         {
             printf(" ");        // for proper alignment
         }
@@ -1342,36 +1432,43 @@ void generateBill()
         setColor(15);
         printf("%d\n",ptr->price);
         strcpy(cat,ptr->category);
-        e++;
+        (*e)++;
         ptr=ptr->next;          //points to the next node
     }
 
-    char item_name[100];        //take the name of the item to be bought
-    int item_qty=0;             //takes the quantity of the item to be bought
-    int ch=0;                   //for do while
-    int y=0;                    //for do while
-    int totalprice=0;           //bill amount
+    char *item_name=(char *)malloc(100*sizeof(char));        //take the name of the item to be bought
+    int *item_qty=(int *)malloc(sizeof(int));             //takes the quantity of the item to be bought
+    *item_qty=0;
+    int *ch=(int *)malloc(sizeof(int));                   //for do while
+    *ch=0;
+    int *y=(int *)malloc(sizeof(int));                    //for do while
+    *y=0;
+    int *totalprice=(int *)malloc(sizeof(int));           //bill amount
+    *totalprice=0;
 
     bill_det *itr=head3;        // pointers of bill_det
-    char n;                     //counter to modify quantity
+    char *n=(char *)malloc(10*sizeof(char));                     //counter to modify quantity
     item *notfound=head1;       //pointers of item type
     item *htr=head1;            //pointers of item type
-    int new_qty;                //modified quantity
-    int check=0;                // to check if an item is already bought
-    int x=1;                    //for do while
-    int old_price;              //stores the price before the quantity is modified
-    int z,re;                   //loop counter to take quantity again
-    int k;                      //takes choice to enter the name of the item again or quit
-    int l;                      //loop counter to enter item name again
-    int counter=0;
+    int *new_qty=(int *)malloc(sizeof(int));                //modified quantity
+    int *check=(int *)malloc(sizeof(int));                // to check if an item is already bought
+    *check=0;
+    int *x=(int *)malloc(sizeof(int));                    //for do while
+    *x=1;
+    int *old_price=(int *)malloc(sizeof(int));              //stores the price before the quantity is modified
+    int *z=(int *)malloc(sizeof(int)),*re=(int *)malloc(sizeof(int));                   //loop counter to take quantity again
+    int *k=(int *)malloc(sizeof(int));                      //takes choice to enter the name of the item again or quit
+    int *l=(int *)malloc(sizeof(int));                      //loop counter to enter item name again
+    int *counter=(int *)malloc(sizeof(int));
+    *counter=0;
 
     bill *temp1=(bill*)malloc(sizeof(bill));
-    temp1->customerno=customerid;
-    temp1->billno=billno;
+    temp1->customerno=(*customerid);
+    temp1->billno=(*billno);
     temp1->total_price=0;
-    temp1->cur_date.dd=cur_date.dd;
-    temp1->cur_date.mm=cur_date.mm;
-    temp1->cur_date.yy=cur_date.yy;
+    temp1->cur_date.dd=cur_date->dd;
+    temp1->cur_date.mm=cur_date->mm;
+    temp1->cur_date.yy=cur_date->yy;
     temp1->next=NULL;
 
     bill *lntr=head4;
@@ -1383,22 +1480,24 @@ void generateBill()
 
     do
     {
-        y=0;
-        check=0;
+        *y=0;
+        *check=0;
 
         bill_det *temp= (bill_det*)malloc(sizeof(bill_det));    // allocates dynamic memory in bill_det
         // the details are copied into the temp node
-        temp->customerno=customerid;
-        temp->billno=billno;
-        temp->cur_date.dd=cur_date.dd;
-        temp->cur_date.mm=cur_date.mm;
-        temp->cur_date.yy=cur_date.yy;
+        temp->customerno=(*customerid);
+        temp->billno=(*billno);
+        temp->cur_date.dd=cur_date->dd;
+        temp->cur_date.mm=cur_date->mm;
+        temp->cur_date.yy=cur_date->yy;
 
-        int ex=0;   // do while counter
-        int zz=0;   //counter to quit
+        int *ex=(int *)malloc(sizeof(int));   // do while counter
+        *ex=0;
+        int *zz=(int *)malloc(sizeof(int));   //counter to quit
+        *zz=0;
         do
         {
-            l=0;
+            *l=0;
             printf("\n\n Enter Name of the Item you want to buy:   ");
             gets(item_name);        //takes the item name
             notfound=head1;
@@ -1406,7 +1505,7 @@ void generateBill()
             //checks if the item entered is available in the stocks or not
             while(notfound!=NULL)
             {
-                if(!(strcmp(item_name,notfound->name)))
+                if(!(strcmpi(item_name,notfound->name)))
                         break;
                 notfound=notfound->next;
             }
@@ -1421,34 +1520,45 @@ void generateBill()
                 do
                 {
 
-                    ex=0;//do while counter
+                    *ex=0;//do while counter
                     printf("\n 1.Do you want to enter again.\n 2.Quit\n");
                     printf("\n Enter your choice:	");
-                    scanf("%d",&k);
+                    gets(con);
+                    *k=atoi(con);
+                    *len=strlen(con);
 
-                    if(k==1)
+                    if(*len==1)
                     {
-                        l=1;
-                        getchar();
-                    }
-                    else if (k==2)
-                    {
-                           setColor(15);
-                           zz=1;
+                        if(*k==1)
+                        {
+                            *l=1;
+                            //getchar();
+                        }
+                        else if (*k==2)
+                        {
+                               setColor(15);
+                               *zz=1;
+                        }
+                        else
+                        {
+                              setColor(12);
+                              printf("\n\n INVALID SELECTION!\n\n");
+                              setColor(15);
+                              *ex=1;
+                        }
                     }
                     else
                     {
-                          setColor(12);
-                          printf("\n\n INVALID SELECTION!\n\n");
-                          setColor(15);
-                          ex=1;
+                      setColor(12);
+                      printf("\n\n INVALID SELECTION!\n\n");
+                      setColor(15);
+                      *ex=1;
                     }
-
-                }while(ex==1);
+                }while((*ex)==1);
             }
-        }while(l==1);
+        }while((*l)==1);
 
-        if(zz!=1)
+        if((*zz)!=1)
         {
             itr=head3;
             while(itr!=NULL)
@@ -1457,7 +1567,7 @@ void generateBill()
                 if((itr->billno)==(temp->billno))
                 {
                     //in case the item is already bought
-                    if(!strcmp(item_name,itr->itemname))
+                    if(!strcmpi(item_name,itr->itemname))
                     {
                         setColor(46);
                         printf(" YOU ALREADY BOUGHT THIS ITEM!\n Quantity is %d\n",itr->qty);
@@ -1465,100 +1575,98 @@ void generateBill()
 
                         do
                         {
-                            w=0; //do -while counter
+                            *w=0; //do -while counter
                             printf("\n\n Do you want to update?(y/n)\n");
                             printf("\n Enter your choice:	");
-                            scanf("%c",&n);
-                            if((n==121)||(n==89))   //comparing ASCII codes for yes
+                            gets(n);
+                            if(!strcmpi(n,"y"))   //comparing codes for yes
                             {
                                 do
                                 {
-                                    x=1;
+                                    *x=1;
                                     printf("\n\n Enter the Quantity:\t");
-                                    scanf("%d",&new_qty);
-                                    old_price=itr->t_price; //storing old price
+                                    scanf("%d",new_qty);
+                                    *old_price=itr->t_price; //storing old price
                                     htr=head1;
                                     while(htr!=NULL)
                                     {
-                                        if(!strcmp(item_name,htr->name))    //reaching the node with the same item name
+                                        if(!strcmpi(item_name,htr->name))    //reaching the node with the same item name
                                             break;
                                         htr=htr->next;                      //moving to the next node
                                     }
 
-                                    itr->t_price=new_qty*(htr->price); //finding total price as per new quantity
+                                    itr->t_price=(*new_qty)*(htr->price); //finding total price as per new quantity
 
-                                    if(new_qty<(itr->qty))
+                                    if((*new_qty)<(itr->qty))
                                     {
                                         //subtracting the quantity and reducing total price
-                                        (htr->qty)+=(itr->qty)-new_qty;
-                                        totalprice-=old_price-(itr->t_price);
+                                        (htr->qty)+=(itr->qty)-(*new_qty);
+                                        (*totalprice)-=(*old_price)-(itr->t_price);
                                     }
                                     else
                                     {
                                         //adding the quantity and increasing total price
-                                        (htr->qty)-=new_qty-(itr->qty);
-                                        totalprice+=(itr->t_price)-old_price;
+                                        (htr->qty)-=(*new_qty)-(itr->qty);
+                                        (*totalprice)+=(itr->t_price)-(*old_price);
                                     }
 
                                     if(htr->qty<0)
                                     {
-                                        // incase the stocks are not sufficient
+                                    // incase the stocks are not sufficient
                                         setColor(12);
                                         printf(" NOT ENOUGH LEFT!\n ENTER AGAIN!\n\n");
                                         setColor(26);
-                                        printf(" Quantity Available: %d\n\n",(htr->qty+(new_qty-(itr->qty)))); //displaying the current quantity
+                                        printf(" Quantity Available: %d\n\n",(htr->qty+((*new_qty)-(itr->qty)))); //displaying the current quantity
                                         setColor(15);
-                                        x=0;        //for running loop again to take acceptable value of quantity
+                                        *x=0;        //for running loop again to take acceptable value of quantity
                                         //updating the qty and total price
-                                       (htr->qty)+=new_qty-(itr->qty);
-                                        totalprice-=(itr->t_price)-old_price;
+                                        (htr->qty)+=(*new_qty)-(itr->qty);
+                                        (*totalprice)-=(itr->t_price)-(*old_price);
                                     }
 
-                                }while(x==0);
-                                itr->qty=new_qty; // updating the quantity in the node
-                                check=1;
-
+                                }while((*x)==0);
+                                itr->qty=(*new_qty); // updating the quantity in the node
+                                *check=1;
                             }
-                            else if((n==78)||(n==110))
+                            else if(!strcmpi(n,"n"))
                             {
-                                check =1; // to run the loop again
+                                *check =1; // to run the loop again
                             }
                             else
                             {
-                                w=1;   //do while counter
+                                *w=1;   //do while counter
                             }
-                        }while(w==1);
+                        }while((*w)==1);
                     }
                 }
                 itr=itr->next; //moving to the next node
             }
 
-           if(check==0) // if the item is not bought already
+           if(*check==0) // if the item is not bought already
            {
                 do
                 {
-                    ch=0;//initializing
+                    *ch=0;//initializing
                     printf(" Enter the Quantity:\t");
-                    scanf("%d",&item_qty);
+                    scanf("%d",item_qty);
 
                     ptr=head1;
                     while(ptr!=NULL)
                     {
-                        if(!strcmp(item_name,ptr->name))        //comparing with records to check stock
+                        if(!strcmpi(item_name,ptr->name))        //comparing with records to check stock
                         {
                             break;
                         }
                         ptr=ptr->next;                          //moves to the next node
                     }
 
-                    if((item_qty)>(ptr->qty))           //if the entered qty is greater than the one available
+                    if((*item_qty)>(ptr->qty))           //if the entered qty is greater than the one available
                     {
-                        ch=1;
+                        *ch=1;
                         setColor(12);
 
                         if(ptr->qty>0)
                         {
-
                             printf(" NOT ENOUGH LEFT!\n ENTER AGAIN!\n\n");
                             setColor(26);
                             printf(" Quantity Available: %d\n\n",ptr->qty);
@@ -1568,30 +1676,30 @@ void generateBill()
                         {
                             printf("\n\n STOCK FINISHED!\n\n");
                             setColor(15);
-                            item_qty=0;
+                            *item_qty=0;
                             break;
                         }
 
                     }
-                }while(ch==1);
+                }while((*ch)==1);
                 // the customer ends his visit
-                if(item_qty==0 && counter==0)
+                if((*item_qty==0) && (*counter==0))
                 {
                     setColor(43);
                     printf("\n THANKS FOR VISITING\n");
                     setColor(15);
                 }
                 //if the item qty is not zero
-                if(item_qty!=0)
+                if((*item_qty)!=0)
                 {
                     //copying the data into the temp node
-                    (temp->t_price)=(item_qty)*(ptr->price);
-                    (temp->qty)=item_qty;
+                    (temp->t_price)=(*item_qty)*(ptr->price);
+                    (temp->qty)=(*item_qty);
                     strcpy(temp->itemname,item_name);
-                    totalprice+=(temp->t_price);    //updating the totalprice
+                    *totalprice+=(temp->t_price);    //updating the totalprice
                     temp->next=NULL;                //moves to the next node
 
-                    (ptr->qty)-=item_qty;           //updates the item quantity
+                    (ptr->qty)-=(*item_qty);           //updates the item quantity
 
                     bill_det *rtr = head3;          // pointer to bill_det
 
@@ -1607,7 +1715,6 @@ void generateBill()
                         }
                         rtr->next=temp;                 // points to the newnode
                     }
-
                 }
                 else
                 {
@@ -1615,29 +1722,30 @@ void generateBill()
                 }
            }
 
-            int d;   //takes choice
-            int z;  //do while counter
+            char *d=(char *)malloc(10*sizeof(char));   //takes choice
+            int *z=(int *)malloc(sizeof(int));  //do while counter
 
             do
             {
-                z=0;
-                counter++;
+                *z=0;
+                *counter++;
+                getchar();
                 printf("\n\n Do you want to enter more items?(y/n)\n");
                 printf("\n Enter your choice:	");
-                scanf(" %c",&d);
-                if((d==121)||(d==89))       //compares ASCII codes of y
+                gets(d);
+                if(!strcmpi(d,"y"))       //compares codes of y
                 {
-                    y=1;
+                    *y=1;
                     getchar();
-                    h++;
+                    *h++;
                 }
-                else if((d==78)||(d==110)) // compares the ASCII codes of N
+                else if(!strcmpi(d,"n")) // compares the codes of N
                 {
                     printf("\n");
                     printf("\n");
                     printf(" Your Current Bill is ");  // displays the interim bill
                     setColor(60);
-                    printf("%d",totalprice);
+                    printf("%d",*totalprice);
                     setColor(15);
                 }
                 else
@@ -1645,9 +1753,9 @@ void generateBill()
                     setColor(12);
                     printf("\n\n INVALID SELECTION!\n\n");
                     setColor(15);
-                    z=1;    // to make the loop run again for a valid input
+                    *z=1;    // to make the loop run again for a valid input
                 }
-            }while(z==1);
+            }while((*z)==1);
         }
         else
         {
@@ -1655,430 +1763,457 @@ void generateBill()
             printf("\n");
             printf(" Your Current Bill is ");   // displays the interim bill
             setColor(60);
-            printf("%d",totalprice);
+            printf("%d",*totalprice);
             setColor(15);
         }
 
-    }while(y==1);
+    }while((*y)==1);
 
-    int choice2,choice3;//takes choices
-    int j=0;//for do while
+    int *choice2=(int *)malloc(sizeof(int)),*choice3=(int *)malloc(sizeof(int));//takes choices
+    int *j=(int *)malloc(sizeof(int));//for do while
+    *j=0;
     bill_det *trav = head3;//bill_det pointer
-    int max_new=0;// used for storing the length of the item name
-    int sno=1;  //used for serial no
-    int rw,ew,d,pq=0;//for do while
+    int *max_new=(int *)malloc(sizeof(int));// used for storing the length of the item name
+    *max_new=0;
+    int *sno=(int *)malloc(sizeof(int));  //used for serial no
+    *sno=1;
+    int *rw=(int *)malloc(sizeof(int)),*ew=(int *)malloc(sizeof(int)),*d=(int *)malloc(sizeof(int)),*pq=(int *)malloc(sizeof(int));//for do while
+    *pq=0;
     item *dtr=head1; //item pointers
     bill_det *btr=head3;//pointer to bill details linked list
-    int new_qty1;//to get the updated quantity
-
+    int *new_qty1=(int *)malloc(sizeof(int));//to get the updated quantity
+    char *con1=(char *)malloc(sizeof(char)),*con2=(char *)malloc(sizeof(char));
+    int *len1=(int *)malloc(sizeof(int)),*len2=(int *)malloc(sizeof(int));
 
     do
     {
-        pq=0;
+        *pq=0;
         printf("\n\n 1. Do you want to modify your shopping list.\n 2. Generate bill\n");
         printf("\n Enter your choice:	");
-        scanf("%d",&choice2);
-        switch(choice2)
+        gets(con1);
+        *choice2=atoi(con1);
+        *len1=strlen(con1);
+        if(*len1==1)
         {
-            case 1:
-                setColor(45);
-                printf("\t\t\t Your Current Bill\n\n");// displays the interim bill
-                setColor(22);
-                printf(" S.no\tName");
-                max_new=strlen(head3->itemname);
-                trav=head3->next;
+            switch(*choice2)
+            {
+                case 1:
+                    setColor(45);
+                    printf("\t\t\t Your Current Bill\n\n");// displays the interim bill
+                    setColor(22);
+                    printf(" S.no\tName");
+                    *max_new=strlen(head3->itemname);
+                    trav=head3->next;
 
-                while(trav!=NULL)
-                {
-                    h=strlen(trav->itemname);
-                    if(max_new<h)
-                        max_new=h;      // length of longest item name
-                    trav=trav->next;    // moves to the next node
-                }
-
-                for(int t=0;t<=(max_new-4);t++)
-                {
-                    printf(" ");        // for alignment
-                }
-
-                printf("\tQuantity\t\tTotal Price\n");
-                setColor(15);
-                trav=head3;
-                sno=1;
-
-                while(trav!=NULL)
-                {
-                    // for matching the bill no and printing the quantity,price
-                    if((trav->billno)==billno)
+                    while(trav!=NULL)
                     {
-                        printf(" %d\t%s",sno,trav->itemname);
-                        q=strlen(trav->itemname);
-                        for(int t=0;t<=(max_new-q);t++)
-                        {
-                            printf(" ");
-                        }
-                        printf("\t%d\t\t\t%d\n",trav->qty,trav->t_price);
-                        sno++;
+                        *h=strlen(trav->itemname);
+                        if((*max_new)<(*h))
+                            (*max_new)=*h;      // length of longest item name
+                        trav=trav->next;    // moves to the next node
                     }
-                    trav=trav->next;        // moves to the next node
-                }
 
-                while(1)
-                {
-                    //options to modify the list
-
-                    do
+                    for(int t=0;t<=((*max_new)-4);t++)
                     {
-                        printf("\n\n 1. Do you want to delete a item\n 2. Do you want to modify the quantity\n 3. Finished\n\n");
-                        printf("\n Enter your choice:	");
-                        scanf("%d",&choice3);
-                        trav=head3; //bill_det type pointer
+                        printf(" ");        // for alignment
+                    }
 
-                        j=1;
+                    printf("\tQuantity\t\tTotal Price\n");
+                    setColor(15);
+                    trav=head3;
+                    *sno=1;
 
-                        switch(choice3)
+                    while(trav!=NULL)
+                    {
+                        // for matching the bill no and printing the quantity,price
+                        if((trav->billno)==*billno)
                         {
-                            case 1:
-                               do
-                               {
-                                   trav=head3;
-                                   rw=0;
+                            printf(" %d\t%s",*sno,trav->itemname);
+                            *q=strlen(trav->itemname);
+                            for(int t=0;t<=((*max_new)-(*q));t++)
+                            {
+                                printf(" ");
+                            }
+                            printf("\t%d\t\t\t%d\n",trav->qty,trav->t_price);
+                            (*sno)++;
+                        }
+                        trav=trav->next;        // moves to the next node
+                    }
 
-                                    while(trav!=NULL)
-                                    {
-                                        // matching the record to be deleted
-                                        if((trav->billno)==billno)
-                                            break;
+                    while(1)
+                    {
+                        //options to modify the list
 
-                                        trav=trav->next;        //moving to the next node
-                                    }
+                        do
+                        {
+                            printf("\n\n 1. Do you want to delete a item\n 2. Do you want to modify the quantity\n 3. Finished\n\n");
+                            printf("\n Enter your choice:	");
+                            gets(con2);
+                            *choice3=atoi(con2);
+                            *len2=strlen(con2);
+                            trav=head3; //bill_det type pointer
 
-                                    if(trav!=NULL)
-                                    {
-                                        trav=head3;// bill_det type pointer
-                                        dtr=head1; //item type pointer
+                            *j=1;
 
-                                        getchar();
-                                        printf(" Enter the item you want to delete: ");
-                                        gets(item_name);
+                            if(*len2==1)
+                            {
+                                switch(*choice3)
+                                {
+                                    case 1:
+                                       do
+                                       {
+                                           trav=head3;
+                                           *rw=0;
 
-
-                                        while(trav!=NULL)
-                                        {
-                                            if(trav->billno==billno)
+                                            while(trav!=NULL)
                                             {
-                                                if(!strcmp(trav->itemname,item_name))
-                                                {
+                                                // matching the record to be deleted
+                                                if((trav->billno)==*billno)
                                                     break;
+
+                                                trav=trav->next;        //moving to the next node
+                                            }
+
+                                            if(trav!=NULL)
+                                            {
+                                                trav=head3;// bill_det type pointer
+                                                dtr=head1; //item type pointer
+
+                                                //getchar();
+                                                printf(" Enter the item you want to delete: ");
+                                                gets(item_name);
+
+
+                                                while(trav!=NULL)
+                                                {
+                                                    if(trav->billno==*billno)
+                                                    {
+                                                        if(!strcmpi(trav->itemname,item_name))
+                                                        {
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    btr=trav; // storing the node address to be deleted
+                                                    trav=trav->next;
                                                 }
-                                            }
 
-                                            btr=trav; // storing the node address to be deleted
-                                            trav=trav->next;
-                                        }
-
-                                        if(trav==NULL)
-                                        {
-                                            // if the end of the list is reached
-                                            setColor(12);
-                                            printf("\n\n ITEM NOT FOUND!\n\n");
-                                            setColor(15);
-                                        }
-                                        else
-                                        {
-                                            btr->next=trav->next; // unlinking the node to be deleted
-                                            dtr=head1;
-                                            while(dtr!=NULL)
-                                            {
-                                                if(!strcmp(dtr->name,trav->itemname)) // comparing the item name
-                                                    break;
-
-                                                dtr=dtr->next;
-                                            }
-                                            // updating the quantity and item price
-                                            (dtr->qty)+=(trav->qty);
-                                            totalprice-=(trav->t_price);
-                                         }
-                                        free(trav); // freeing the node to be deleted
-
-                                        trav=head3;
-                                        while(trav!=NULL)
-                                        {
-                                            if(trav->billno==billno) // comparing the bill no
-                                                break;
-
-                                            trav=trav->next;        // moving to the next node
-                                        }
-
-                                        if(trav!=NULL)
-                                        {
-                                            // displaying the current bill after deletion
-                                            setColor(45);
-                                            printf("\t\t\tYour current bill is \n\n");
-                                            setColor(22);
-                                            printf(" S.no\tName");
-                                            max_new=strlen(head3->itemname); // storing name of item name
-                                            trav=head3->next;
-
-                                            while(trav!=NULL)
-                                            {
-                                                h=strlen(trav->itemname);
-                                                if(max_new<h)
-                                                    max_new=h;      // storing the length of the largest item name
-                                                trav=trav->next;
-                                            }
-
-                                            for(int t=0;t<=(max_new-4);t++)
-                                            {
-                                                printf(" ");    // for alignment
-                                            }
-
-                                            printf("\tQuantity\t\tTotal Price\n");
-                                            setColor(15);
-
-                                            trav=head3;     // fro traversal
-                                            sno=1;          //serial no
-
-                                            while(trav!=NULL)
-                                            {
-                                                // matching the bill nos
-                                                if((trav->billno)==billno)
+                                                if(trav==NULL)
                                                 {
-                                                    printf(" %d\t%s",sno,trav->itemname);
-                                                    q=strlen(trav->itemname);
-                                                    for(int t=0;t<=(max_new-q);t++)
+                                                    // if the end of the list is reached
+                                                    setColor(12);
+                                                    printf("\n\n ITEM NOT FOUND!\n\n");
+                                                    setColor(15);
+                                                }
+                                                else
+                                                {
+                                                    btr->next=trav->next; // unlinking the node to be deleted
+                                                    dtr=head1;
+                                                    while(dtr!=NULL)
+                                                    {
+                                                        if(!strcmpi(dtr->name,trav->itemname)) // comparing the item name
+                                                            break;
+
+                                                        dtr=dtr->next;
+                                                    }
+                                                    // updating the quantity and item price
+                                                    (dtr->qty)+=(trav->qty);
+                                                    *totalprice-=(trav->t_price);
+                                                }
+                                                free(trav); // freeing the node to be deleted
+
+                                                trav=head3;
+                                                while(trav!=NULL)
+                                                {
+                                                    if(trav->billno==*billno) // comparing the bill no
+                                                        break;
+
+                                                    trav=trav->next;        // moving to the next node
+                                                }
+
+                                                if(trav!=NULL)
+                                                {
+                                                    // displaying the current bill after deletion
+                                                    setColor(45);
+                                                    printf("\t\t\tYour Current Bill\n\n");
+                                                    setColor(22);
+                                                    printf(" S.no\tName");
+                                                    *max_new=strlen(head3->itemname); // storing name of item name
+                                                    trav=head3->next;
+
+                                                    while(trav!=NULL)
+                                                    {
+                                                        *h=strlen(trav->itemname);
+                                                        if((*max_new)<(*h))
+                                                            (*max_new)=*h;      // storing the length of the largest item name
+                                                        trav=trav->next;
+                                                    }
+
+                                                    for(int t=0;t<=((*max_new)-4);t++)
                                                     {
                                                         printf(" ");    // for alignment
                                                     }
-                                                    printf("\t%d\t\t\t%d\n",trav->qty,trav->t_price);
-                                                    sno++;              // incrementing sno
+
+                                                    printf("\tQuantity\t\tTotal Price\n");
+                                                    setColor(15);
+
+                                                    trav=head3;     // fro traversal
+                                                    *sno=1;          //serial no
+
+                                                    while(trav!=NULL)
+                                                    {
+                                                        // matching the bill nos
+                                                        if((trav->billno)==*billno)
+                                                        {
+                                                            printf(" %d\t%s",*sno,trav->itemname);
+                                                            *q=strlen(trav->itemname);
+                                                            for(int t=0;t<=((*max_new)-(*q));t++)
+                                                            {
+                                                                printf(" ");    // for alignment
+                                                            }
+                                                            printf("\t%d\t\t\t%d\n",trav->qty,trav->t_price);
+                                                            (*sno)++;              // incrementing sno
+                                                        }
+                                                        trav=trav->next;        // moving to the next node
+                                                    }
+
+                                                    do
+                                                    {
+                                                        *ew=0;       // do -while counter
+                                                            printf("\n\n Do you want to delete more items?(y/n)\n");
+                                                            printf("\n Enter your choice:	");
+                                                            gets(d);
+                                                            if(!strcmpi(d,"y"))   //comparing ASCII values of Y
+                                                            {
+                                                                *rw=1;
+                                                            }
+                                                            else if(!strcmpi(d,"n")) // comparing ASCII values of N
+                                                            {
+                                                                break;
+                                                            }
+                                                            else
+                                                            {
+                                                                setColor(60);
+                                                                printf("\n INVALID INPUT");
+                                                                setColor(15);
+                                                                *ew=1;                   // incase of invalid input
+                                                            }
+                                                    }while((*ew)==1);
+                                                }
+                                                else
+                                                {
+                                                    // if all the items are deleted
+                                                    setColor(12);
+                                                    printf("\n\n BILL IS EMPTY!\n\n");
+                                                    setColor(15);
+                                                    break;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                setColor(12);
+                                                printf("\n\n BILL IS EMPTY!\n\n");
+                                                setColor(15);
+                                                break;
+                                            }
+                                       }while((*rw)==1);
+
+                                       break;
+
+                                    case 2:
+                                       do
+                                       {
+                                            *re=0;
+                                            getchar();
+                                            printf(" Enter the item you want to modify: ");
+                                            gets(item_name);
+
+                                            trav=head3; // used for traversal
+                                            while(trav!=NULL)
+                                            {
+                                                if(trav->billno==*billno) // comparing the bill no to find the item
+                                                {
+                                                    if(!strcmpi(trav->itemname,item_name)) // comparing the item names
+                                                    break;
                                                 }
                                                 trav=trav->next;        // moving to the next node
                                             }
 
-                                            do
+                                            if(trav==NULL)
                                             {
-                                                ew=0;       // do -while counter
-                                                    printf("\n\n Do you want to delete more items?(y/n)\n");
-                                                    printf("\n Enter your choice:	");
-                                                    scanf("%c",&d);
-
-                                                    if((d==121)||(d==89))   //comparing ASCII values of Y
-                                                    {
-                                                        rw=1;
-
-                                                    }
-                                                    else if((d==78)||(d==110)) // comparing ASCII values of N
-                                                    {
-                                                        break;
-                                                    }
-                                                    else
-                                                    {
-                                                        setColor(60);
-                                                        printf("\n INVALID INPUT");
-                                                        setColor(15);
-                                                        ew=1;                   // incase of invalid input
-                                                    }
-
-                                            }while(ew==1);
-                                        }
-                                        else
-                                        {
-                                            // if all the items are deleted
-                                            setColor(12);
-                                            printf("\n\n BILL IS EMPTY!\n\n");
-                                            setColor(15);
-                                            break;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        setColor(12);
-                                        printf("\n\n BILL IS EMPTY!\n\n");
-                                        setColor(15);
-                                        break;
-                                    }
-                               }while(rw==1);
-
-                               break;
-
-                            case 2:
-                               do
-                               {
-                                    re=0;
-                                    getchar();
-                                    printf(" Enter the item you want to modify: ");
-                                    gets(item_name);
-
-                                    trav=head3; // used for traversal
-                                    while(trav!=NULL)
-                                    {
-                                        if(trav->billno==billno) // comparing the bill no to find the item
-                                        {
-                                            if(!strcmp(trav->itemname,item_name)) // comparing the item names
-                                            break;
-                                        }
-                                        trav=trav->next;        // moving to the next node
-                                    }
-
-                                    if(trav==NULL)
-                                    {
-                                        // reaches the end of list without any match
-                                        setColor(12);
-                                        printf("\n\n ITEM NOT FOUND!\n\n");
-                                        setColor(15);
-                                    }
-                                    else
-                                    {
-                                        do
-                                        {
-                                            x=1;
-                                            printf(" Enter the Quantity:\t");
-                                            scanf("%d",&new_qty1);
-                                            old_price=trav->t_price; // stores the current price
-                                            htr=head1; // used for traversal
-                                            while(htr!=NULL)
-                                            {
-                                                if(!strcmp(item_name,htr->name)) // compares the item name
-                                                    break;
-
-                                                htr=htr->next;      // moves to the next node
-                                            }
-
-                                            trav->t_price=new_qty1*htr->price;  // updating the price
-
-                                            if(new_qty1<trav->qty)
-                                            {
-                                                // subtracting the quantity and reducing the totalprice
-                                                htr->qty+=trav->qty-new_qty1;
-                                                totalprice-=old_price-trav->t_price;
+                                                // reaches the end of list without any match
+                                                setColor(12);
+                                                printf("\n\n ITEM NOT FOUND!\n\n");
+                                                setColor(15);
                                             }
                                             else
                                             {
-                                                 // adding the quantity and increasing the totalprice
-                                                htr->qty-=new_qty1-trav->qty;
-                                                totalprice+=trav->t_price-old_price;
-                                            }
-
-                                            if(htr->qty<0)
-                                            {
-                                                // if the stocks are in sufficient
-                                                setColor(12);
-                                                printf("\n\n NOT ENOUGH LEFT! ENTER AGAIN!\n\n");
-                                                setColor(26);
-                                                printf(" Quantity Available: %d\n\n",(htr->qty+(new_qty1-trav->qty)));
-                                                x=0;// to run the loop again to take a acceptable quantity as input
-                                                setColor(15);
-                                                //updating the quantity and total price
-                                                htr->qty+=new_qty1-trav->qty;
-                                                totalprice-=trav->t_price-old_price;
-
-                                            }
-                                        }while(x==0);
-
-                                        trav->qty=new_qty1;
-                                        setColor(45);
-                                        printf("\t\t\tYour current bill is\n\n");
-                                        setColor(22);
-                                        printf(" S.no\tName");
-                                        max_new=strlen(head3->itemname);    // storing the length of the item_name
-                                        trav=head3->next;                   // to skip the headings node
-
-                                        while(trav!=NULL)
-                                        {
-                                            h=strlen(trav->itemname);
-                                            if(max_new<h)
-                                                max_new=h;                   // storing the longest item name
-                                            trav=trav->next;
-                                        }
-
-                                        for(int t=0;t<=(max_new-4);t++)
-                                        {
-                                            printf(" ");                    // for alignment
-                                        }
-
-                                        printf("\tQuantity\t\tTotal Price\n");
-                                        setColor(15);
-
-                                        trav=head3;  // used for traversal
-                                        sno=1;      // serial no
-
-                                        while(trav!=NULL)
-                                        {
-                                            if(trav->billno==billno)
-                                            {
-                                                printf(" %d\t%s",sno,trav->itemname);
-                                                q=strlen(trav->itemname);        // storing the length of the item_name
-
-                                                for(int t=0;t<=(max_new-q);t++)
+                                                do
                                                 {
-                                                    printf(" ");                // for alignment
+                                                    *x=1;
+                                                    printf(" Enter the Quantity:\t");
+                                                    scanf("%d",new_qty1);
+                                                    *old_price=trav->t_price; // stores the current price
+                                                    htr=head1; // used for traversal
+                                                    while(htr!=NULL)
+                                                    {
+                                                        if(!strcmpi(item_name,htr->name)) // compares the item name
+                                                            break;
+
+                                                        htr=htr->next;      // moves to the next node
+                                                    }
+
+                                                    trav->t_price=(*new_qty1)*htr->price;  // updating the price
+
+                                                    if((*new_qty1)<trav->qty)
+                                                    {
+                                                        // subtracting the quantity and reducing the totalprice
+                                                        htr->qty+=trav->qty-(*new_qty1);
+                                                        *totalprice-=(*old_price)-trav->t_price;
+                                                    }
+                                                    else
+                                                    {
+                                                         // adding the quantity and increasing the totalprice
+                                                        htr->qty-=(*new_qty1)-trav->qty;
+                                                        *totalprice+=trav->t_price-(*old_price);
+                                                    }
+
+                                                    if(htr->qty<0)
+                                                    {
+                                                        // if the stocks are in sufficient
+                                                        setColor(12);
+                                                        printf("\n\n NOT ENOUGH LEFT! ENTER AGAIN!\n\n");
+                                                        setColor(26);
+                                                        printf(" Quantity Available: %d\n\n",(htr->qty+((*new_qty1)-trav->qty)));
+                                                        *x=0;// to run the loop again to take a acceptable quantity as input
+                                                        setColor(15);
+                                                        //updating the quantity and total price
+                                                        htr->qty+=(*new_qty1)-trav->qty;
+                                                        *totalprice-=trav->t_price-(*old_price);
+
+                                                    }
+                                                }while((*x)==0);
+
+                                                trav->qty=*new_qty1;
+                                                setColor(45);
+                                                printf("\t\t\tYour Current Bill\n\n");
+                                                setColor(22);
+                                                printf(" S.no\tName");
+                                                *max_new=strlen(head3->itemname);    // storing the length of the item_name
+                                                trav=head3->next;                   // to skip the headings node
+
+                                                while(trav!=NULL)
+                                                {
+                                                    *h=strlen(trav->itemname);
+                                                    if((*max_new)<(*h))
+                                                        (*max_new)=*h;                   // storing the longest item name
+                                                    trav=trav->next;
                                                 }
 
-                                                printf("\t%d\t\t\t%d\n",trav->qty,trav->t_price);
-                                                sno++;                          // incrementing serial no
+                                                for(int t=0;t<=((*max_new)-4);t++)
+                                                {
+                                                    printf(" ");                    // for alignment
+                                                }
+
+                                                printf("\tQuantity\t\tTotal Price\n");
+                                                setColor(15);
+
+                                                trav=head3;  // used for traversal
+                                                *sno=1;      // serial no
+
+                                                while(trav!=NULL)
+                                                {
+                                                    if(trav->billno==*billno)
+                                                    {
+                                                        printf(" %d\t%s",*sno,trav->itemname);
+                                                        *q=strlen(trav->itemname);        // storing the length of the item_name
+
+                                                        for(int t=0;t<=((*max_new)-(*q));t++)
+                                                        {
+                                                            printf(" ");                // for alignment
+                                                        }
+
+                                                        printf("\t%d\t\t\t%d\n",trav->qty,trav->t_price);
+                                                        (*sno)++;                          // incrementing serial no
+                                                    }
+                                                    trav=trav->next;                    // moving to the next node
+                                                }
                                             }
-                                            trav=trav->next;                    // moving to the next node
-                                        }
-                                    }
 
-                                    do
-                                    {
-                                        z=0;
-                                        printf("\n\n Do you want to update more items?(y/n)\n");
-                                        printf("\n Enter your choice:	");
-                                        scanf(" %c",&d);
-                                        if((d==121)||(d==89)) // comparing ASCII codes for Y
-                                        {
-                                            re=1;       // for updating more items
-                                        }
-                                        else if((d==78)||(d==110)) // comparing ASCII codes for N
-                                        {
-                                            break;
-                                        }
-                                        else
-                                        {
-                                            setColor(12);
-                                            printf("\n\n INVALID SELECTION!\n\n");
-                                            setColor(15);
-                                            z=1;    //making the do-while run again for a valid input
-                                        }
-                                    }while(z==1);
-                               }while(re==1);
-                               break;
+                                            do
+                                            {
+                                                *z=0;
+                                                printf("\n\n Do you want to update more items?(y/n)\n");
+                                                printf("\n Enter your choice:	");
+                                                getchar();
+                                                gets(d);
+                                                if(!strcmpi(d,"y")) // comparing ASCII codes for Y
+                                                {
+                                                    *re=1;       // for updating more items
+                                                }
+                                                else if(!strcmpi(d,"n")) // comparing ASCII codes for N
+                                                {
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    setColor(12);
+                                                    printf("\n\n INVALID SELECTION!\n\n");
+                                                    setColor(15);
+                                                    *z=1;    //making the do-while run again for a valid input
+                                                }
+                                            }while((*z)==1);
+                                       }while((*re)==1);
+                                       break;
 
-                            case 3:
-                                printf(" Your Current Bill is ");
-                                setColor(60);
-                                printf("%d ",totalprice);   //prints the current bill
-                                setColor(15);
-                                invoice(totalprice,billno);  // to print the summary
-                                break;
+                                    case 3:
+                                        printf(" Your Current Bill is ");
+                                        setColor(60);
+                                        printf("%d ",*totalprice);   //prints the current bill
+                                        setColor(15);
+                                        invoice(*totalprice,*billno);  // to print the summary
+                                        break;
 
-                            default:
-                                setColor(12);
-                                printf("\n\n INVALID SELECTION!\n\n");
-                                setColor(15);
-                                j=0; // to make the do-while run again for a valid input
-                        }
+                                    default:
+                                        setColor(12);
+                                        printf("\n\n INVALID SELECTION!\n\n");
+                                        setColor(15);
+                                        *j=0; // to make the do-while run again for a valid input
+                                }
+                            }
+                            else
+                            {
+                             setColor(12);
+                             printf("\n\n INVALID SELECTION!\n\n");
+                             setColor(15);
+                             *j=0; // to make the do-while run again for a valid input
+                            }
 
-                    }while(j==0);
-               }
-               break;
+                        }while((*j)==0);
+                   }
+                   break;
 
-            case 2:
-                invoice(totalprice,billno); // for generating the bill
-                setColor(15);
-                break;
+                case 2:
+                    invoice(*totalprice,*billno); // for generating the bill
+                    setColor(15);
+                    break;
 
-            default:
-                setColor(12);
-                printf("\n\n INVALID SELECTION!\n\n");
-                setColor(15);
-                pq=1;// to make the do-while run again for a valid input
-                break;
+                default:
+                    setColor(12);
+                    printf("\n\n INVALID SELECTION!\n\n");
+                    setColor(15);
+                    *pq=1;// to make the do-while run again for a valid input
+                    break;
+            }
         }
-    }while(pq==1);
+        else
+        {
+            setColor(12);
+            printf("\n\n INVALID SELECTION!\n\n");
+            setColor(15);
+            *pq=1;// to make the do-while run again for a valid input
+        }
+    }while((*pq)==1);
 
 }
 
@@ -2117,446 +2252,509 @@ void offerzone()
 
 void invoice(int totalprice,int billno)
 {
-    int p=0;        //stores the percent of discount given as per the membership
-    int cur_points=0;//stores the points earned on the current purchase
-    float finalpay=0.0;//stores the amount to be paid after eligible discounts
-    setColor(78);
-	printf("\t\t\t\t\t\t\tINVOICE");
-	printf("\n");
-	setColor(15);
-
-	bill_det *hd = head3; //points to bill_det linked list
-	customer *h=head2;    //points to customer type linked list
-	customer *h2=head2;   //points to customer type linked list
-
-    while(hd->next!=NULL)
+    if(totalprice!=0)
     {
-        if(billno==hd->billno)
-            break;      //if a match is found
-        hd=hd->next;
-    }
-
-    int cid=hd->customerno;     //stores the matched record customer id
-
-    while(h->next!=NULL)
-    {
-       if(h->id==cid)       //till the cid matches with that of records
-            break;
-
-       h=h->next;
-    }
-
-	printf("\nBILL ID:\t");
-	setColor(22);
-	printf("%d",h->id); //prints the bill id
-	setColor(15);
-
-	printf("\nDATE:\t");
-	setColor(22);
-	printf("%d/%d/%d",hd->cur_date.dd,hd->cur_date.mm,hd->cur_date.yy); //prints the current date
-	setColor(15);
-
-	printf("\n\nCUSTOMER NAME:\t");
-	setColor(22);
-	puts(h->name);                          //prints the customer name
-	setColor(15);
-
-    printf("\nPHONE NUMBER:\t");
-    setColor(22);
-    printf("%s",h->phoneno);                //prints the customer phoneno
-    setColor(15);
-
-    printf("\nMEMBER:\t");
-    setColor(22);
-    printf("%s",h->membership);             //prints the customer membership
-    setColor(15);
-
-    printf("\nPOINTS IN CARD:\t");
-    setColor(22);
-    printf("%d",h->points);                 //prints the customer points
-    setColor(90);
-
-    printf("\n\t\t\tPURCHASE SUMMARY\n\n\n");
-    //table for s.no,item ,price;
-    int name_item;              //hold the max length of itemname
-    bill_det *ftr=head3;        //pointer to bill_det linked list
-    int sno=1;                  //serial number
-    int q;                      //holds the length of itemname
-
-    setColor(22);
-    printf(" S.no\tName");
-    name_item=strlen(head3->itemname);  //stores the length of the item name
-    ftr=head3->next;        //stores the next node
-
-    while(ftr!=NULL)
-    {
-        p=strlen(ftr->itemname);
-        if(name_item<p)
-            name_item=p;            //finds the longest item name
-        ftr=ftr->next;              //points to the next node
-    }
-
-    for(int t=0;t<=(name_item-4);t++)
-    {
-        printf(" ");                // for proper alignment
-    }
-
-    printf("\tQuantity\t\tTotal Price\n");
-    setColor(15);
-
-    ftr=head3;
-
-    while(ftr!=NULL)
-    {
-        if((ftr->billno)==billno)
-        {
-            printf(" %d\t%s",sno,ftr->itemname);
-            q=strlen(ftr->itemname);
-            for(int t=0;t<=(name_item-q);t++)
-            {
-                printf(" ");        //proper alignment
-            }
-            printf("\t%d\t\t\t%d\n",ftr->qty,ftr->t_price);
-            sno++;              //serial no incrementation
-        }
-        ftr=ftr->next;      //points to the next node
-    }
-
-
-    setColor(74);
-    printf("\n TOTAL:\t%d (INR)",totalprice);   //prints the total of items cost
-
-    setColor(60);//reddish
-    float amount=0.0;//tax price
-    amount=(0.05)*totalprice;
-    printf("\n TAX (5%%) : %.2f (INR)",amount); //tax applicable on purchase
-
-    float pay;                  //amount to pay after deducting tax
-    pay=totalprice+amount;      //sum of tax and the cost of items
-    setColor(43);
-    printf("\n GRAND TOTAL :\t%.2f (INR)\n\n\n\n",pay);
-
-    setColor(15);
-    char ch1; //whether a member or not
-    hd=head3; // bill_det linked list pointer
-    h2=head2; //customer linked list pointer
-
-    while(hd->next!=NULL)   //to move to the end of the linked list
-    {
-        hd=hd->next;    //moves to the next node
-    }
-
-    while(h2->next!=NULL)
-    {
-        if(h2->id == hd->customerno)    //to match the customer ids
-            break;
-
-        h2=h2->next;    //moves to the next node
-    }
-
-    int cc=0;       //to identify different types of membership
-    int d=0;        //to identify the type of membership bday discount
-
-    //string comparisons to check the type of member and store the corresponding value in cc
-    if(!(strcmp("P",h2->membership)))
-    {
-        cc=1;
-        printf("\n Great !You are a platinum member\n");
-    }
-
-    if(!(strcmp("G",h2->membership)))
-    {
-        cc=2;
-        printf("\n Great !You are a gold member\n");
-    }
-
-    if(!(strcmp("S",h2->membership)))
-    {
-        cc=3;
-        printf("\n Great !You are a silver member\n");
-    }
-    // calculating the member discount as per the membership policies
-    switch(cc)
-    {
-        case 1:
-             finalpay=pay-(0.1*pay);
-             break;
-        case 2:
-            finalpay=pay-(0.07*pay);
-            break;
-        case 3:
-            finalpay=pay-(0.05*pay);
-            break;
-    }
-
-    //only if the customer is a member
-    if(cc!=0)
-    {
-        setColor(44);
-        printf("\n AMOUNT PAYABLE AFTER APPLYING MEMBER DISCOUNT : %.2f (INR)",finalpay);
+        int *p=(int *)malloc(sizeof(int));        //stores the percent of discount given as per the membership
+        *p=0;
+        char *con=(char *)malloc(10*sizeof(char));//choice taken by user
+        int *len=(int *)malloc(sizeof(int));//length of the choice taken
+        float *cur_points=(float *)malloc(sizeof(float));//stores the points earned on the current purchase
+        *cur_points=0.0;
+        float *finalpay=(float *)malloc(sizeof(float));//stores the amount to be paid after eligible discounts
+        *finalpay=totalprice;
+        setColor(78);
+        printf("\t\t\t\tINVOICE");
+        printf("\n");
         setColor(15);
 
-        //to check the eligibility of birthday discount
-        if((h2->bday.dd == hd->cur_date.dd) && (h2->bday.mm == hd->cur_date.mm))
+        bill_det *hd = head3; //points to bill_det linked list
+        customer *h=head2;    //points to customer type linked list
+        customer *h2=head2;   //points to customer type linked list
+
+        while(hd->next!=NULL)
         {
-            d=cc; //to store the type of membership
+            if(billno==hd->billno)
+                break;      //if a match is found
+            hd=hd->next;
         }
 
-        int pp=0;       //stores the percentage of discount
+        int cid=hd->customerno;     //stores the matched record customer id
 
-        // only if the bill generation date matches with the bday
-        if(pp!=0)
+        while(h->next!=NULL)
         {
-        switch(d)
+           if(h->id==cid)       //till the cid matches with that of records
+                break;
+
+           h=h->next;
+        }
+
+        printf("\nBILL ID:\t");
+        setColor(22);
+        printf("%d",h->id); //prints the bill id
+        setColor(15);
+
+        printf("\nDATE:\t");
+        setColor(22);
+        printf("%d/%d/%d",hd->cur_date.dd,hd->cur_date.mm,hd->cur_date.yy); //prints the current date
+        setColor(15);
+
+        printf("\n\nCUSTOMER NAME:\t");
+        setColor(22);
+        puts(h->name);                          //prints the customer name
+        setColor(15);
+
+        printf("\nPHONE NUMBER:\t");
+        setColor(22);
+        printf("%s",h->phoneno);                //prints the customer phoneno
+        setColor(15);
+
+        printf("\nMEMBER:\t");
+        setColor(22);
+        printf("%s",h->membership);             //prints the customer membership
+        setColor(15);
+
+        printf("\nPOINTS IN CARD:\t");
+        setColor(22);
+        printf("%d",h->points);                 //prints the customer points
+        setColor(90);
+
+        printf("\n\t\t\tPURCHASE SUMMARY\n\n\n");
+        //table for s.no,item ,price;
+        int *name_item=(int *)malloc(sizeof(int));              //hold the max length of itemname
+        bill_det *ftr=head3;                                    //pointer to bill_det linked list
+        int *sno=(int *)malloc(sizeof(int));                    //serial number
+        *sno=1;
+        int *q=(int *)malloc(sizeof(int));                       //holds the length of itemname
+
+        setColor(22);
+        printf(" S.no\tName");
+        (*name_item)=strlen(head3->itemname);  //stores the length of the item name
+        ftr=head3->next;        //stores the next node
+
+        while(ftr!=NULL)
+        {
+            *p=strlen(ftr->itemname);
+            if((*name_item)<(*p))
+                (*name_item)=(*p);            //finds the longest item name
+            ftr=ftr->next;              //points to the next node
+        }
+
+        for(int t=0;t<=((*name_item)-4);t++)
+        {
+            printf(" ");                // for proper alignment
+        }
+
+        printf("\tQuantity\t\tTotal Price\n");
+        setColor(15);
+
+        ftr=head3;
+
+        while(ftr!=NULL)
+        {
+            if((ftr->billno)==billno)
+            {
+                printf(" %d\t%s",*sno,ftr->itemname);
+                *q=strlen(ftr->itemname);
+                for(int t=0;t<=((*name_item)-(*q));t++)
+                {
+                    printf(" ");        //proper alignment
+                }
+                printf("\t%d\t\t\t%d\n",ftr->qty,ftr->t_price);
+                (*sno)++;              //serial no incrementation
+            }
+            ftr=ftr->next;      //points to the next node
+        }
+
+
+        setColor(74);
+        printf("\n TOTAL:\t%d (INR)",totalprice);   //prints the total of items cost
+
+        setColor(60);//reddish
+        float *amount=(float *)malloc(sizeof(float));//tax price
+        *amount=0.0;
+        *amount=(0.05)*totalprice;
+        printf("\n TAX (5%%) : %.2f (INR)",*amount); //tax applicable on purchase
+
+        float *pay=(float *)malloc(sizeof(float));                  //amount to pay after deducting tax
+        *pay=totalprice+(*amount);      //sum of tax and the cost of items
+        setColor(43);
+        printf("\n GRAND TOTAL :\t%.2f (INR)\n\n\n\n",*pay);
+
+        setColor(15);
+        hd=head3; // bill_det linked list pointer
+        h2=head2; //customer linked list pointer
+
+        while(hd->next!=NULL)   //to move to the end of the linked list
+        {
+            hd=hd->next;    //moves to the next node
+        }
+
+        while(h2->next!=NULL)
+        {
+            if(h2->id == hd->customerno)    //to match the customer ids
+                break;
+
+            h2=h2->next;    //moves to the next node
+        }
+
+        int *cc=(int *)malloc(sizeof(int));       //to identify different types of membership
+        int *d=(int *)malloc(sizeof(int));        //to identify the type of membership bday discount
+
+        //string comparisons to check the type of member and store the corresponding value in cc
+        if(!(strcmp("P",h2->membership)))
+        {
+            *cc=1;
+            printf("\n Great !You are a platinum member\n");
+        }
+
+        if(!(strcmp("G",h2->membership)))
+        {
+            *cc=2;
+            printf("\n Great !You are a gold member\n");
+        }
+
+        if(!(strcmp("S",h2->membership)))
+        {
+            *cc=3;
+            printf("\n Great !You are a silver member\n");
+        }
+        // calculating the member discount as per the membership policies
+        switch(*cc)
         {
             case 1:
-                  finalpay=finalpay-(0.30*finalpay);
-                  pp=30;
-                  break;
+                 *finalpay=*pay-(0.1*(*pay));
+                 break;
             case 2:
-                  finalpay=finalpay-(0.25*finalpay);
-                  pp=25;
-                  break;
+                *finalpay=*pay-(0.07*(*pay));
+                break;
             case 3:
-                  finalpay=finalpay-(0.20*finalpay);
-                  pp=20;
-                  break;
+                *finalpay=*pay-(0.05*(*pay));
+                break;
         }
 
-            printf("\n\n AHH ITS YOUR BIRTHDAY!!!\n Congrats on getting an additional discount of %d%%",pp);
-            printf("\n AMOUNT PAYABLE AFTER APPLYING SPECIAL BDAY DISCOUNT ");
-            setColor(44);
-            printf("%.2f (INR)",finalpay);
-            setColor(15);
-        }
-        int chh=0;  //for storing the choice entered by user if he wishes to redeem points or not
-        int pts=0;  // maximum points which can be redeemed on a particular purchase
-        int ou=0;   //do -while loop counter
-        //checks if eligible for greater than 500  points discount
-        if(h2->points>500)
+        //only if the customer is a member
+        if((*cc)!=0)
         {
-            //finalpay updated as per membership policies
-            switch(cc)
+            setColor(44);
+            printf("\n AMOUNT PAYABLE AFTER APPLYING MEMBER DISCOUNT : %.2f (INR)",round(*finalpay));
+            setColor(15);
+
+
+            int *pp=(int *)malloc(sizeof(int));       //stores the percentage of discount
+            *pp=0;
+
+            //to check the eligibility of birthday discount
+            if((h2->bday.dd == hd->cur_date.dd) && (h2->bday.mm == hd->cur_date.mm))
             {
-                case 1:
-                     finalpay-=0.25*finalpay;
-                     break;
-                case 2:
-                    finalpay-=0.20*finalpay;
-                    break;
-                case 3:
-                    finalpay-=0.15*finalpay;
-                    break;
+                *d=*cc; //to store the type of membership
+                *pp=1;
             }
 
-            printf("\n AMOUNT PAYABLE AFTER APPLYING GREATER THAN 500 POINTS DISCOUNT:  ");
-            setColor(44);
-            printf("%.2f (INR)",finalpay);
-            setColor(15);
+            // only if the bill generation date matches with the bday
+            if(*pp!=0)
+            {
+                switch(*d)
+                {
+                    case 1:
+                          *finalpay=*finalpay-(0.30*(*finalpay));
+                          *pp=30;
+                          break;
+                    case 2:
+                          *finalpay=*finalpay-(0.25*(*finalpay));
+                          *pp=25;
+                          break;
+                    case 3:
+                          *finalpay=*finalpay-(0.20*(*finalpay));
+                          *pp=20;
+                          break;
+                }
 
-        }
-        else
-        {
-            chh=0;//initializes choice
+                printf("\n\n AHH ITS YOUR BIRTHDAY!!!\n Congrats on getting an additional discount of %d%%",*pp);
+                printf("\n\n AMOUNT PAYABLE AFTER APPLYING SPECIAL BDAY DISCOUNT ");
+                setColor(44);
+                printf("%.2f (INR)",round(*finalpay));
+                setColor(15);
+            }
+
+            int *chh=(int *)malloc(sizeof(int));  //for storing the choice entered by user if he wishes to redeem points or not
+            int *pts=(int *)malloc(sizeof(int));  // maximum points which can be redeemed on a particular purchase
+            int *ou=(int *)malloc(sizeof(int));   //do -while loop counter
+            *chh=0;*pts=0;*ou=0;
+            //checks if eligible for greater than 500  points discount
+            if(h2->points>500)
+            {
+                //finalpay updated as per membership policies
+                switch(*cc)
+                {
+                    case 1:
+                         *finalpay-=0.25*(*finalpay);
+                         break;
+                    case 2:
+                        *finalpay-=0.20*(*finalpay);
+                        break;
+                    case 3:
+                        *finalpay-=0.15*(*finalpay);
+                        break;
+                }
+
+                printf("\n\n AMOUNT PAYABLE AFTER APPLYING GREATER THAN 500 POINTS DISCOUNT:  ");
+                setColor(44);
+                printf("%.2f (INR)",round(*finalpay));
+                setColor(15);
+
+            }
+
+            *chh=0;//initializes choice
+            int *ty=(int *)malloc(sizeof(int));
+            char *con1=(char *)malloc(100*sizeof(char));
+            int *len1=(int *)malloc(sizeof(int));
+
             if(h2->points!=0)
             {
-                printf("\n 1. Do you wish to redeem your points now \n 2. Would like to add them to 500 to avail discounts in future\n");
-                printf("\n Enter your choice:	");
-                scanf("%d",&chh);
-                if(chh==1)
-                {
-                    float p,g,s=0;  //maximum points that can be redeemed per category on the current purchase
-                    float point;    //appoints the maximum points that can be withdrawn at a time
-                    //finalpay divided by 2 so that the points are redeemed such that the final-pay is not negative or zero
-                    p=(finalpay/2)/1;
-
-                    g=(finalpay/2)/0.5;
-
-                    s=(finalpay/2)/0.25;
-
-                    //assigning the max redeemable points to point
-                    switch(cc)
+               do
+               {
+                   *ty=0;
+                    printf("\n 1. Do you wish to redeem your points now \n 2. Would like to add them to avail discounts in future\n");
+                    printf("\n Enter your choice:	");
+                    gets(con);
+                    *chh=atoi(con);
+                    *len=strlen(con);
+                    if(*len==1)
                     {
-                        case 1:
-                             point=p;
-                             break;
-                        case 2:
-                             point=g;
-                             break;
-                        case 3:
-                             point=s;
-                             break;
-                    }
-                    //if the redeemable points exceed the available points then the available points are the max which can be redeemed
-                    if(h2->points<point)
-                        point=h2->points;
-
-                    printf("\n On the current purchase you can redeem maximum points :");
-                    printf("%.2f",point);
-
-                    do
-                    {
-                        ou=0;
-                        printf("\n Enter the points you wish to redeem  ");
-                        printf("\n Enter your choice:	");
-                        scanf("%d",&pts);
-                        if(pts<=point) //the entered points are redeemable
+                        if(*chh==1)
                         {
-                            //updating the final pay as per the membership policies by converting the points to INR
-                            //updating the points in the customer's account after he has redeemed some/all points
-                            switch(cc)
-                            {
+                            float *p=(float *)malloc(sizeof(float)),*g=(float *)malloc(sizeof(float)),*s=(float *)malloc(sizeof(float));  //maximum points that can be redeemed per category on the current purchase
+                            float *point=(float *)malloc(sizeof(float));    //appoints the maximum points that can be withdrawn at a time
+                            //finalpay divided by 2 so that the points are redeemed such that the final-pay is not negative or zero
+                            *p=((*finalpay)/2)/1.0;
 
+                            *g=((*finalpay)/2)/0.5;
+
+                            *s=((*finalpay)/2)/0.25;
+
+                            //assigning the max redeemable points to point
+                            switch(*cc)
+                            {
                                 case 1:
-                                     finalpay=finalpay-pts;
-                                     h2->points-=pts;
+                                     *point=*p;
                                      break;
                                 case 2:
-                                     finalpay=finalpay-(pts*0.5);
-                                     h2->points-=pts;
-                                    break;
+                                     *point=*g;
+                                     break;
                                 case 3:
-                                     finalpay=finalpay-(pts*0.25);
-                                     h2->points-=pts;
-                                    break;
+                                     *point=*s;
+                                     break;
                             }
+                            //if the redeemable points exceed the available points then the available points are the max which can be redeemed
+                            if(h2->points<(*point))
+                                *point=h2->points;
 
-                            printf("\n Points left after redemption:");
-                            setColor(44);
-                            printf("\t %d",h2->points);
-                            setColor(15);
-                            printf("\n AMOUNT PAYABLE AFTER POINTS REDEMPTION DISCOUNT :%.2f (INR)",finalpay);
+                            printf("\n\n On the current purchase you can redeem maximum points :");
+                            printf("%.2f",round(*point));
+
+                            do
+                            {
+                                *ou=0;
+                                printf("\n\n Enter the points you wish to redeem  ");
+                                printf("\n Enter your choice:	");
+                                gets(con1);
+                                *pts=atoi(con1);
+                                *len1=strlen(con1);
+                                if(*len1<4)
+                                {
+                                    if((*pts)<=round(*point)) //the entered points are redeemable
+                                    {
+                                        //updating the final pay as per the membership policies by converting the points to INR
+                                        //updating the points in the customer's account after he has redeemed some/all points
+                                        switch(*cc)
+                                        {
+
+                                            case 1:
+                                                 (*finalpay)=(*finalpay)-(*pts);
+                                                 h2->points-=(*pts);
+                                                 break;
+                                            case 2:
+                                                 (*finalpay)=(*finalpay)-((*pts)*0.5);
+                                                 h2->points-=(*pts);
+                                                break;
+                                            case 3:
+                                                 (*finalpay)=(*finalpay)-((*pts)*0.25);
+                                                 h2->points-=(*pts);
+                                                break;
+                                        }
+
+                                        printf("\n\n Points left after redemption:");
+                                        setColor(44);
+                                        printf("\t %d",h2->points);
+                                        setColor(15);
+                                        printf("\n\n AMOUNT PAYABLE AFTER POINTS REDEMPTION DISCOUNT :%.2f (INR)",round(*finalpay));
+                                    }
+                                    else
+                                    {
+                                        setColor(12);
+                                        //if the entered points are greater than the redeemable limit
+                                        printf("\n\n These many points can't be redeemed  ");
+                                        printf("\n\n AMOUNT PAYABLE :%.2f (INR)",round(*finalpay));
+                                        setColor(15);
+                                        *ou=1; //updates ou to make the customer enter the points again or proceed without redemption
+                                    }
+                                }
+                                else
+                                {
+                                 setColor(12);
+                                    //if the entered points are greater than the redeemable limit
+                                    printf("\n\n These many points can't be redeemed  ");
+                                    printf("\n\n AMOUNT PAYABLE :%.2f (INR)",round(*finalpay));
+                                    setColor(15);
+                                    *ou=1; //updates ou to make the customer enter the points again or proceed without redemption
+                                }
+                            }while((*ou)==1);
                         }
-
+                        else if(*chh=2)
+                        {
+                            printf("\n OK!!");      // wishes to save points for future
+                        }
                         else
                         {
-                            //if the entered points are greater than the redeemable limit
-                            printf("\n These many points can't be redeemed  ");
-                            printf("\n AMOUNT PAYABLE :%.2f (INR)",finalpay);
-                            ou=1; //updates ou to make the customer enter the points again or proceed without redemption
-
+                           setColor(12);
+                           printf("\n\n INVALID SELECTION!\n\n");
+                           setColor(15);
+                           *ty=1;
                         }
-                    }while(ou==1);
-                }
-                else
-                {
-                    printf("\n OK!!");      // wishes to save points for future
-                }
+                    }
+                    else
+                    {
+                       setColor(12);
+                       printf("\n\n INVALID SELECTION!\n\n");
+                       setColor(15);
+                       *ty=1;
+                    }
+                }while((*ty)==1);
             }
         }
-    }
-    else if(cc==0)      //not an existing member
-    {
-        char ch2;       //whether to take membership or not
-        char ch3;       //what type of membership to take
-        offerzone();    //displays the different memberships available and the associated policies
-        printf("\n\n Do you want to take membership?(Y/N)\n\n");
-        printf("\n Enter your choice:	");
-        scanf(" %c",&ch2);
-
-        if(ch2 == 'Y' || ch2=='y')  // wishes to be a member
+        else if((*cc)==0)      //not an existing member
         {
-            printf("\n What type of membership do you want to take?(P/G/S):\t");
+            char *ch2=(char *)malloc(10*sizeof(char));       //whether to take membership or not
+            char *ch3=(char *)malloc(10*sizeof(char));       //what type of membership to take
+            offerzone();    //displays the different memberships available and the associated policies
+            printf("\n\n Do you want to take membership?(Y/N)\n\n");
             printf("\n Enter your choice:	");
-            scanf(" %c",&ch3);
-            // type of membership taken and associated points updated in member's account as per membership policies
-            if(ch3 == 'P' || ch3 == 'p')
+            gets(ch2);
+
+            if(!strcmpi(ch2,"Y"))  // wishes to be a member
             {
-                strcpy(h2->membership,"P");
-                h2->points=100;
-                setColor(11);
-                printf("\n\n Thanks for becoming our member!");
-                printf("\n Membership:Platinum");
-                printf("\n Initial Points:100");
-                setColor(15);
-            }
-            else if(ch3 == 'G' || ch3 == 'g')
-            {
-                strcpy(h2->membership,"G");
-                h2->points=100;
-                setColor(11);
-                printf("\n\n Thanks for becoming our member!");
-                printf("\n Membership:Gold");
-                printf("\n Initial Points:100");
-                setColor(15);
-            }
-            else if(ch3 == 'S' || ch3 == 's')
-            {
-                strcpy(h2->membership,"S");
-                h2->points=100;
-                setColor(11);
-                printf("\n\n Thanks for becoming our member!");
-                printf("\n Membership:Silver");
-                printf("\n Initial Points:100");
-                setColor(15);
+                printf("\n What type of membership do you want to take?(P/G/S):\t");
+                printf("\n Enter your choice:	");
+                gets(ch3);
+                // type of membership taken and associated points updated in member's account as per membership policies
+                if(!strcmpi(ch3,"P"))
+                {
+                    strcpy(h2->membership,"P");
+                    h2->points=100;
+                    setColor(11);
+                    printf("\n\n Thanks for becoming our member!");
+                    printf("\n Membership:Platinum");
+                    printf("\n Initial Points:100");
+                    setColor(15);
+                }
+                else if(!strcmpi(ch3,"G"))
+                {
+                    strcpy(h2->membership,"G");
+                    h2->points=100;
+                    setColor(11);
+                    printf("\n\n Thanks for becoming our member!");
+                    printf("\n Membership:Gold");
+                    printf("\n Initial Points:100");
+                    setColor(15);
+                }
+                else if(!strcmpi(ch3,"S"))
+                {
+                    strcpy(h2->membership,"S");
+                    h2->points=100;
+                    setColor(11);
+                    printf("\n\n Thanks for becoming our member!");
+                    printf("\n Membership:Silver");
+                    printf("\n Initial Points:100");
+                    setColor(15);
+                }
+
             }
 
         }
 
-    }
 
-    bill *gtr=head4;            //pointer to bill linked list
-    while(gtr->next!=NULL)      //traversing through the node
-        gtr=gtr->next;
-    gtr->total_price=finalpay;  //appointing finalpay to the bill record
+        bill *gtr=head4;            //pointer to bill linked list
+        while(gtr->next!=NULL)      //traversing through the node
+            gtr=gtr->next;
+        gtr->total_price=round(*finalpay);  //appointing finalpay to the bill record
 
-    setColor(74);
-    printf("\n\n\n\n");
+        setColor(74);
+        printf("\n\n\n\n");
 
-    int r=1;            //stars counter
-    char stars[10];     //gets stars
-    setColor(67);
-    printf("\n\n THANK YOU!! VISIT AGAIN");
-    setColor(15);
-    printf(" \n\n Take a Minute to Rate Us     ");
-
-    printf("\n\n How Many Stars Would You Give Us (***** means Best Services)?\n"); //input of rating taken in terms of *
-    int j=0;        //for traversing the string
-    setColor(22);
-    getchar();
-    fgets(stars,10,stdin);  //takes the input as a string
-
-    while(stars[j]!='\0')
-    {
-        r++;        //counts the no of stars
-        j++;
-    }
-
-    setColor(15);
-    r=r-2;
-    h2->rate=r;     //updating the rating give by user
-
-    if(cc!=0)       //only for members
-    {
-        //calculation of the points earned on this purchase as per membership policies
-        switch(cc)
-        {
-
-        case 1:
-             cur_points+=finalpay*0.3;
-             break;
-        case 2:
-             cur_points+=finalpay*0.2;
-            break;
-        case 3:
-             cur_points+=finalpay*0.1;
-            break;
-        }
-        setColor(46);
-        printf("\n Points Earned on this Purchase:\t%d",cur_points);
+        int *r=(int *)malloc(sizeof(int));            //stars counter
+        *r=1;
+        char *stars=(char *)malloc(10*sizeof(char));     //gets stars
         setColor(67);
-        h2->points+=cur_points; //adds this points into user's account
-        printf("\n Total Points:\t%d",h2->points);
-        setColor(42);
+        printf("\n\n THANK YOU!! VISIT AGAIN");
+        setColor(15);
+        printf(" \n\n Take a Minute to Rate Us     ");
+
+        printf("\n\n How Many Stars Would You Give Us (***** means Best Services)?\n"); //input of rating taken in terms of *
+        int *j=(int *)malloc(sizeof(int));        //for traversing the string
+        *j=0;
+        setColor(22);
+        getchar();
+        fgets(stars,10,stdin);  //takes the input as a string
+
+        while(stars[*j]!='\0')
+        {
+            (*r)++;        //counts the no of stars
+            (*j)++;
+        }
+
+        setColor(15);
+        *r=*r-2;
+        h2->rate=*r;     //updating the rating give by user
+
+        if(*cc!=0)       //only for members
+        {
+            //calculation of the points earned on this purchase as per membership policies
+            switch(*cc)
+            {
+
+            case 1:
+                 *cur_points+=(*finalpay)*0.3;
+                 break;
+            case 2:
+                 *cur_points+=(*finalpay)*0.2;
+                break;
+            case 3:
+                 *cur_points+=(*finalpay)*0.1;
+                break;
+            }
+            setColor(46);
+            printf("\n Points Earned on this Purchase:\t%.0f",round(*cur_points));
+            setColor(67);
+            h2->points+=round(*cur_points); //adds this points into user's account
+            printf("\n Total Points:\t%d",h2->points);
+            setColor(42);
+        }
+        setColor(98);
+        printf("\n\n\n HAVE A NICE DAY!");
+
+
+        setColor(15);
+        printf("\n ");
+
+        update_details();
+        exit(0);// because here the 3 options of checking location etc look irrelevant
     }
-    printf("\n\n\n HAVE A NICE DAY!");
-
-
-    setColor(15);
-    printf("\n ");
-
-    update_details();
-    exit(0);// because here the 3 options of checking location etc look irrelevant
+    else
+    {
+        setColor(12);
+        printf("\n\n\n NO ITEM BOUGHT!");
+        setColor(15);
+    }
 }
 
 

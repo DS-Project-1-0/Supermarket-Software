@@ -14,13 +14,13 @@ Item ID,Category,Name,Location,Quantity,Unit Price
 3,Essentials,Tongue Cleaner (Set of 5),C011,17,30
 3,Essentials,Dreamline Bed Sheets,C100,33,500
 3,Essentials,Raymond Towel,C221,22,450
-4,Stationary,Pen,D001,70,10
+4,Stationary,Pen,D001,58,10
 4,Stationary,Pencil,D016,80,30
 4,Stationary,Register(A4),D313,39,60
 4,Stationary,Eraser,D980,90,2
 4,Stationary,Pencil Box,D645,34,100
-5,Kitchen Utensils,Cutting Board,E897,15,320
+5,Kitchen Utensils,Cutting Board,E897,11,320
 5,Kitchen Utensils,Knife Set,E465,12,600
-5,Kitchen Utensils,Spoons,E111,21,350
-5,Kitchen Utensils,Spatula,E434,21,100
-5,Kitchen Utensils,Can Opener,E827,8,25
+5,Kitchen Utensils,Spoons,E111,4,350
+5,Kitchen Utensils,Spatula,E434,0,100
+5,Kitchen Utensils,Can Opener,E827,3,25

@@ -47,17 +47,17 @@ typedef struct bill
 {
     int customerno;         // stores the customer no
     int billno;             // stores the bill no
-    int total_price;        // stores the total_price paid by customer
+    float total_price;      // stores the total_price paid by customer
     date cur_date;          // store the bill generation date
     struct bill *next;      // pointer to the next node
 }bill;                      // typedef bill
 
 void setColor(int);         // use to change colour of text
-void screen1(char);         // storing data in linked list
+void screen1(char *);         // storing data in linked list
 void correctpass();         // login page
 void inventory();           // viewing inventory stocks
 void customerDetails();     // related to customer details
-void statistics();			// related to ststs of the stocks and sales
+void statistics();			// related to stats of the stocks and sales
 void billDetails();			// shows items bought by the customer
 void customer_entry();      // displays the options to customer to check location,generate bill or log out
 void checkLocation();       // checking location of the items
