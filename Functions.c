@@ -287,7 +287,7 @@ void screen1(char ch[])
                 {
                     password[(*i)] = (*c);
                     (*i)++;
-                    printf("*");            //the password is printed as astricks
+                    printf("*");            //the password is printed as asteriks
                 }
 
                 if((*c)=='\b' && (*i)>=1)
@@ -1128,7 +1128,7 @@ void addItems()
                         setColor(46);
                         printf(" THIS ITEM ALREADY EXISTS!\n Quantity is %d\n",ptr->qty);
                         setColor(15);
-                        *check=1;               //keeps in check whether the item was already in file or not
+                        *check=1;               //keeps in check whether the item was already in inventory file or not
 
                         do
                         {
@@ -1194,7 +1194,7 @@ void addItems()
                 item *ltr=head1;
                 while(ltr!=NULL)
                 {
-                    if(!strcmp(ltr->category,temp->category))
+                    if(!strcmp(ltr->category,temp->category))   //compares the entered category with the already existing categories
                         {
                             (*counter1)++;
                             (*id)=ltr->id;                      //gets the id of the existing category
@@ -1216,7 +1216,7 @@ void addItems()
                 ltr=head1;
                 while(ltr!=NULL)
                 {
-                    if(!strcmp(ltr->category,temp->category))
+                    if(!strcmp(ltr->category,temp->category))       //compares the entered category with the already existing categories
                         (*counter)++;
                     if((*counter1)==(*counter))                      //keeps in check whether pointer has reached the end for the specific category
                         break;
@@ -1240,7 +1240,7 @@ void addItems()
             do
             {
                 *z=0;
-                printf("\n\n Do you want to enter more items?(y/n)\n");
+                printf("\n\n Do you want to enter more items?(y/n)\n");   //asks whether the user wishes to add more items to the Inventory
                 printf("\n Enter your choice:	");
                 gets(d);
                 if(!strcmpi(d,"y"))       //compares codes of y
@@ -1258,8 +1258,8 @@ void addItems()
                     setColor(15);
                     *z=1;    // to make the loop run again for a valid input
                 }
-            }while((*z)==1);
-        }while((*y)==1);
+            }while((*z)==1);//counter for do while loop
+        }while((*y)==1);//counter for do while loop
 
 
 
@@ -1368,7 +1368,7 @@ void checkLocation()
     {
         *dh=0;
         printf("\n\n What item do you need to search for:\t ");
-        //getchar();
+
         gets(choice);//takes the name of the item as a string
 
         *e=1;//for serial number
@@ -1496,7 +1496,7 @@ void generateBill()
 
     printf("\t\t\t\t\t\t CUSTOMER DETAILS	\n");
     printf(" Enter Name: ");
-    //getchar();
+
     gets(name1);    //takes the input of the customer name as a string
 
     printf(" Enter Birthdate(dd/mm/yyyy): ");
@@ -1740,7 +1740,7 @@ void generateBill()
                         if(*k==1)
                         {
                             *l=1;
-                            //getchar();
+
                         }
                         else if (*k==2)
                         {
@@ -1944,7 +1944,7 @@ void generateBill()
                 if(!strcmpi(d,"y"))       //compares codes of y
                 {
                     *y=1;
-                    getchar();
+
                     *h++;
                 }
                 else if(!strcmpi(d,"n")) // compares the codes of N
@@ -2087,7 +2087,7 @@ void generateBill()
                                                 trav=head3;// bill_det type pointer
                                                 dtr=head1; //item type pointer
 
-                                                //getchar();
+
                                                 printf(" Enter the item you want to delete: ");
                                                 gets(item_name);
 
@@ -2232,7 +2232,6 @@ void generateBill()
                                        do
                                        {
                                             *re=0;
-                                            getchar();
                                             printf(" Enter the item you want to modify: ");
                                             gets(item_name);
 
@@ -2351,9 +2350,9 @@ void generateBill()
                                             do
                                             {
                                                 *z=0;
+                                                getchar();
                                                 printf("\n\n Do you want to update more items?(y/n)\n");
                                                 printf("\n Enter your choice:	");
-                                                getchar();
                                                 gets(d);
                                                 if(!strcmpi(d,"y")) // comparing ASCII codes for Y
                                                 {
@@ -2961,7 +2960,10 @@ void invoice(int totalprice,int billno)
     {
         setColor(12);
         printf("\n\n\n NO ITEM BOUGHT!");
+        setColor(98);
+        printf("\n\n\n HAVE A NICE DAY!");
         setColor(15);
+        exit(0);
     }
 }
 
