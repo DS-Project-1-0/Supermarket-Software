@@ -391,7 +391,7 @@ void correctpass()
         printf("\n\n\n\n WELCOME ADMIN");
         setColor(15);
         //offered choices
-        printf("\n\n Do you want to :\n 1. View inventory and stock\n 2. View Customer details\n 3. Statistics\n 4. Show Bill Details\n 5. Logout\n\n");
+        printf("\n\n Do you want to :\n 1. View inventory and stock\n 2. View Customer details\n 3. Statistics\n 4. Show Bill Details\n 5. Add Items to Inventory\n 6. Logout\n\n");
         printf("\n Enter your choice:	");
         gets(c);
         switch(atoi(c))//converting the input by user into integer
@@ -409,6 +409,9 @@ void correctpass()
                 billDetails();       //shows details about the items sold
                 break;
             case 5:
+                addItems();            //adds items to the inventory
+                break;
+            case 6:
                 do
                 {
                     (*w)=0;
@@ -464,13 +467,32 @@ void inventory()
         printf("\n\n CATEGORIES \n\n");
         setColor(15);
         //shows the different categories of items in the shop
-        printf(" 1. Food\n 2. Clothes\n 3. Essentials\n 4. Stationery\n 5. Kitchen Utensils\n 6. All \n 7. Go to Home Page\n\n");
+        item *utr=head1;
+        char *cat=(char *)malloc(500000*sizeof(char));
+        int *num =(int *)malloc(sizeof(int));
+        strcpy(cat,utr->category);
+        *num=utr->id;
+        printf(" %d. %s\n",*num,cat);
+        while(utr!=NULL)
+        {
+            if(strcmp(cat,utr->category))
+            {
+             strcpy(cat,utr->category);
+             *num=utr->id;
+             printf(" %d. %s\n",*num,cat);
+            }
+            utr=utr->next;
+        }
+        utr=head1;
+        while(utr->next!=NULL)
+            utr=utr->next;
+        printf(" %d. All \n %d. Go to Home Page\n\n",(utr->id)+1,(utr->id)+2);
         printf("\n Enter your choice:	");
         gets(con);//getting input from the user
         *choice=atoi(con);//converting the choice into integers
         *len=strlen(con);//getting the length of the choice by user
 
-        if((*choice)>=1&&(*choice)<=7&&(*len)==1)
+        if((*choice)>=1&&(*choice)<=((utr->id)+2)&&(*len)<=2)
         {
             int *e=(int *)malloc(sizeof(int));//maintains serial number
             (*e)=1;
@@ -482,7 +504,7 @@ void inventory()
             item *ctr=head1->next;//to point to next node
             item *ltr=head1;//to traverse through the list
 
-            if((*choice)!=7) //except when he doesn't wish to go to home page
+            if((*choice)!=((utr->id)+2)) //except when he doesn't wish to go to home page
             {
                 setColor(11);
                 printf("\n S.No\tName\t");
@@ -505,7 +527,8 @@ void inventory()
                 setColor(15);
             }
 
-            if((*choice) <=5) //displays the items category wise
+
+            if((*choice) <=(utr->id)) //displays the items category wise
             {
                 while(ltr!=NULL)
                 {
@@ -525,7 +548,7 @@ void inventory()
                     ltr=ltr->next;
                 }
             }
-            else if((*choice)==6) //displays items of all the categories
+            else if((*choice)==((utr->id)+1)) //displays items of all the categories
             {
                 while(ltr!=NULL)
                 {
@@ -542,7 +565,7 @@ void inventory()
                     ltr=ltr->next;
                 }
             }
-            else if((*choice)==7)
+            else if((*choice)==((utr->id)+2))
             {
                break;       //return back to home page
             }
@@ -957,6 +980,9 @@ void billDetails()
     do
     {
         *ch=0;
+        setColor(22);
+        printf("\n\n  DETAILS");
+        setColor(15);
         printf("\n Enter the Phone Number:	");
         gets(phoneno); //takes the phone no as a string
         atr=head2;  //head of customer list
@@ -1057,6 +1083,188 @@ void billDetails()
         }
     }while((*ch)==1);
 }
+
+void addItems()
+{
+        char *item_name=(char *)malloc(500000*sizeof(char));              //enter item name
+        char *category=(char *)malloc(500000*sizeof(char));               //enter category
+        int *w=(int *)malloc(sizeof(int));                                //for do while
+        char *n=(char *)malloc(10*sizeof(char));                          //asks the user whether to update the current item or not
+        int *x=(int *)malloc(sizeof(int));                                //for do while
+        int *new_qty=(int *)malloc(sizeof(int));                          //enter new quantity for already existing item
+        int *check=(int *)malloc(sizeof(int));                            //to check whether item already exists or not
+        *check=0;
+        int *item_qty=(int *)malloc(sizeof(int));                         //enter the quantity of new item
+        int *unit_price=(int *)malloc(sizeof(int));                       //enter the unit price of new item
+        char *loc=(char *)malloc(10*sizeof(char));                        //enter the location of new item
+        int *id=(int *)malloc(sizeof(int));                               //store the id of new item
+        int *counter=(int *)malloc(sizeof(int));                          //check the number of items for the required category
+        int *counter1=(int *)malloc(sizeof(int));                         //check the number of items for the required category
+        *id=0;*counter=0;*counter1=0;
+        int *y=(int *)malloc(sizeof(int));                                 //for do while
+        int *z=(int *)malloc(sizeof(int));                                 //for do while
+        char *d=(char *)malloc(10*sizeof(char));                           //asks the user whether to add more item or not
+
+
+        do
+        {
+            *y=0;
+            *check=0;
+            setColor(22);
+            printf("\n\n\n  DETAILS\n\n");
+            setColor(15);
+            printf(" Enter Category: ");
+            gets(category);
+            printf(" Enter Item Name: ");
+            gets(item_name);
+
+            item *ptr=head1;
+            while(ptr!=NULL)
+            {
+                if(!strcmp(category,ptr->category))
+                {
+                    if(!strcmp(item_name,ptr->name))
+                    {
+                        setColor(46);
+                        printf(" THIS ITEM ALREADY EXISTS!\n Quantity is %d\n",ptr->qty);
+                        setColor(15);
+                        *check=1;               //keeps in check whether the item was already in file or not
+
+                        do
+                        {
+                            *w=0; //do -while counter
+                            printf("\n\n Do you want to update?(y/n)\n");
+                            printf("\n Enter your choice:	");
+                            gets(n);
+                            if(!strcmpi(n,"y"))   //comparing codes for yes
+                            {
+                                do
+                                {
+                                    *x=0;
+                                    printf("\n\n Enter the Quantity:\t");
+                                    scanf("%d",new_qty);
+                                    if(new_qty<=0)
+                                    {
+                                        setColor(12);
+                                        printf("\n\n INVALID QUANTITY ENTERED!\n\n");
+                                        setColor(15);
+                                        *x=1;
+                                    }
+                                    else
+                                    {
+                                        setColor(98);
+                                        printf("\n\n  ITEM QUANTITY UPDATED!\n\n");
+                                        setColor(15);
+                                        ptr->qty=(*new_qty);
+                                        getchar();
+                                    }
+                                }while((*x)==1);
+                             }
+                             else if(!strcmpi(n,"n"))
+                             {
+                                break; // to run the loop again
+
+                             }
+                             else
+                             {
+                                *w=1;   //do while counter
+                             }
+                         }while((*w)==1);
+                    }
+                }
+                ptr=ptr->next;
+            }
+            if((*check)==0)//if new item is added
+            {
+                printf(" Enter the Quantity: ");
+                scanf("%d",item_qty);
+                printf(" Enter the Unit Price: ");
+                scanf("%d",unit_price);
+                printf(" Enter the Location: ");
+                getchar();
+                gets(loc);
+
+                item *temp=(item *)malloc(sizeof(item));
+                strcpy(temp->category,category);
+                strcpy(temp->name,item_name);
+                temp->qty=(*item_qty);
+                temp->price=(*unit_price);
+                strcpy(temp->location,loc);
+
+                item *ltr=head1;
+                while(ltr!=NULL)
+                {
+                    if(!strcmp(ltr->category,temp->category))
+                        {
+                            (*counter1)++;
+                            (*id)=ltr->id;                      //gets the id of the existing category
+                        }
+                    ltr=ltr->next;
+                }
+                if((*id)!=0)
+                (temp->id)=(*id);
+                else
+                {
+                    ltr=head1;
+                    while(ltr->next!=NULL)
+                    {
+                        ltr=ltr->next;
+                    }
+                    temp->id=(ltr->id)+1;                           //assign a new id if earlier there was no category
+                }
+
+                ltr=head1;
+                while(ltr!=NULL)
+                {
+                    if(!strcmp(ltr->category,temp->category))
+                        (*counter)++;
+                    if((*counter1)==(*counter))                      //keeps in check whether pointer has reached the end for the specific category
+                        break;
+                    ltr=ltr->next;
+                }
+                if(*counter!=0)
+                {
+                    temp->next=ltr->next;
+                    ltr->next=temp;
+                }
+                else
+                {
+                    ltr=head1;
+                    while(ltr->next!=NULL)
+                        ltr=ltr->next;
+                    ltr->next=temp;
+                    temp->next=NULL;
+                }
+            }
+
+            do
+            {
+                *z=0;
+                printf("\n\n Do you want to enter more items?(y/n)\n");
+                printf("\n Enter your choice:	");
+                gets(d);
+                if(!strcmpi(d,"y"))       //compares codes of y
+                {
+                    *y=1;
+                }
+                else if(!strcmpi(d,"n")) // compares the codes of N
+                {
+                    update_details(1);
+                }
+                else
+                {
+                    setColor(12);
+                    printf("\n\n INVALID SELECTION!\n\n");
+                    setColor(15);
+                    *z=1;    // to make the loop run again for a valid input
+                }
+            }while((*z)==1);
+        }while((*y)==1);
+
+
+
+}
+
 //customer home page
 void customer_entry()
 {
@@ -2746,7 +2954,7 @@ void invoice(int totalprice,int billno)
         setColor(15);
         printf("\n ");
 
-        update_details();
+        update_details(5);
         exit(0);// because here the 3 options of checking location etc look irrelevant
     }
     else
@@ -2759,103 +2967,124 @@ void invoice(int totalprice,int billno)
 
 
 
-void update_details()
+void update_details(int ch)//ch tells which file to update 5 representing all files
 {
-    fp=fopen("Inventory.csv","w");// opening file to update inventory records
-    fp1=fopen("Customer_details.csv","w");// opening file to update customer records
-    fp2=fopen("Bill_details.csv","w");// opening file to update bill records
-    fp3=fopen("Bill.csv","w");//opening file to update bill records
-
-    if(fp==NULL)    //in case the file pointer returns zero
+    if(ch==1||ch==5)
     {
-        setColor(12);
-        printf("File did not open successfully");
-        setColor(15);
-        exit(0);
+        fp=fopen("Inventory.csv","w");// opening file to update inventory records
+
+        if(fp==NULL)    //in case the file pointer returns zero
+        {
+            setColor(12);
+            printf("File did not open successfully");
+            setColor(15);
+            exit(0);
+        }
+
+        item *ptr=head1;        //pointer to item linked list
+
+        //for writing the headings in the inventory file
+        fprintf(fp,"Item ID,Category,Name,Location,Quantity,Unit Price\n");
+        while(ptr->next!=NULL)
+        {
+            //writing each record line wise into the file
+            fprintf(fp,"%d,%s,%s,%s,%d,%d\n",ptr->id,ptr->category,ptr->name,ptr->location,ptr->qty,ptr->price);
+            //moving to the next node
+            ptr=ptr->next;
+        }
+        //for writing the last record into the file
+        fprintf(fp,"%d,%s,%s,%s,%d,%d",ptr->id,ptr->category,ptr->name,ptr->location,ptr->qty,ptr->price);
+
+        fclose(fp);     //closing the inventory file
     }
 
-    if(fp1==NULL)  //in case the file pointer returns zero
+
+    if(ch==2||ch==5)
     {
-        setColor(12);
-        printf("File did not open successfully");
-        setColor(15);
-        exit(0);
+        fp1=fopen("Customer_details.csv","w");// opening file to update customer records
+
+        if(fp1==NULL)  //in case the file pointer returns zero
+        {
+            setColor(12);
+            printf("File did not open successfully");
+            setColor(15);
+            exit(0);
+        }
+
+        customer *ltr=head2;    // pointer to customer linked list
+
+        //for writing the headings in the Customer_details file
+        fprintf(fp1,"Customer_Id,Name,BirthDate,BirthMonth,BirthYear,Phone No.,Date added,Month added,Year added,Membership,Points,Rating\n");
+        while(ltr->next!=NULL)
+        {
+            //writing each record line-wise into the file
+            fprintf(fp1,"%d,%s,%d,%d,%d,%s,%d,%d,%d,%s,%d,%d\n",ltr->id,ltr->name,ltr->bday.dd,ltr->bday.mm,ltr->bday.yy,ltr->phoneno,ltr->entry.dd,ltr->entry.mm,ltr->entry.yy,ltr->membership,ltr->points,ltr->rate);
+            //moving to the next node
+            ltr=ltr->next;
+        }
+        //for writing the last record into the file
+        fprintf(fp1,"%d,%s,%d,%d,%d,%s,%d,%d,%d,%s,%d,%d",ltr->id,ltr->name,ltr->bday.dd,ltr->bday.mm,ltr->bday.yy,ltr->phoneno,ltr->entry.dd,ltr->entry.mm,ltr->entry.yy,ltr->membership,ltr->points,ltr->rate);
+
+        fclose(fp1);   //closing the customer details file
     }
 
-    if(fp2==NULL)  //in case the file pointer returns zero
+    if(ch==3||ch==5)
     {
-        setColor(12);
-        printf("File did not open successfully");
-        setColor(15);
-        exit(0);
+            fp2=fopen("Bill_details.csv","w");// opening file to update bill records
+
+        if(fp2==NULL)  //in case the file pointer returns zero
+        {
+            setColor(12);
+            printf("File did not open successfully");
+            setColor(15);
+            exit(0);
+        }
+
+        bill_det *atr=head3;    //pointer to bill_det linked list
+
+         //writing the headings in the Bill_details file
+        fprintf(fp2,"Customer Id,Bill No.,ItemName,Quantity,Total_Price,Date,Month,Year\n");
+        while(atr->next!=NULL)
+        {
+            //writing each record line-wise into the file
+            fprintf(fp2,"%d,%d,%s,%d,%d,%d,%d,%d\n",atr->customerno,atr->billno,atr->itemname,atr->qty,atr->t_price,atr->cur_date.dd,atr->cur_date.mm,atr->cur_date.yy);
+            //moving to the next node
+            atr=atr->next;
+        }
+        //for writing the last record into the file
+        fprintf(fp2,"%d,%d,%s,%d,%d,%d,%d,%d",atr->customerno,atr->billno,atr->itemname,atr->qty,atr->t_price,atr->cur_date.dd,atr->cur_date.mm,atr->cur_date.yy);
+
+        fclose(fp2); //closing the bill details file
     }
-    if(fp3==NULL)
+
+    if(ch==4||ch==5)
     {
-        setColor(12);
-        printf("File did not open successfully");
-        setColor(15);
-        exit(0);
+        fp3=fopen("Bill.csv","w");//opening file to update bill records
+
+        if(fp3==NULL)
+        {
+            setColor(12);
+            printf("File did not open successfully");
+            setColor(15);
+            exit(0);
+        }
+
+        bill *mtr=head4;        //pointer to bill linked list
+
+        //for writing the headings in the Bill file
+        fprintf(fp3,"Customer Id,Bill No.,Total_Price,Date,Month,Year\n");
+        while(mtr->next!=NULL)
+        {
+            //for writing each record line-wise
+            fprintf(fp3,"%d,%d,%.2f,%d,%d,%d\n",mtr->customerno,mtr->billno,mtr->total_price,mtr->cur_date.dd,mtr->cur_date.mm,mtr->cur_date.yy);
+            // for moving to the next node
+            mtr=mtr->next;
+        }
+        //for writing the last record into the file
+        fprintf(fp3,"%d,%d,%.2f,%d,%d,%d",mtr->customerno,mtr->billno,mtr->total_price,mtr->cur_date.dd,mtr->cur_date.mm,mtr->cur_date.yy);
+
+        fclose(fp3);  //closing the bill file
     }
-
-    item *ptr=head1;        //pointer to item linked list
-    customer *ltr=head2;    // pointer to customer linked list
-    bill_det *atr=head3;    //pointer to bill_det linked list
-    bill *mtr=head4;        //pointer to bill linked list
-
-    //for writing the headings in the inventory file
-    fprintf(fp,"Item ID,Category,Name,Location,Quantity,Unit Price\n");
-    while(ptr->next!=NULL)
-    {
-        //writing each record line wise into the file
-        fprintf(fp,"%d,%s,%s,%s,%d,%d\n",ptr->id,ptr->category,ptr->name,ptr->location,ptr->qty,ptr->price);
-        //moving to the next node
-        ptr=ptr->next;
-    }
-    //for writing the last record into the file
-    fprintf(fp,"%d,%s,%s,%s,%d,%d",ptr->id,ptr->category,ptr->name,ptr->location,ptr->qty,ptr->price);
-
-    //for writing the headings in the Customer_details file
-    fprintf(fp1,"Customer_Id,Name,BirthDate,BirthMonth,BirthYear,Phone No.,Date added,Month added,Year added,Membership,Points,Rating\n");
-    while(ltr->next!=NULL)
-    {
-        //writing each record line-wise into the file
-        fprintf(fp1,"%d,%s,%d,%d,%d,%s,%d,%d,%d,%s,%d,%d\n",ltr->id,ltr->name,ltr->bday.dd,ltr->bday.mm,ltr->bday.yy,ltr->phoneno,ltr->entry.dd,ltr->entry.mm,ltr->entry.yy,ltr->membership,ltr->points,ltr->rate);
-        //moving to the next node
-        ltr=ltr->next;
-    }
-    //for writing the last record into the file
-    fprintf(fp1,"%d,%s,%d,%d,%d,%s,%d,%d,%d,%s,%d,%d",ltr->id,ltr->name,ltr->bday.dd,ltr->bday.mm,ltr->bday.yy,ltr->phoneno,ltr->entry.dd,ltr->entry.mm,ltr->entry.yy,ltr->membership,ltr->points,ltr->rate);
-
-    //writing the headings in the Bill_details file
-    fprintf(fp2,"Customer Id,Bill No.,ItemName,Quantity,Total_Price,Date,Month,Year\n");
-    while(atr->next!=NULL)
-    {
-        //writing each record line-wise into the file
-        fprintf(fp2,"%d,%d,%s,%d,%d,%d,%d,%d\n",atr->customerno,atr->billno,atr->itemname,atr->qty,atr->t_price,atr->cur_date.dd,atr->cur_date.mm,atr->cur_date.yy);
-        //moving to the next node
-        atr=atr->next;
-    }
-    //for writing the last record into the file
-    fprintf(fp2,"%d,%d,%s,%d,%d,%d,%d,%d",atr->customerno,atr->billno,atr->itemname,atr->qty,atr->t_price,atr->cur_date.dd,atr->cur_date.mm,atr->cur_date.yy);
-
-
-    //for writing the headings in the Bill file
-    fprintf(fp3,"Customer Id,Bill No.,Total_Price,Date,Month,Year\n");
-    while(mtr->next!=NULL)
-    {
-        //for writing each record line-wise
-        fprintf(fp3,"%d,%d,%.2f,%d,%d,%d\n",mtr->customerno,mtr->billno,mtr->total_price,mtr->cur_date.dd,mtr->cur_date.mm,mtr->cur_date.yy);
-        // for moving to the next node
-        mtr=mtr->next;
-    }
-    //for writing the last record into the file
-    fprintf(fp3,"%d,%d,%.2f,%d,%d,%d",mtr->customerno,mtr->billno,mtr->total_price,mtr->cur_date.dd,mtr->cur_date.mm,mtr->cur_date.yy);
-
-    fclose(fp);     //closing the inventory file
-    fclose(fp1);    //closing the customer details file
-    fclose(fp2);    //closing the bill details file
-    fclose(fp3);    //closing the bill file
-
 }
 
 

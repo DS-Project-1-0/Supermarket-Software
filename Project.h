@@ -59,6 +59,7 @@ void inventory();           // viewing inventory stocks
 void customerDetails();     // related to customer details
 void statistics();			// related to stats of the stocks and sales
 void billDetails();			// shows items bought by the customer
+void addItems();            // add more items to the inventory
 void customer_entry();      // displays the options to customer to check location,generate bill or log out
 void checkLocation();       // checking location of the items
 void generateBill();        // bill related options of modify and delete quantities
