@@ -44,7 +44,8 @@ void screen1(char ch[])
 	char c;//gets the password
 	int *ctr=(int *)malloc(sizeof(int));//counter
 	*ctr=0;
-	int i,*k=(int *)malloc(sizeof(int)),l;//loop counter variables
+	int *i=(int *)malloc(sizeof(int)),*k=(int *)malloc(sizeof(int)),*l=(int *)malloc(sizeof(int));//loop counter variables
+	*i=0;*l=0;
 	char *t=(char *)malloc(5*sizeof(char));//gets choice
 	char password[100]={'\0'};//array for getting the password
 	int *g=(int *)malloc(sizeof(int));//for do while
@@ -279,26 +280,26 @@ void screen1(char ch[])
 		{
 			printf("\n Enter the password\t"); //asking him to enter the password
 
-			for( i = 0;;)
+			for( (*i) = 0;;)
 			{
 			    c = getch();
 
 			    if((c>='A' && c<='Z') ||(c>='a' && c<='z'))
                 {
-                    password[i] = c;
-                    i++;
+                    password[(*i)] = c;
+                    (*i)++;
                     printf("*");            //the password is printed as asteriks
                 }
 
-                if(c=='\b' && i>=1)
+                if(c=='\b' && (*i)>=1)
                 {
                     printf("\b \b");        //in case the user wishes to erase a character he entered
-                    --i;
+                    (*i)--;
                 }
 
                 if(c=='\r')
                 {
-                    password[i]='\0';       // the password is submitted once carriage return is encountered
+                    password[(*i)]='\0';       // the password is submitted once carriage return is encountered
                     break;
                 }
 
@@ -341,8 +342,8 @@ void screen1(char ch[])
                         else if(!strcmpi(t,"2"))
                         {
                             printf(" ");
-                            for(l = 0; l<100;l++)
-                                printf("%c", password[l]);
+                            for((*l) = 0;(*l)<100;(*l)++)
+                                printf("%c", password[(*l)]);
                             printf("\n");
                         }
                         else
@@ -841,7 +842,7 @@ void statistics()
                         printf(" ");
                     }
 
-                    if(ptr->qty<=2)//case of urgent refill
+                    if(ptr->qty<=3)//case of urgent refill
                     {
                         setColor(12);
                         printf("\t\t\t%d  URGENT REFILL\n",ptr->qty);
@@ -977,110 +978,143 @@ void billDetails()
     int *q=(int *)malloc(sizeof(int));      //stores length of item name by ptr
     int *sno=(int *)malloc(sizeof(int));  //for serial no
     *sno=1;
+    int *choice=(int *)malloc(sizeof(int));        //for entering the choice by the user
+    char *con=(char *)malloc(sizeof(char));        //for getting the choice in string form
+    int *len=(int *)malloc(sizeof(int));            //for checking the length of the screen
     date *dt=(date *)malloc(sizeof(date));       //date type for storing current date
     do
     {
         *ch=0;
-        setColor(22);
-        printf("\n\n  DETAILS");
-        setColor(15);
-        printf("\n Enter the Phone Number:	");
-        gets(phoneno); //takes the phone no as a string
-        atr=head2;  //head of customer list
-        while(atr!=NULL)
-        {
-            if(!strcmpi(phoneno,atr->phoneno)) //compares the entered phone no with that in the records to find the bill details of the customer
-                break; //breaks upon encountering a match
-            atr=atr->next; //points to the next node
-        }
 
-        if(atr==NULL)//reaches to the end of the list without any match
+        printf("\n\n 1. Check Bill Details\n 2. Go to Home Page");
+        printf("\n\n Enter your choice: ");
+        gets(con);
+        *choice=atoi(con);
+        *len=strlen(con);
+        if((*len)==1)
         {
-            setColor(12);
-            printf("\n\n NO CUSTOMER FOUND!\n\n");
-            setColor(15);
-            *ch=1;
-        }
-        else
-        {
-            while(ptr!=NULL)
+            if((*choice)==1)
             {
-                *sno=1;
-                if(ptr->customerno==atr->id) //checks for the id
+                 setColor(22);
+                printf("\n\n  DETAILS");
+                setColor(15);
+                printf("\n Enter the Phone Number:	");
+                gets(phoneno); //takes the phone no as a string
+                atr=head2;  //head of customer list
+                while(atr!=NULL)
                 {
-                    dt->dd=ptr->cur_date.dd;//stores the current date
-                    dt->mm=ptr->cur_date.mm;//stores the current month
-                    dt->yy=ptr->cur_date.yy;//stores the current year
-                    setColor(45);
-                    printf("\n\n\t\t\tDate: %d/%d/%d\n\n",dt->dd,dt->mm,dt->yy);
-                    setColor(22);
-                    printf(" S.no\tName");
-                    (*max_new)=strlen(head3->itemname);
-                    trav=head3->next;//points to the second node in bill_det
+                    if(!strcmpi(phoneno,atr->phoneno)) //compares the entered phone no with that in the records to find the bill details of the customer
+                        break; //breaks upon encountering a match
+                    atr=atr->next; //points to the next node
+                }
 
-                    while(trav!=NULL)
-                    {
-                        (*h)=strlen(trav->itemname);
-                        if((*max_new)<(*h))
-                            (*max_new)=(*h);      //stores the length of the longest item name
-                        trav=trav->next;     //points to the next node
-                    }
-
-                    for(int t=0;t<=((*max_new)-4);t++)
-                    {
-                        printf(" "); //spacing for proper alignment
-                    }
-
-                    printf("\tQuantity\t\tTotal Price\n");
+                if(atr==NULL)//reaches to the end of the list without any match
+                {
+                    setColor(12);
+                    printf("\n\n NO CUSTOMER FOUND!\n\n");
                     setColor(15);
-
-                    printf(" %d\t%s",*sno,ptr->itemname);
-                    (*q)=strlen(ptr->itemname);        //stores the length of longest item name
-
-                    for(int t=0;t<=((*max_new)-(*q));t++)
-                    {
-                        printf(" ");        //spacing for proper alignment
-                    }
-
-                    printf("\t%d\t\t\t%d\n",ptr->qty,ptr->t_price);
-                    (*sno)++;          //incrementing the serial no
-
-                    ltr=ptr->next;       // next record of ptr
-                    while(ltr!=NULL)
-                    {
-                        if(ptr->customerno==ltr->customerno&&dt->dd==ltr->cur_date.dd&&dt->mm==ltr->cur_date.mm&&dt->yy==ltr->cur_date.yy)
-                        {
-                            printf(" %d\t%s",*sno,ltr->itemname);
-                            (*q)=strlen(ltr->itemname);    // storing the item name
-
-                            for(int t=0;t<=((*max_new)-(*q));t++)
-                            {
-                                printf(" ");        // proper alignment
-                            }
-
-                            printf("\t%d\t\t\t%d\n",ltr->qty,ltr->t_price);
-                            (*sno)++;                  // incrementing the serial no
-                        }
-                        // to check for records on the same date
-                        if(dt->dd!=ltr->cur_date.dd||dt->mm!=ltr->cur_date.mm||dt->yy!=ltr->cur_date.yy)
-                        {
-                            ptr=ltr;
-                            break;
-                        }
-
-                        ltr=ltr->next; // moves to the next node
-                    }
-                    if(ltr==NULL)
-                    {
-                        // if all records are traversed
-                        ptr=NULL;
-                    }
+                    *ch=1;
                 }
                 else
                 {
-                    ptr=ptr->next; // moves to the next node
+                    while(ptr!=NULL)
+                    {
+                        *sno=1;
+                        if(ptr->customerno==atr->id) //checks for the id
+                        {
+                            dt->dd=ptr->cur_date.dd;//stores the current date
+                            dt->mm=ptr->cur_date.mm;//stores the current month
+                            dt->yy=ptr->cur_date.yy;//stores the current year
+                            setColor(45);
+                            printf("\n\n\t\t\tDate: %d/%d/%d\n\n",dt->dd,dt->mm,dt->yy);
+                            setColor(22);
+                            printf(" S.no\tName");
+                            (*max_new)=strlen(head3->itemname);
+                            trav=head3->next;//points to the second node in bill_det
+
+                            while(trav!=NULL)
+                            {
+                                (*h)=strlen(trav->itemname);
+                                if((*max_new)<(*h))
+                                    (*max_new)=(*h);      //stores the length of the longest item name
+                                trav=trav->next;     //points to the next node
+                            }
+
+                            for(int t=0;t<=((*max_new)-4);t++)
+                            {
+                                printf(" "); //spacing for proper alignment
+                            }
+
+                            printf("\tQuantity\t\tTotal Price\n");
+                            setColor(15);
+
+                            printf(" %d\t%s",*sno,ptr->itemname);
+                            (*q)=strlen(ptr->itemname);        //stores the length of longest item name
+
+                            for(int t=0;t<=((*max_new)-(*q));t++)
+                            {
+                                printf(" ");        //spacing for proper alignment
+                            }
+
+                            printf("\t%d\t\t\t%d\n",ptr->qty,ptr->t_price);
+                            (*sno)++;          //incrementing the serial no
+
+                            ltr=ptr->next;       // next record of ptr
+                            while(ltr!=NULL)
+                            {
+                                if(ptr->customerno==ltr->customerno&&dt->dd==ltr->cur_date.dd&&dt->mm==ltr->cur_date.mm&&dt->yy==ltr->cur_date.yy)
+                                {
+                                    printf(" %d\t%s",*sno,ltr->itemname);
+                                    (*q)=strlen(ltr->itemname);    // storing the item name
+
+                                    for(int t=0;t<=((*max_new)-(*q));t++)
+                                    {
+                                        printf(" ");        // proper alignment
+                                    }
+
+                                    printf("\t%d\t\t\t%d\n",ltr->qty,ltr->t_price);
+                                    (*sno)++;                  // incrementing the serial no
+                                }
+                                // to check for records on the same date
+                                if(dt->dd!=ltr->cur_date.dd||dt->mm!=ltr->cur_date.mm||dt->yy!=ltr->cur_date.yy)
+                                {
+                                    ptr=ltr;
+                                    break;
+                                }
+
+                                ltr=ltr->next; // moves to the next node
+                            }
+                            if(ltr==NULL)
+                            {
+                                // if all records are traversed
+                                ptr=NULL;
+                            }
+                        }
+                        else
+                        {
+                            ptr=ptr->next; // moves to the next node
+                        }
+                    }
                 }
             }
+            else if((*choice)==2)
+            {
+                break;
+            }
+            else
+            {
+                setColor(12);
+                printf("\n\n INVALID SELECTION!\n\n");
+                setColor(15);
+                *ch=1;
+            }
+        }
+        else
+        {
+            setColor(12);
+            printf("\n\n INVALID SELECTION!\n\n");
+            setColor(15);
+            *ch=1;
         }
     }while((*ch)==1);
 }
