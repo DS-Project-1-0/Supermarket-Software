@@ -44,7 +44,8 @@ void screen1(char ch[])
 	char c;//gets the password
 	int *ctr=(int *)malloc(sizeof(int));//counter
 	*ctr=0;
-	int i,*k=(int *)malloc(sizeof(int)),l;//loop counter variables
+	int *i=(int *)malloc(sizeof(int)),*k=(int *)malloc(sizeof(int)),*l=(int *)malloc(sizeof(int));//loop counter variables
+	*i=0;*l=0;
 	char *t=(char *)malloc(5*sizeof(char));//gets choice
 	char password[100]={'\0'};//array for getting the password
 	int *g=(int *)malloc(sizeof(int));//for do while
@@ -279,26 +280,26 @@ void screen1(char ch[])
 		{
 			printf("\n Enter the password\t"); //asking him to enter the password
 
-			for( i = 0;;)
+			for( (*i) = 0;;)
 			{
 			    c = getch();
 
 			    if((c>='A' && c<='Z') ||(c>='a' && c<='z'))
                 {
-                    password[i] = c;
-                    i++;
+                    password[(*i)] = c;
+                    (*i)++;
                     printf("*");            //the password is printed as asteriks
                 }
 
-                if(c=='\b' && i>=1)
+                if(c=='\b' && (*i)>=1)
                 {
                     printf("\b \b");        //in case the user wishes to erase a character he entered
-                    --i;
+                    (*i)--;
                 }
 
                 if(c=='\r')
                 {
-                    password[i]='\0';       // the password is submitted once carriage return is encountered
+                    password[(*i)]='\0';       // the password is submitted once carriage return is encountered
                     break;
                 }
 
@@ -341,8 +342,8 @@ void screen1(char ch[])
                         else if(!strcmpi(t,"2"))
                         {
                             printf(" ");
-                            for(l = 0; l<100;l++)
-                                printf("%c", password[l]);
+                            for((*l) = 0;(*l)<100;(*l)++)
+                                printf("%c", password[(*l)]);
                             printf("\n");
                         }
                         else
@@ -841,7 +842,7 @@ void statistics()
                         printf(" ");
                     }
 
-                    if(ptr->qty<=2)//case of urgent refill
+                    if(ptr->qty<=3)//case of urgent refill
                     {
                         setColor(12);
                         printf("\t\t\t%d  URGENT REFILL\n",ptr->qty);
