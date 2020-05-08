@@ -457,6 +457,9 @@ void inventory()
     char *con=(char *)malloc(10*sizeof(char));//choice taken by user
     int *len=(int *)malloc(sizeof(int));//length of the choice taken
     int *z=(int *)malloc(sizeof(int));;//for the do while function
+    item *utr=head1;
+    char *cat=(char *)malloc(500000*sizeof(char));
+    int *num =(int *)malloc(sizeof(int));
     (*z)=1;
     setColor(46);
     printf("\t\t\t\tINVENTORY	\n");
@@ -467,15 +470,13 @@ void inventory()
         printf("\n\n CATEGORIES \n\n");
         setColor(15);
         //shows the different categories of items in the shop
-        item *utr=head1;
-        char *cat=(char *)malloc(500000*sizeof(char));
-        int *num =(int *)malloc(sizeof(int));
+        utr=head1;
         strcpy(cat,utr->category);
         *num=utr->id;
         printf(" %d. %s\n",*num,cat);
         while(utr!=NULL)
         {
-            if(strcmp(cat,utr->category))
+            if(strcmpi(cat,utr->category))
             {
              strcpy(cat,utr->category);
              *num=utr->id;
@@ -1194,7 +1195,7 @@ void addItems()
                 item *ltr=head1;
                 while(ltr!=NULL)
                 {
-                    if(!strcmp(ltr->category,temp->category))   //compares the entered category with the already existing categories
+                    if(!strcmpi(ltr->category,temp->category))   //compares the entered category with the already existing categories
                         {
                             (*counter1)++;
                             (*id)=ltr->id;                      //gets the id of the existing category
@@ -1216,13 +1217,13 @@ void addItems()
                 ltr=head1;
                 while(ltr!=NULL)
                 {
-                    if(!strcmp(ltr->category,temp->category))       //compares the entered category with the already existing categories
+                    if(!strcmpi(ltr->category,temp->category))       //compares the entered category with the already existing categories
                         (*counter)++;
                     if((*counter1)==(*counter))                      //keeps in check whether pointer has reached the end for the specific category
                         break;
                     ltr=ltr->next;
                 }
-                if(*counter!=0)
+                if((*counter)!=0)
                 {
                     temp->next=ltr->next;
                     ltr->next=temp;
@@ -1928,6 +1929,8 @@ void generateBill()
                 {
                     free(temp);     // if the quantity entered is zero then the node is deleted
                 }
+
+            getchar();
            }
 
             char *d=(char *)malloc(10*sizeof(char));   //takes choice
@@ -1937,7 +1940,7 @@ void generateBill()
             {
                 *z=0;
                 *counter++;
-                getchar();
+
                 printf("\n\n Do you want to enter more items?(y/n)\n");
                 printf("\n Enter your choice:	");
                 gets(d);
