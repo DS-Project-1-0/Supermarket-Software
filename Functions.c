@@ -1357,6 +1357,9 @@ void customer_entry()
                         }
                         else
                         {
+                            setColor(12);
+                            printf("\n\n INVALID SELECTION!\n\n");
+                            setColor(15);
                             *w=1;            //checking for invalid input
                         }
 
@@ -1870,6 +1873,7 @@ void generateBill()
                                 }while((*x)==0);
                                 itr->qty=(*new_qty); // updating the quantity in the node
                                 *check=1;
+                                getchar();
                             }
                             else if(!strcmpi(n,"n"))
                             {
@@ -1877,6 +1881,9 @@ void generateBill()
                             }
                             else
                             {
+                                setColor(12);
+                                printf("\n\n INVALID SELECTION!\n\n");
+                                setColor(15);
                                 *w=1;   //do while counter
                             }
                         }while((*w)==1);
@@ -1926,7 +1933,7 @@ void generateBill()
                     }
                 }while((*ch)==1);
                 // the customer ends his visit
-                if((*item_qty==0) && (*counter==0))
+                if(((*item_qty)==0) && ((*counter)==0))
                 {
                     setColor(43);
                     printf("\n THANKS FOR VISITING\n");
@@ -2382,12 +2389,13 @@ void generateBill()
                                                     }
                                                     trav=trav->next;                    // moving to the next node
                                                 }
+                                                getchar();
                                             }
 
                                             do
                                             {
                                                 *z=0;
-                                                getchar();
+
                                                 printf("\n\n Do you want to update more items?(y/n)\n");
                                                 printf("\n Enter your choice:	");
                                                 gets(d);
@@ -2398,6 +2406,7 @@ void generateBill()
                                                 else if(!strcmpi(d,"n")) // comparing ASCII codes for N
                                                 {
                                                     break;
+                                                    getchar();
                                                 }
                                                 else
                                                 {

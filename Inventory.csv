@@ -1,12 +1,11 @@
 Item ID,Category,Name,Location,Quantity,Unit Price
 1,Food,Marigold,A213,24,25
-1,Food,Maggie,A321,123,12
+1,Food,Maggie,A321,100,12
 1,Food,Uncle Chips(Salted Flavour),A543,11,20
 1,Food,Nut Cracker,A098,21,35
 1,Food,Coca Cola (650mL),A456,43,35
-1,Food,Hot Sauce,A324,12,123
 2,Clothes,Levi's Jeans (32) (M),B786,10,2000
-2,Clothes,Wrangler's Jacket (L) (U),B234,3,1500
+2,Clothes,Wrangler's Jacket (L) (U),B234,2,1500
 2,Clothes,UCB Polo (30) (F),B021,14,800
 2,Clothes,Madame T-Shirt (L) (U),B987,31,850
 2,Clothes,Octave Sweater (M) (U),B432,13,2500
@@ -15,15 +14,13 @@ Item ID,Category,Name,Location,Quantity,Unit Price
 3,Essentials,Tongue Cleaner (Set of 5),C011,17,30
 3,Essentials,Dreamline Bed Sheets,C100,33,500
 3,Essentials,Raymond Towel,C221,22,450
-4,Stationary,Pen,D001,58,10
+4,Stationary,Pen,D001,36,10
 4,Stationary,Pencil,D016,80,30
 4,Stationary,Register(A4),D313,39,60
-4,Stationary,Eraser,D980,90,2
+4,Stationary,Eraser,D980,1,2
 4,Stationary,Pencil Box,D645,34,100
 5,Kitchen Utensils,Cutting Board,E897,11,320
-5,Kitchen Utensils,Knife Set,E465,12,600
-5,Kitchen Utensils,Spoons,E111,4,350
+5,Kitchen Utensils,Knife Set,E465,112,600
+5,Kitchen Utensils,Spoons,E111,5,350
 5,Kitchen Utensils,Spatula,E434,0,100
-5,Kitchen Utensils,Can Opener,E827,3,25
-6,Gym,Dumbells,F321,121,585
-7,Goa,Beach,GYT655,212,11
+5,Kitchen Utensils,Can Opener,E827,13,25
