@@ -7,23 +7,23 @@ This software has been created through **C**.
 
 ## Structs Defined
 
-### 1. typedef struct node
+### <ins>1. typedef struct node</ins>
 This stores the item and contains attributes for the item.
 
 
-### 2. typedef struct date
+### <ins>2. typedef struct date</ins>
 This stores the date. Each structure contains date, month, year. 
 
 
-### 3. typedef struct customer
+### <ins>3. typedef struct customer</ins>
 Customer struct stores the details of customer and the attributes for those customers.
 
 
-### 4. typedef struct bill_det
+### <ins>4. typedef struct bill_det</ins>
 This stores information of each invoice generated.
 
 
-### 5. typedef struct bill
+### <ins> 5. typedef struct bill</ins>
 Stores the details of the final bill of the current customer.
 
 
@@ -31,9 +31,11 @@ Stores the details of the final bill of the current customer.
 ## Objective
 
 ### [Project](https://github.com/DS-Project-1-0/Supermarket-Software/blob/master/Project.h)
+----
 This is a header file that contains the definition of each struct and declaration of every function used in the software.<br />
 
 ### [Project file](https://github.com/DS-Project-1-0/Supermarket-Software/blob/master/Project%20file.c)
+----
 This initializes the software and presents the dashboard and asks whether the user is an admin or customer.
 
 ### [Functions](https://github.com/DS-Project-1-0/Supermarket-Software/blob/master/Functions.c)
