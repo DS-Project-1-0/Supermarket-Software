@@ -100,4 +100,4 @@ An IDE that supports C.
 To check the outputs go to the [album](https://github.com/DS-Project-1-0/Supermarket-Software/blob/master/OUTPUT%20ALBUM.pptx).
 
 # Contact
-## [Aditya Srivastava](mailto:aditya26052002@gmail.com?subject=GitHub)<br/><br/>[Samriddhi Panwar](mailto:samriddhipanwaren@gmail.com?subject=GitHub)<br/><br/>Jayati Sharma<br/><br/>[Ansh Gupta](mailto:ag961@snu.edu.in?subject=GitHub)<br/><br/>
+## [Aditya Srivastava](mailto:aditya26052002@gmail.com?subject=GitHub)<br/><br/>[Samriddhi Panwar](mailto:samriddhipanwaren@gmail.com?subject=GitHub)<br/><br/>[Ansh Gupta](mailto:ag961@snu.edu.in?subject=GitHub)<br/><br/>Jayati Sharma<br/><br/>
