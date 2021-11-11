@@ -7,25 +7,34 @@ This software has been created through **C**.
 
 ## Structs Defined
 
-### typedef struct node
+### 1. typedef struct node
+This stores the item and contains attributes for the item.
 
-### typedef struct date
 
-### typedef struct customer
+### 2. typedef struct date
+This stores the date. Each structure contains date, month, year. 
 
-### typedef struct bill_det
 
-### typedef struct bill
+### 3. typedef struct customer
+Customer struct stores the details of customer and the attributes for those customers.
+
+
+### 4. typedef struct bill_det
+This stores information of each invoice generated.
+
+
+### 5. typedef struct bill
+Stores the details of the final bill of the current customer.
+
+
 
 ## Objective
 
 ### [Project](https://github.com/DS-Project-1-0/Supermarket-Software/blob/master/Project.h)
-This class gives an exception when the piece is already occupied.<br />
+This is a header file that contains the definition of each struct and declaration of every function used in the software.<br />
 
 ### [Project file](https://github.com/DS-Project-1-0/Supermarket-Software/blob/master/Project%20file.c)
-This class initializes the game board. it sets properties for the javaFX UI and adds menu giving the option of Algorithms and Settings.<br /><br />
-**1. <ins>Algorithms:-</ins>** Random and Mini-max Algorithms.<br /><br/>
-**2. <ins>Settings:-</ins>** Reset and Exit.<br />
+This initializes the software and presents the dashboard and asks whether the user is an admin or customer.
 
 ### [Functions](https://github.com/DS-Project-1-0/Supermarket-Software/blob/master/Functions.c)
 This is the main class of the Checkers Game where the whole game takes place updating the board, moving pieces, and making all the algorithm-based decisions.
@@ -66,4 +75,4 @@ An IDE that supports C.
 To check the outputs go to the [album](https://github.com/DS-Project-1-0/Supermarket-Software/blob/master/OUTPUT%20ALBUM.pptx).
 
 # Contact
-## [Aditya Srivastava](mailto:aditya26052002@gmail.com?subject=GitHub)<br/><br/>Jayati Sharma<br/><br/>Samriddhi Panwar<br/><br/>Ansh Gupta<br/><br/>
+## [Aditya Srivastava](mailto:aditya26052002@gmail.com?subject=GitHub)<br/><br/>[Samriddhi Panwar](mailto:samriddhipanwaren@gmail.com?subject=GitHub)<br/><br/>Jayati Sharma<br/><br/>Ansh Gupta<br/><br/>
