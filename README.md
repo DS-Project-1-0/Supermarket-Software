@@ -72,7 +72,7 @@ It displays the offerzone and all the discounts to the customer who is currently
 This function generates prints the items bought by a customer by matching the records in the files using the phone number.<br /><br />
 **13.void addItems();**<br />
 This function allows the admin to insert a new item by creating a new category or inserting them in the already existing ones.<br /><br />
-**14.void statistics();**<br /><br />
+**14.void statistics();**<br />
 This function allows the admin to view the statistics :total sales,inventory stock,ratings and total members of each type of membership.<br /><br />
 
 ## CSV Files
